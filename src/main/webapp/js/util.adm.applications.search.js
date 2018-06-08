@@ -37,7 +37,16 @@ $(document).ready(function(){
              'render': function (data, type, full, meta){
             	 	return meta.row+1; 
             	 }
-          }], 
+          },
+          {
+              'targets': 8,
+              'searchable':false,
+              'orderable':false,
+              'className': 'dt-body-center',
+              'render': function (data, type, full, meta){
+            	  return '<button class="btn" id="details_info" type="submit">Details</button>';
+             	 }
+           }], 
 	
           "aoColumns": [
 			{"mData":""},
@@ -52,6 +61,7 @@ $(document).ready(function(){
 					return moment.tz(full.birthDate, "America/Denver").format('MM/DD/YYYY');
 				 }
 			},
+			{"mData": ""},
 			{ "mData": "completeDate",
 				"mRender":function(data, type, full){
 					if(full.completeDate){
@@ -118,9 +128,18 @@ $('#applications tbody').on('click', 'input[type="checkbox"]',
 	table.on('draw', function() {
 		updateDataTableSelectAllCtrl(table);
 	});
+	
+	
+	$(function() {
+		$('#applications tbody ').on('click','button#details_info',function () {
+			var full = table.row($(this).parents('tr')).data();
+//			alert(full.applicationID);
+			window.open('manage-application-result/application-preview?applicationID='+full.applicationID, 'name'); 
+			})
+		})
 						    
 	$(function() {
-		$('#applications tbody').on('click','button',function () {
+		$('#applications tbody ').on('click','button#viewprogress',function () {
 			 var full = table.row($(this).parents('tr')).data();
 			 $("#progressModal #progressModalName").html(full.firstName+" "+full.lastName); 
 			 var htmlData = ''; 
@@ -267,7 +286,7 @@ function exportApplicationExcel(){
 	}else{
 		checkedcollection.each(function (index, elem) {matches.push($(elem).val()); });
 	    var checkedJsonString = JSON.stringify(matches);
-		var data = 'year='+schoolYear+'&semester='+schoolSemester+'&program='+program+'&appIDList='+checkedJsonString; 
+		var data = 'year='+schoolYear+'&semester='+schoolSemester+'&program='+program+'&appIDList='+checkedJsonString;
 		window.location.href = "manage-application-result/export-application-excel?"+data; 
 	}
 }
@@ -280,8 +299,10 @@ function exportApplicationPdf(){
 		alert("Please select application!"); 
 	}else{
 		checkedcollection.each(function (index, elem) {matches.push($(elem).val()); });
+		alert(matches);
 	    var checkedJsonString = JSON.stringify(matches); 
-		var data = 'year='+schoolYear+'&semester='+schoolSemester+'&program='+program+'&appIDList='+checkedJsonString; 
+		var data = 'year='+schoolYear+'&semester='+schoolSemester+'&program='+program+'&appIDList='+checkedJsonString;
+		alert(data);
 		window.location.href = "manage-application-result/export-application-zip?"+data; 
 	}
 }

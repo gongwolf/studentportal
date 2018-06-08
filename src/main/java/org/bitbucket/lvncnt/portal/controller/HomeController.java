@@ -72,7 +72,7 @@ public class HomeController {
 	@Autowired private ObjectMapper objectMapper; 
  
 	@GetMapping(value = {"/","/login" })
-	public String login() { 
+	public String login() {
 		return VIEW_LOGIN;
 	}
 	

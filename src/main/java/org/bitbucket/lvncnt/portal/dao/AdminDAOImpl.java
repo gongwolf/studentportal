@@ -712,7 +712,7 @@ public class AdminDAOImpl implements Schemacode{
 			}
 			return getApplicationsNMSUCCCONF(sql, params);
  	 
-			// programsFourYr
+		// programsFourYr
 		case ProgramCode.URS:
 		case ProgramCode.IREP:
 			sql.append("SELECT a.*, b.academic_school FROM \n");

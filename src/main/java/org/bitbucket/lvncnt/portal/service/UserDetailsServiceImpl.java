@@ -43,6 +43,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		if(user != null){
 			return new UserImpl(user, getGrantedAuthorities(user)); 
 		}
+		System.out.println("not found");
 		throw new UsernameNotFoundException(String.format("User with email=%s was not found", email));
 	} 
 	 

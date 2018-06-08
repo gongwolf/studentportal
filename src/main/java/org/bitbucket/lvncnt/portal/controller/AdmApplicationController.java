@@ -466,6 +466,15 @@ public class AdmApplicationController {
 		} 
 	}
 	
+	
+	@GetMapping(value="/manage-application-result/application-preview")
+	public String PreviewApplicationDetailsByID(ModelMap model, 
+			@RequestParam("applicationID") String applicationID)
+	{
+		System.out.println(applicationID);
+		return "/admin/application-preview";
+	}
+	
 	private byte[] getZipApplication(String program, List<String> appIDs, boolean forReview) {
 		List<ApplicationBean> applications = null; 
 		if (forReview) {

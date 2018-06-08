@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 2018 Feng Liu
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="admin/layout :: headerFragment (pageTitle='Profile')">
+<title></title>
+</head>
+   
+<div id="wrapper">
+ 
+ 	<nav class="navbar navbar-default navbar-static-top" role="navigation"
+		style="margin-bottom: 0;" th:include="admin/layout :: navbarFragment">
+ 	</nav>
+ 		 
+	<div id="page-wrapper">
+	
+		<div class="row">
+        	<div class="col-lg-12">
+               <h1 class="page-header">Enter or edit your profile information</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+       	</div>
+            
+        <div class="row" id="fadeOut" th:if="!${#strings.isEmpty(status)}">
+           <div class="col-lg-12">
+              <div class="panel panel-info">
+                  <div class="panel-heading" >
+                  <i class="fa fa-info-circle fa-fw"></i><span th:text="${status}"></span>
+                  </div>
+              </div>
+           </div>
+        </div>
+	 
+		<div class="row">
+                <div class="col-lg-12 col-md-12">
+                <!-- begin for accordion -->
+                <div class="accordion" data-role="accordion" data-close-any="true">
+					<!-- Edit Profile -->
+					<div class="frame " th:attrappend="class=${section=='profile.do' ? 'active' : ''}">
+					<!--  ! space after 'frame' is important -->
+                    	<div class="heading">Edit Profile</div>
+                        <div class="content">
+			  
+	             		<form th:action="@{/admin/profile/profile.do}" method="post" th:object="${user}">
+								<fieldset>
+									<div class="accordion-controls">
+										<label for="firstName" class="accordion-label"><span>First Name</span></label>
+										<div class="accordion-input">
+											<input name="first_name" type="text" th:field="*{firstName}"
+											th:value="${user.firstName}" readonly="readonly">
+										</div>
+									</div>
+									
+									<div class="accordion-controls">
+										<label class="accordion-label"><span>Last Name</span></label>
+										<div class="accordion-input">
+											<input name="last_name" type="text" th:field="*{lastName}" th:value="${user.lastName}" readonly="readonly">
+										</div>
+									</div>
+									
+									<div class="accordion-controls">
+									<label class="accordion-label"><span>Date of
+											Creation</span></label>
+									<div class="accordion-input">
+										<input name="birthDate" type="text" 
+										th:value="${#dates.format(user.birthDate, 'MM/dd/yyyy')}"
+											th:field="*{birthDate}" readonly="readonly">
+									</div>
+								</div>
+								
+									<div class="accordion-controls">
+										<label for="email" class="accordion-label"><span>Preferred
+												Email</span></label>
+										<div class="accordion-input">
+											<input name="email" type="text" data-validation="email"
+											th:field="*{email}" th:value="${user.email}"
+							data-validation-error-msg="Invalid email address" required="required">
+							<span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" 
+							class="error"></span>
+							 
+										</div>
+									</div>
+									</fieldset>
+									<div class="accordion-controls" th:if="${#httpSession.getAttribute('flagadmin')}">
+									<label class="accordion-label"></label>
+									<div class="accordion-input">
+										<input type="reset" class="btn btn-primary" value="Cancel">
+										<input type="submit" class="btn btn-primary" value="Save">
+									</div>
+								</div>
+							</form>
+                        </div>
+                    </div>
+                     
+                </div>
+                <!-- end for accordion -->
+                </div> 
+            </div>
+            <!-- /.row -->
+	</div>
+	<!-- /#page-wrapper -->
+</div>
+<!-- /#wrapper -->
+
+   	<th:block th:include="admin/layout :: scriptFragment"></th:block>
+   	<script src="../../js/metro.js" th:src="@{/js/metro.js}"></script>
+   	
+</body>
+</html>

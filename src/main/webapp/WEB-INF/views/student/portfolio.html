@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 2018 Feng Liu
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="student/layout :: headerFragment (pageTitle='Portfolio')">
+<title></title>
+</head>
+<body>
+<div id="wrapper">
+
+<style type="text/css">
+.work-item {
+  margin-bottom: 30px;
+}
+.work-item a {
+  border: none;
+  text-align: center;
+}
+.work-item a img {
+  margin-bottom: 10px;
+  float: left;
+  border: 10px solid transparent;
+  -webkit-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
+}
+.work-item a h3 {
+  font-size: 20px;
+  color: #000;
+  margin-bottom: 10px;
+}
+.work-item a p {
+  font-size: 14px;
+  color: #cccccc;
+  margin-bottom: 0;
+}
+.work-item a:hover, .work-item a:active, .work-item a:focus {
+  text-decoration: none;
+}
+.work-item a:hover img, .work-item a:active img, .work-item a:focus img {
+  border: 10px solid #000;
+}
+ 
+
+</style>
+ 
+ 
+ 	<nav class="navbar navbar-default navbar-static-top" role="navigation"
+		style="margin-bottom: 0;" th:include="student/layout :: navbarFragment">
+ 	</nav>
+  
+	<div id="page-wrapper">
+		<div class="row">
+            <div class="col-lg-12">
+                <h3 class="page-header animated fadeInLeft">Portfolio</h3>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+           
+        <div class="row animated fadeInLeft">
+			<div th:each="entry:${portfolioBeans}" 
+			class="col-md-4 col-sm-6 col-xs-6 col-xxs-12 work-item">
+				<a th:href="@{'/portfolio/edit/'+${entry.portfolioID}}">
+					<img th:src="'https://www.gravatar.com/avatar/' + ${profile} + '?s=470'"
+					alt="Template" 
+					class="img-responsive" th:data="${entry.portfolioID}">
+					
+
+					
+					<h3 th:text="${entry.title}"></h3>
+					<p>
+					<span th:text="${entry.schoolSemester}+' '+${entry.schoolYear}"></span> 
+					<small>, Created on <span th:text="${#temporals.format(entry.createDate, 'MM/dd/yyyy')}">
+					</span>
+					</small>
+					</p>
+				</a>
+			</div>
+
+				</div>
+            <!-- /.row -->
+           <div class="col-lg-12">
+	           <div class="panel panel-info animated fadeInLeft">
+	               <div class="panel-heading">Create New Portoflio
+	               <div class="pull-right">
+						<a th:href="@{/portfolio/create}"><i class="fa fa-plus-square fa-lg" aria-hidden="true"></i>
+							</a></div>
+	               </div>
+	           </div>
+	        </div> 
+	</div>
+</div>
+<th:block th:include="student/layout :: scriptFragment"></th:block>
+
+</body>
+</html>
+
+ 

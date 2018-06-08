@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 2018 Feng Liu
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<link rel="shortcut icon" type="image/x-icon"
+	href="../../css/favicon.ico" th:href="@{/css/favicon.ico}">
+<link th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.min.css}"
+	rel="stylesheet">
+<link rel="stylesheet" href="../../css/style-home.css"
+	th:href="@{/css/style-home.css}" />
+<link rel="stylesheet" href="../../css/style-register.css"
+	th:href="@{/css/style-register.css}" />
+<title>Recommendation Upload | myNew Mexico AMP</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<style>
+.zui-table {
+	border: 1px solid #DDDDDD;
+	border-collapse: collapse;
+	border-spacing: 0;
+	width: 100%;
+	table-layout: fixed;
+	background-color: #fff;
+}
+
+.zui-table thead th {
+	background-color: #DDDDDD;
+	border: none;
+	color: #0084B4;
+	padding: 10px;
+	text-align: left;
+	white-space: nowrap;
+	font-weight: bold;
+}
+
+.zui-table tbody td {
+	background: transparent;
+	color: #333;
+	padding: 10px;
+	text-shadow: 1px 1px 1px #fff;
+	white-space: nowrap;
+	padding-left: 50px;
+}
+
+.zui-table>tbody>tr {
+	border: 1px solid #DDDDDD;
+}
+</style>
+<body>
+
+	<nav role="navigation" class="navbar navbar-default">
+		<div class="navbar-header">
+			<a class="navbar-brand" th:href="@{/login}">New Mexico Alliance
+				for Minority Participation Portal</a>
+		</div>
+	</nav>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2">
+
+				<form th:action="@{/recommendations/upload/{key}(key=${key})}"
+					id="form" class="register-form" method="post"
+					enctype="multipart/form-data" th:object="${fileBucket}">
+
+					<header></header>
+					<table class="zui-table">
+						<thead>
+							<tr>
+								<th colspan="2">Applicant</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Name:</td>
+								<td
+									th:text="|${recommenderBean.applicantLastName}, ${recommenderBean.applicantFirstName}|"></td>
+							</tr>
+							<tr>
+								<td>Program:</td>
+								<td>Transfer Scholarship</td>
+							</tr>
+							<tr>
+								<td>Term:</td>
+								<td
+									th:text="|${recommenderBean.schoolSemester} ${recommenderBean.schoolYear}|"></td>
+							</tr>
+						</tbody>
+					</table>
+					<table class="zui-table">
+						<thead>
+							<tr>
+								<th colspan="2">Recommender</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Name:</td>
+								<td
+									th:text="|${recommenderBean.lastName}, ${recommenderBean.firstName}|"></td>
+							</tr>
+							<tr>
+								<td>Email:</td>
+								<td th:text="${recommenderBean.email}"></td>
+							</tr>
+							<tr>
+								<td>Institution/Employer:</td>
+								<td th:text="${recommenderBean.institution}"></td>
+							</tr>
+						</tbody>
+					</table>
+					<table class="zui-table">
+						<thead>
+							<tr>
+								<th colspan="2">Upload Recommendation Letter</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<fieldset>
+										<input name="file" id="file" type="file">
+										<p style="font-style: italic; font-size: 11px;">Allowed
+											file type: pdf; Max File Size: 5MB</p>
+										<span th:if="${#fields.hasErrors('file')}" th:errors="*{file}"
+											class="error"></span>
+									</fieldset>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<footer>
+						<button type="submit" class="button">Submit</button>
+						<div style="margin-top: 15px;" class="col-md-4 error"
+							th:if="!${#strings.isEmpty(status)}" th:text="${status}"></div>
+					</footer>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div id="footer" class="footer navbar-fixed-bottom">
+		<ul>
+			<li><a href="http://nmsu.edu/">&copy; New Mexico State
+					University</a></li>
+			<li><a th:href="@{/contact}">Contact Us</a></li>
+		</ul>
+	</div>
+
+</body>
+</html>

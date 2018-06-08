@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 2018 Feng Liu
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="student/layout :: headerFragment (pageTitle='Self-Report')">
+<title></title>
+</head>
+<body>
+<div id="wrapper">
+ 
+ 	<nav class="navbar navbar-default navbar-static-top" role="navigation"
+		style="margin-bottom: 0;" th:include="student/layout :: navbarFragment">
+ 	</nav>
+  
+	<div id="page-wrapper">
+		<div class="row">
+            <div class="col-lg-12">
+                <h3 class="page-header">Manage Self Reports</h3>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+            
+        <div class="row" id="fadeOut" th:if="!${#strings.isEmpty(status)}">
+           <div class="col-lg-12">
+              <div class="panel panel-info">
+                  <div class="panel-heading" >
+                  <i class="fa fa-info-circle fa-fw"></i><span th:text="${status}"></span>
+                  </div>
+              </div>
+           </div>
+        </div>
+        
+        <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-2">
+                                    <i class="fa fa-tasks fa-4x"></i>
+                                </div>
+                                <div class="col-xs-10 text-right">
+                                    <div class="huge">  Create</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a th:href="@{'/selfreport/select?fuseaction=app.resumecreate'}">
+                            <div class="panel-footer">
+                                <span class="pull-left">Create self report</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-green">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-2">
+                                    <i class="fa fa-tasks fa-4x"></i>
+                                </div>
+                                <div class="col-xs-10 text-right">
+                                    <div class="huge"> View</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <a th:href="@{'/selfreport/select?fuseaction=app.resumeview'}">
+                            <div class="panel-footer">
+                                <span class="pull-left">View/Modify self report</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-yellow">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-2">
+                                    <i class="fa fa-tasks fa-4x"></i>
+                                </div>
+                                <div class="col-xs-10 text-right">
+                                    <div class="huge">Export</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a th:href="@{'/selfreport/select?fuseaction=app.resumeexport'}">
+                            <div class="panel-footer">
+                                <span class="pull-left">Export self report</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                     
+                </div>
+            </div>
+            <!-- /.row -->
+	</div>
+</div>
+<th:block th:include="student/layout :: scriptFragment"></th:block>
+</body>
+</html>
+
+ 

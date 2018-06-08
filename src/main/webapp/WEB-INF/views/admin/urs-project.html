@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 2018 Feng Liu
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head
+	th:include="admin/layout :: headerFragment (pageTitle='URS Projects')">
+<title></title>
+</head>
+<body>
+<div id="wrapper">
+	<nav class="navbar navbar-default navbar-static-top" role="navigation"
+		style="margin-bottom: 0;" th:include="admin/layout :: navbarFragment">
+	</nav>
+       
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Project Proposals for URS Program</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+    </div>
+     
+    <div class="row" id="fadeOut" th:if="!${#strings.isEmpty(status)}">
+           <div class="col-lg-12">
+              <div class="panel panel-info">
+                  <div class="panel-heading" >
+                  <i class="fa fa-info-circle fa-fw"></i><span th:text="${status}"></span>
+                  </div>
+              </div>
+           </div>
+    </div>
+    
+    <div class="row">
+	    <div class="col-lg-12 col-md-12">
+	    	<div class="panel panel-default">
+	                <div class="panel-body">
+	                <form th:action="@{/admin/urs-project}" method="post" th:object="${applicationBean}">
+					<fieldset>
+					
+						<div class="accordion-controls">
+							<label class="accordion-label"><span>Accepted School</span></label>
+							<div class="accordion-input">
+								<select name="select_school" th:field="*{schoolTarget}">
+									<option th:each="entry:${academicSchoolFour}" 
+								th:value="${entry.key}" th:text="${entry.value}"></option>
+								</select>
+								<span th:if="${#fields.hasErrors('schoolTarget')}" 
+									th:errors="*{schoolTarget}" class="error"></span>
+							</div>
+						</div>
+					 
+						<div class="accordion-controls">
+							<label class="accordion-label"><span>Accepted Semester</span></label>
+							<div class="accordion-input">
+								<select name="select_semester" th:field="*{schoolSemester}">
+									<option value="">-- Select One --</option>
+									<option th:each="item:${academicSemester}" th:value="${item}" 
+										th:text="${item}"></option>
+								</select>
+								<span th:if="${#fields.hasErrors('schoolSemester')}" 
+									th:errors="*{schoolSemester}" class="error"></span>
+							</div>
+						</div>
+						
+						<div class="accordion-controls">
+							<label class="accordion-label"><span></span></label>
+							<div class="accordion-input">
+							<input name="schoolYear" id="school_year" type="text" placeholder="yyyy"
+									th:field="*{schoolYear}"> 
+								<span th:if="${#fields.hasErrors('schoolYear')}" 
+									th:errors="*{schoolYear}" class="error"></span>
+							</div>
+						</div>
+						 
+					</fieldset>
+					<div class="accordion-controls">
+						<label class="accordion-label"></label>
+						<div class="accordion-input">
+							<button type="reset" class="button">Cancel</button>
+							<button type="submit" class="button">Submit</button>
+						</div>
+					</div>
+				</form>
+	                  </div>
+	              </div>
+	          </div>
+	      </div>
+	      </div>
+    </div>
+    
+<th:block th:include="admin/layout :: scriptFragment"></th:block>
+<script th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.js}"></script>
+<script>
+
+$(function() {
+	$('#school_year').datepicker({
+		changeMonth: false,
+		changeYear: true,
+		showButtonPanel: true,
+		dateFormat: 'yy'
+	}).focus(function() {
+		var thisCalendar = $(this);
+		$('.ui-datepicker-calendar').detach();
+		$('.ui-datepicker-close').click(function() {
+		var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+		thisCalendar.datepicker('setDate', new Date(year, 1));
+		});
+	});
+});
+ 
+</script> 		
+</body>
+</html>
+ 

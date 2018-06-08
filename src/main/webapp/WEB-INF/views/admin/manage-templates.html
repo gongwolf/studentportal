@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 2018 Feng Liu
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head
+	th:include="admin/layout :: headerFragment (pageTitle='Manage Templates')">
+<title></title>
+</head>
+<body>
+<div id="wrapper">
+	<nav class="navbar navbar-default navbar-static-top" role="navigation"
+		style="margin-bottom: 0;" th:include="admin/layout :: navbarFragment">
+	</nav>
+
+	<div id="page-wrapper">
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">Manage Letter Templates</h1>
+			</div>
+			<!-- /.col-lg-12 -->
+		</div>
+
+		<div class="row" id="fadeOut" th:if="!${#strings.isEmpty(status)}">
+           <div class="col-lg-12">
+              <div class="panel panel-info">
+                  <div class="panel-heading" >
+                  <i class="fa fa-info-circle fa-fw"></i><span th:text="${status}"></span>
+                  </div>
+              </div>
+           </div>
+        </div>
+		
+		<div class="row">
+			 
+		</div>
+
+		<div class="row">
+			<div class="col-lg-12 col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-heading"> </div>
+					<!-- /.panel-heading -->
+					<div class="panel-body">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>Program</th>
+									<th>Letter</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+
+							<tbody>
+							
+							<tr>
+							<td>Community College Professional Development Workshop Stipend</td>
+							<td>Admit Letter</td>
+							<td>
+							<a th:href="@{'manage-templates/edit/ccconf/admit'}">
+							<button class="btn btn-primary">Edit</button>
+							</a>
+							</td>
+							</tr>
+							<tr>
+							<td>Community College Professional Development Workshop Stipend</td>
+							<td>Deny Letter</td>
+							<td>
+							<a th:href="@{'manage-templates/edit/ccconf/deny'}">
+							<button class="btn btn-primary">Edit</button>
+							</a>
+							</td>
+							</tr>
+							
+							<tr>
+							<td>MESA Scholarship</td>
+							<td>Admit Letter</td>
+							<td>
+							<a th:href="@{'manage-templates/edit/mesa/admit'}">
+							<button class="btn btn-primary">Edit</button>
+							</a>
+							</td>
+							</tr>
+							<tr>
+							<td>MESA Scholarship</td>
+							<td>Deny Letter</td>
+							<td>
+							<a th:href="@{'manage-templates/edit/mesa/deny'}">
+							<button class="btn btn-primary">Edit</button>
+							</a>
+							</td>
+							</tr>
+							
+							<tr>
+							<td>Transfer Scholarship</td>
+							<td>Admit Letter</td>
+							<td>
+							<a th:href="@{'manage-templates/edit/trans/admit'}">
+							<button class="btn btn-primary">Edit</button>
+							</a>
+							</td>
+							</tr>
+							<tr>
+							<td>Transfer Scholarship</td>
+							<td>Deny Letter</td>
+							<td>
+							<a th:href="@{'manage-templates/edit/trans/deny'}">
+							<button class="btn btn-primary">Edit</button>
+							</a>
+							</td>
+							</tr>
+							<tr>
+							<td>Summer Community College Opportunity for Research Experience (SCCORE)</td>
+							<td>Admit Letter</td>
+							<td>
+							<a th:href="@{'manage-templates/edit/sccore/admit'}">
+							<button class="btn btn-primary">Edit</button>
+							</a>
+							</td>
+							</tr>
+							<tr>
+							<td>Summer Community College Opportunity for Research Experience (SCCORE)</td>
+							<td>Deny Letter</td>
+							<td>
+							<a th:href="@{'manage-templates/edit/sccore/deny'}">
+							<button class="btn btn-primary">Edit</button>
+							</a>
+							</td>
+							</tr>
+							<tr>
+							<td>Undergraduate Research Scholars (URS)</td>
+							<td>Admit Letter</td>
+							<td>
+							<a th:href="@{'manage-templates/edit/urs/admit'}">
+							<button class="btn btn-primary">Edit</button>
+							</a>
+							</td>
+							</tr>
+							<tr>
+							<td>Undergraduate Research Scholars (URS)</td>
+							<td>Deny Letter</td>
+							<td>
+							<a th:href="@{'manage-templates/edit/urs/deny'}">
+							<button class="btn btn-primary">Edit</button>
+							</a>
+							</td>
+							</tr>
+							
+							<tr>
+							<td>International Research and Education Participation (IREP)</td>
+							<td>Admit Letter</td>
+							<td>
+							<a th:href="@{'manage-templates/edit/irep/admit'}">
+							<button class="btn btn-primary">Edit</button>
+							</a>
+							</td>
+							</tr>
+							<tr>
+							<td>International Research and Education Participation (IREP)</td>
+							<td>Deny Letter</td>
+							<td>
+							<a th:href="@{'manage-templates/edit/irep/deny'}">
+							<button class="btn btn-primary">Edit</button>
+							</a>
+							</td>
+							</tr>
+							</tbody>
+						</table>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<th:block th:include="admin/layout :: scriptFragment"></th:block>
+</body>
+</html>

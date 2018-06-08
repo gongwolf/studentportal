@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 2018 Feng Liu
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head
+	th:include="admin/layout :: headerFragment (pageTitle='Manage Program')">
+<title></title>
+</head>
+<body>
+<div id="wrapper">
+	<nav class="navbar navbar-default navbar-static-top" role="navigation"
+		style="margin-bottom: 0;" th:include="admin/layout :: navbarFragment">
+	</nav>
+
+	<div id="page-wrapper">
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">Manage Application Season for AMP
+					Programs</h1>
+			</div>
+			<!-- /.col-lg-12 -->
+		</div>
+
+		<div class="row" id="fadeOut" th:if="!${#strings.isEmpty(status)}">
+           <div class="col-lg-12">
+              <div class="panel panel-info">
+                  <div class="panel-heading" >
+                  <i class="fa fa-info-circle fa-fw"></i><span th:text="${status}"></span>
+                  </div>
+              </div>
+           </div>
+        </div>
+		
+		<div class="row">
+			<div class="col-lg-12 col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<form th:action="@{/admin/manage-program}" method="post" th:object="${programBean}">
+						<fieldset>
+							<div class="accordion-controls">
+								<label class="accordion-label"><span>Program</span></label>
+								<div class="accordion-input">
+									<select name="set_application_year" th:field="*{programNameAbbr}">
+										<option value="">-- Select One --</option>
+										<option th:each="entry:${programs}"
+											th:value="${entry.key}" th:text="${entry.value}"></option>
+									</select>
+									<span th:if="${#fields.hasErrors('programNameAbbr')}" 
+										th:errors="*{programNameAbbr}" class="error"></span>  
+									<br>
+								</div>
+							</div>
+
+							<div class="accordion-controls">
+								<label class="accordion-label"><span>Semester</span></label>
+								<div class="accordion-input">
+									<select name="set_application_semester" th:field="*{semester}" style="width: auto">
+									<option value="">-- Select One --</option>
+									<option th:each="semester:${academicSemester}"
+										th:value="${semester}" th:text="${semester}">
+									</option>
+									</select>
+									<select name="set_application_year" style="width: auto" th:field="*{year}">
+									<option value="">-- Select One --</option>
+									<option 
+										th:each="year:${#numbers.sequence(#dates.year(#dates.createNow()), #dates.year(#dates.createNow())+2)}"
+										th:value="${year}" th:text="${year}"></option>
+									</select>
+								</div>
+								<span th:if="${#fields.hasErrors('semester')}" th:errors="*{semester}" class="error"></span>
+								<span th:if="${#fields.hasErrors('year')}" th:errors="*{year}" class="error"></span> 
+							</div>
+                            </fieldset>
+                            
+							<fieldset>
+								<div class="accordion-controls">
+									<label class="accordion-label"><span>Start Date</span></label>
+									<div class="accordion-input">
+										<input name="startDate" id="start_date" type="text" title="MM/dd/yyyy"
+										th:field="*{startDate}"> 
+										<span th:if="${#fields.hasErrors('startDate')}" 
+										th:errors="*{startDate}" class="error"></span>  
+									</div>
+								</div>
+
+								<div class="accordion-controls">
+									<label class="accordion-label"><span>End Date</span></label>
+									<div class="accordion-input">
+										<input name="endDate" id="end_date" type="text" title="MM/dd/yyyy" 
+										th:field="*{endDate}">
+										<span th:if="${#fields.hasErrors('endDate')}" 
+										th:errors="*{endDate}" class="error"></span>  
+									</div>
+								</div>
+							</fieldset>
+
+							<div class="accordion-controls">
+								<label class="accordion-label"><span></span></label>
+								<div class="accordion-input">
+									<input name="save" value="Add"
+										class="btn btn-primary" type="submit">
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-12 col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">Manage Application Season for AMP
+						Programs</div>
+					<!-- /.panel-heading -->
+					<div class="panel-body">
+						<table id="applications" class="display" 
+						style="overflow-x:auto;border-spacing: 0px;width: 100%" >
+							<thead>
+								<tr>
+									<th><input name="select_all" value="1" id="example-select-all" type="checkbox" /></th>
+									<td><strong>Program</strong></td>
+									<td><strong>Semester</strong></td>
+									<td><strong>Start Date</strong></td>
+									<td><strong>End Date</strong></td>
+									<th>Action</th>
+									<th></th>
+								</tr>
+							</thead>
+						</table>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<th:block th:include="admin/layout :: scriptFragment"></th:block>
+<script th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.js}"></script>
+<script src="../../js/jquery.dataTables.js" th:src="@{/js/jquery.dataTables.js}"></script>
+<script src="../../js/moment.min.js" th:src="@{/js/moment.min.js}"></script>
+<script src="../../js/moment-with-locales.min.js" th:src="@{/js/moment-with-locales.min.js}"></script>
+<script src="../../js/moment-timezone.min.js" th:src="@{/js/moment-timezone.min.js}"></script>
+
+<script>
+	$(function() {
+		$("#start_date").datepicker({
+			defaultDate : "+1w",
+			changeMonth : true,
+			changeYear : true,
+			numberOfMonths : 1,
+			dateFormat : 'mm/dd/yy',
+			onClose : function(selectedDate) {
+				$("#end_date").datepicker("option", "minDate", selectedDate);
+			}
+		});
+		$("#end_date").datepicker(
+				{
+					defaultDate : "+1w",
+					changeMonth : true,
+					changeYear : true,
+					numberOfMonths : 1,
+					dateFormat : 'mm/dd/yy',
+					onClose : function(selectedDate) {
+						$("#start_date").datepicker("option", "maxDate",
+								selectedDate);
+					}
+				});
+	});
+</script>
+
+<script th:inline="javascript">
+moment.tz.add("America/Denver|MST MDT MWT MPT|70 60 60 60|01010101023010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010|-261r0 1nX0 11B0 1nX0 11B0 1qL0 WN0 mn0 Ord0 8x20 ix0 LCN0 1fz0 1a10 1fz0 1cN0 1cL0 1cN0 1cL0 1cN0 1cL0 1cN0 1cL0 1cN0 1fz0 1cN0 1cL0 1cN0 1cL0 s10 1Vz0 LB0 1BX0 1cN0 1fz0 1a10 1fz0 1cN0 1cL0 1cN0 1cL0 1cN0 1cL0 1cN0 1cL0 1cN0 1fz0 1a10 1fz0 1cN0 1cL0 1cN0 1cL0 1cN0 1cL0 14p0 1lb0 14p0 1nX0 11B0 1nX0 11B0 1nX0 14p0 1lb0 14p0 1lb0 14p0 1nX0 11B0 1nX0 11B0 1nX0 14p0 1lb0 14p0 1lb0 14p0 1lb0 14p0 1nX0 11B0 1nX0 11B0 1nX0 14p0 1lb0 14p0 1lb0 14p0 1nX0 11B0 1nX0 11B0 1nX0 Rd0 1zb0 Op0 1zb0 Op0 1zb0 Rd0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Rd0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Rd0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Rd0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Rd0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0 Op0 1zb0|26e5");
+	/*<![CDATA[*/
+	$(document).ready(function(){
+		var data = eval(/*[[${windowList}]]*/) ;
+		var table = $('#applications').DataTable({
+			"aaData": data, 
+			'columnDefs': [{
+			'targets': 0,
+			'searchable':false,
+			'orderable':false,
+			'className': 'dt-body-center',
+			'render': function (data, type, full, meta){
+			return '<input type="checkbox" name="id[]" value="'+full.windowID+'">';
+			} 
+		},{
+			'targets': 5,
+			'searchable':false,
+			'orderable':false,
+			'className': 'dt-body-center'  ,
+			'render': function (data, type, full, meta){
+				return '<a href="manage-program/edit/'+full.programNameAbbr+'/'+full.windowID+'"><button class="btn btn-primary">Edit</button></a>';
+				}
+		},
+		{
+			'targets': 6,
+			'searchable':false,
+			'orderable':false,
+			'className': 'dt-body-center'  ,
+			'render': function (data, type, full, meta){
+				return '<a href="manage-program/cancel/'+full.programNameAbbr+'/'+full.windowID+'"><button class="btn btn-warning">Cancel</button></a>';
+			 
+ 				}
+		}
+		],
+		"aoColumns": [
+		{"mData":""},
+		{"mData":"programName"}, 
+		{ "mData": "semester",
+			"sClass":"left", 
+			"mRender":function(data, type, full){
+				return full.semester+" "+full.year;
+			}
+		},
+		{ "mData": "startDate",
+			"mRender":function(data, type, full){
+				return moment.tz(full.startDate, "America/Denver").format('YYYY-MM-DD HH:mm:ss A');
+			 }
+		},
+		
+		
+		{ "mData": "endDate", 
+			"mRender":function(data, type, full){
+				return moment.tz(full.endDate, "America/Denver").format('YYYY-MM-DD HH:mm:ss A');
+			 }
+		}, 
+		{"mData":""},{"mData":""} 
+	          ],
+	          "paging":true,
+	          "pageLength":10,
+	          "ordering":true,
+	          "order":[1,"asc"]
+	        });
+	     
+	}); 
+ /*]]>*/
+ </script>
+</body>
+</html>

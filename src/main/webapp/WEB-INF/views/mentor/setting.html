@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 2018 Feng Liu
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="mentor/layout :: headerFragment (pageTitle='Account Setting')">
+<title></title>
+</head>
+<body>
+<div id="wrapper">
+	<nav class="navbar navbar-default navbar-static-top" role="navigation"
+		style="margin-bottom: 0;" th:include="mentor/layout :: navbarFragment">
+ 	</nav>
+  
+	<div id="page-wrapper">
+		<div class="row">
+        	<div class="col-lg-12">
+        		<div class="panel"><div class="panel-body">
+               <h3 class="page-header" th:text="${#strings.capitalizeWords('Account Setting')}"></h3>
+               </div></div>
+            </div>
+            <!-- /.col-lg-12 -->
+       	</div>
+       	
+       	<div class="row" id="fadeOut" th:if="!${#strings.isEmpty(status)}">
+           <div class="col-lg-12">
+              <div class="panel panel-info">
+                  <div class="panel-heading" >
+                  <i class="fa fa-info-circle fa-fw"></i><span th:text="${status}"></span>
+                  </div>
+              </div>
+           </div>
+        </div>
+        
+		<div class="row">
+           <div class="col-lg-12">
+                <!-- begin for accordion -->
+                <div class="accordion" data-role="accordion" data-close-any="true">
+                    <!-- Change Password -->
+					<div class="frame " th:attrappend="class=${section=='password.do' ? 'active' : ''}">
+                    	<div class="heading">Change Password</div>
+                        <div class="content">
+                        <form th:action="@{/mentor/setting/password.do}" method="post" th:object="${userPass}">
+							<fieldset>
+ 								<div class="accordion-controls">
+									<label for="password" class="accordion-label"><span>New Password</span></label>
+									<div class="accordion-input">
+									<input name="password" type="password" th:field="*{password}">
+				 					<span th:if="${#fields.hasErrors('password')}" 
+				 					th:errors="*{password}" class="error"></span>
+									</div>
+								</div>
+   								<div class="accordion-controls">
+									<label class="accordion-label"><span>Confirm Password</span></label>
+									<div class="accordion-input">
+									<input name="pass_confirmation" type="password" th:field="*{confirmPassword}">
+									<span th:if="${#fields.hasErrors('confirmPassword')}" 
+									 th:errors="*{confirmPassword}" class="error"></span>
+									</div>
+								</div>
+							</fieldset>
+							<div class="accordion-controls">
+								<label class="accordion-label"></label>
+								<div class="accordion-input">
+									<input type="reset" class="btn btn-primary" value="Cancel">
+									<input type="submit" class="btn btn-primary" value="Save">
+								</div>
+							</div>
+						</form>
+						
+						<div class="row" id="pswd_rules">
+	                        	<div class="col-md-2"></div>
+								<div class="col-md-8">
+									<div class="panel panel-info">
+										<div class="panel-heading">
+											<div>
+											<p>A users password must:</p>
+											<ul>
+											<li>Be 6 to 20 characters in length</li>
+											<li>NOT contain whitespace</li>
+											<li>Contain AT LEAST one UPPERCASE letter: A - Z</li>
+											<li>Contain AT LEAST one lowercase letter: a - z</li>
+											<li>Contain AT LEAST one number: 0 - 9</li>
+											<li>Contain AT LEAST one special character: !@#$%^&amp;+=</li>
+											</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-2"></div>
+							</div>
+							
+                        </div>
+                    </div>
+                </div>
+                <!-- end for accordion -->
+			</div>
+		</div>
+	</div>
+</div>
+<th:block th:include="mentor/layout :: scriptFragment"></th:block>
+<script src="../../js/metro.js" th:src="@{/js/metro.js}"></script>	
+<script src="../../js/utils.profile.js" th:src="@{/js/utils.profile.js}"></script>
+</body>
+</html> 

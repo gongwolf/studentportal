@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 2018 Feng Liu
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<link rel="shortcut icon" type="image/x-icon" href="../../css/favicon.ico" th:href="@{/css/favicon.ico}">
+<link th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.min.css}" rel="stylesheet">
+<link th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.css}" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style-home.css" th:href="@{/css/style-home.css}" />
+<link rel="stylesheet" href="../../css/style-register.css" th:href="@{/css/style-register.css}" />
+<title>Project Abstract Review | myNew Mexico AMP</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+ 
+<style>
+.zui-table {
+	border: 1px solid #DDDDDD;
+	border-collapse: collapse;
+	border-spacing: 0;
+	width: 100%;
+	table-layout: fixed;
+	background-color: #fff;
+}
+
+.zui-table thead th {
+	background-color: #DDDDDD;
+	border: none;
+	color: #0084B4;
+	padding: 8px;
+	text-align: left;
+	white-space: nowrap;
+	font-weight: bold;
+}
+
+.zui-table tbody td {
+	background: transparent;
+	color: #333;
+	padding: 8px;
+	text-shadow: 1px 1px 1px #fff;
+	padding-left: 30px;
+	padding-right: 5px; 
+	word-wrap:break-word;
+}
+   
+.zui-table>tbody>tr {
+	border: 1px solid #DDDDDD;
+}
+
+code{
+background: transparent;
+white-space: pre-wrap;
+color: black; 
+}
+ 
+pre{
+background: transparent;
+border:none;
+word-wrap: break-word;
+white-space: pre-wrap;
+}
+</style>
+<body>
+ 
+<nav role="navigation" class="navbar navbar-default">
+	<div class="navbar-header">
+		<a class="navbar-brand" th:href="@{/login}">New Mexico Alliance
+				for Minority Participation Portal</a>
+	</div>
+</nav>
+
+<div class="container">
+<div class="row">
+   <div class="col-md-9 col-md-offset-1">
+			<form th:action="@{/projects/review/{key}(key=${key})}"
+				id="form" class="register-form" method="post" th:object="${signatureBean}">
+				
+				<header></header>
+				<table class="zui-table">
+					<thead>
+						<tr>
+							<th colspan="4">Applicant</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Name:</td>
+							<td colspan="3"><pre th:text="|${applicantBean.lastName}, ${applicantBean.firstName}|"></pre></td>
+						</tr>
+						<tr>
+							<td>Program:</td>
+							<td colspan="3"><pre>International Research and Education Participation (IREP)</pre></td>
+						</tr>
+						<tr>
+							<td>Term:</td>
+							<td colspan="3"><pre th:text="|${projectBean.schoolSemester} ${projectBean.schoolYear}|"></pre></td>
+						</tr>
+					</tbody>
+				</table>
+				<table class="zui-table">
+					<thead>
+						<tr>
+							<th colspan="4">Project</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Dates of Scheduled Research:</td>
+							<td colspan="3"><pre th:text="|${projectBean.researchDate}|"></pre></td>
+						</tr>
+						<tr>
+							<td>Expected Date Leaving :</td>
+							<td colspan="3"><pre th:text="|${projectBean.leaveDate}|"></pre></td>
+						</tr>
+						<tr>
+							<td>Expected Date of Return:</td>
+							<td colspan="3"><pre th:text="|${projectBean.returnDate}|"></pre></td>
+						</tr>
+						<tr>
+							<td>Have you been funded by New Mexico AMP Scholarships in past?</td>
+							<td th:switch="${projectBean.everFundAmp}" colspan="3"> 
+							<pre th:case="'1'" th:text="|Yes: ${projectBean.listProgram}|"></pre>
+							<pre th:case="*">No</pre>
+							</td>
+						</tr>
+						<tr>
+							<td>Project Abstract:</td>
+							<td colspan="3"><p><code th:text="|${projectBean.projectAbstract}|"></code></p></td>
+						</tr>
+						 
+					</tbody>
+				</table>
+				<table class="zui-table">
+					<thead>
+						<tr>
+							<th colspan="4">Review and Submit</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Signature</td>
+							<td colspan="3">
+							<input name="signature" type="text" th:field="*{signature}">
+							<span th:if="${#fields.hasErrors('signature')}" 
+							th:errors="*{signature}" class="error"></span>
+							</td>
+						</tr>
+						<tr>
+							<td>Date</td>
+							<td colspan="3">
+							<input name="signature_date" type="text" id="signature_date" th:field="*{signatureDate}" placeholder="DD/mm/yyyy">
+							<span th:if="${#fields.hasErrors('signatureDate')}" 
+							th:errors="*{signatureDate}" class="error"></span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<footer>
+					<input name="userID" th:value="${projectBean.userID}" readonly type="hidden">
+					<input name="applicationID" th:value="${projectBean.applicationID}" readonly type="hidden">
+					<button type="submit" class="button" th:disabled="${tag}">Submit</button>
+					<div style="margin-top: 15px;" class="col-md-4 error" th:if="!${#strings.isEmpty(status)}" th:text="${status}"></div>
+				</footer>
+			</form>
+		</div>
+		</div>
+		</div>
+	
+	<div id="footer" class="footer navbar-fixed-bottom">
+		<ul>
+			<li><a href="http://nmsu.edu/">&copy; New Mexico State
+					University</a></li>
+			<li><a th:href="@{/contact}">Contact Us</a></li>
+		</ul>
+	</div>
+<script src="http://cdn.jsdelivr.net/webjars/org.webjars/jquery/1.12.4/jquery.min.js"
+        th:src="@{/webjars/jquery/1.12.4/jquery.min.js}"></script>
+<script th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.js}"></script>
+<script type="text/javascript">
+$("#signature_date").datepicker({
+	defaultDate : "+1w",
+	changeMonth : false,
+	changeYear : false,
+	numberOfMonths : 1,
+	dateFormat : 'mm/dd/yy',
+});
+</script>
+	
+</body>
+</html>

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 2018 Feng Liu
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="mentor/layout :: headerFragment (pageTitle='Mid Term Evaluation')">
+<title></title>
+</head>
+<body>
+<div id="wrapper">
+	<nav class="navbar navbar-default navbar-static-top" role="navigation"
+		style="margin-bottom: 0;" th:include="mentor/layout :: navbarFragment">
+ 	</nav>
+  
+	<div id="page-wrapper">
+ 
+		<div class="row">
+            <div class="col-lg-12">
+                <div class="panel"><div class="panel-body">
+                <form id="surveyform" name="surveyform" accept-charset="UTF-8" method="post">
+				<header>
+					<h4>Undergraduate Research Scholars (URS)</h4>
+					<div>
+					<h5>Mid Term Evaluation: <span class = "label label-info" th:text="|${evalSemester} ${evalYear}|"></span></h5>
+					<h5>Name of URS Student: <span class = "label label-info" th:text="|${menteeName}|"></span></h5><hr>
+					</div>
+				</header>
+				
+				<ul>
+				<li class="likert hideNumbers">
+				<table>
+					<caption><strong>Please indicate if you agree or disagree with the following statements <span>*</span></strong></caption>
+					<thead>
+						<tr>
+							<th>&nbsp;</th>
+							<td>Strongly Disagree</td>
+							<td>Mostly Disagree</td>
+							<td>Agree</td>
+							<td>Mostly Agree</td>
+							<td>Strongly Agree</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+						<th><label>Student reports to work on time and as scheduled</label></th>
+						<td title="Strongly Disagree">
+							<input name="rating-report" type="radio" tabindex="9" value="0">
+							<label>0</label>
+						</td>
+						<td title="Disagree">
+							<input name="rating-report" type="radio" tabindex="10" value="1">
+							<label>1</label>
+						</td>
+						<td title="Agree">
+							<input name="rating-report" type="radio" tabindex="11" value="2">
+							<label>2</label>
+						</td>
+						<td title="Mostly Agree">
+							<input name="rating-report" type="radio" tabindex="12" value="3">
+							<label>3</label>
+						</td>
+						<td title="Strongly Agree">
+							<input name="rating-report" type="radio" tabindex="13" value="4">
+							<label>4</label>
+						</td>
+						</tr>
+						<tr>
+						<th><label>Student has worked steadily to this point of the project period</label></th>
+						<td title="Strongly Disagree">
+							<input name="rating-has" type="radio" tabindex="14" value="0">
+							<label>0</label>
+						</td>
+						<td title="Disagree">
+							<input name="rating-has" type="radio" tabindex="15" value="1">
+							<label>1</label>
+						</td>
+						<td title="Agree">
+							<input name="rating-has" type="radio" tabindex="16" value="2">
+							<label>2</label>
+						</td>
+						<td title="Mostly Agree">
+							<input name="rating-has" type="radio" tabindex="17" value="3">
+							<label>3</label>
+						</td>
+						<td title="Strongly Agree">
+							<input name="rating-has" type="radio" tabindex="18" value="4">
+							<label>4</label>
+						</td>
+						</tr>
+						<tr>
+						<th><label>Student completes his/her assignments in a timely fashion</label></th>
+						<td title="Strongly Disagree">
+							<input name="rating-complete" type="radio" tabindex="19" value="0">
+							<label>0</label>
+						</td>
+						<td title="Disagree">
+							<input name="rating-complete" type="radio" tabindex="20" value="1">
+							<label>1</label>
+						</td>
+						<td title="Agree">
+							<input name="rating-complete" type="radio" tabindex="21" value="2">
+							<label>2</label>
+						</td>
+						<td title="Mostly Agree">
+							<input name="rating-complete" type="radio" tabindex="22" value="3">
+							<label>3</label>
+						</td>
+						<td title="Strongly Agree">
+							<input name="rating-complete" type="radio" tabindex="23" value="4">
+							<label>4</label>
+						</td>
+						</tr>
+						<tr>
+						<th><label>Student demonstrates motivation and willingness to take initiative and responsibility for the project</label></th>
+						<td title="Strongly Disagree">
+							<input name="rating-demonstrate" type="radio" tabindex="24" value="0">
+							<label>0</label>
+						</td>
+						<td title="Disagree">
+							<input name="rating-demonstrate" type="radio" tabindex="25" value="1">
+							<label>1</label>
+						</td>
+						<td title="Agree">
+							<input name="rating-demonstrate" type="radio" tabindex="26" value="2">
+							<label>2</label>
+						</td>
+						<td title="Mostly Agree">
+							<input name="rating-demonstrate" type="radio" tabindex="27" value="3">
+							<label>3</label>
+						</td>
+						<td title="Strongly Agree">
+							<input name="rating-demonstrate" type="radio" tabindex="28" value="4">
+							<label>4</label>
+						</td>
+						</tr>
+						<tr>
+						<th><label>In my opinion, the student is gaining new knowledge and research skills</label></th>
+						<td title="Strongly Disagree">
+							<input name="rating-gain" type="radio" tabindex="29" value="0">
+							<label>0</label>
+						</td>
+						<td title="Disagree">
+							<input name="rating-gain" type="radio" tabindex="30" value="1">
+							<label>1</label>
+						</td>
+						<td title="Agree">
+							<input name="rating-gain" type="radio" tabindex="31" value="2">
+							<label>2</label>
+						</td>
+						<td title="Mostly Agree">
+							<input name="rating-gain" type="radio" tabindex="32" value="3">
+							<label>3</label>
+						</td>
+						<td title="Strongly Agree">
+							<input name="rating-gain" type="radio" tabindex="33" value="4">
+							<label>4</label>
+						</td>
+						</tr>
+					</tbody>
+				</table>
+				</li>
+				
+				<li class="notStacked">
+				<fieldset><h5><strong>Student is meeting with me <span>*</span></strong></h5>
+				<div>
+				<span>
+				<input name="radio-meet" type="radio" class="field radio" value="Less than once a week" tabindex="34">
+				<label class="choice">
+				<span>Less than once a week</span>
+				</label>
+				</span>
+				<span>
+				<input name="radio-meet" type="radio" class="field radio" value="Once a week" tabindex="35">
+				<label class="choice">
+				<span>Once a week</span>
+				</label>
+				</span>
+				<span>
+				<input name="radio-meet" type="radio" class="field radio" value="Every 2 weeks" tabindex="36">
+				<label class="choice">
+				<span>Every 2 weeks</span>
+				</label>
+				</span>
+				<span>
+				<input name="radio-meet" type="radio" class="field radio" value="Monthly" tabindex="37">
+				<label class="choice">
+				<span>Monthly</span>
+				</label>
+				</span>
+				</div>
+			</fieldset>
+			</li>
+			
+			<li>
+			<h5><strong>Please provide a brief assessment of your URS student’s successes from the start of the semester to now. <span>*</span></strong></h5>
+			<div>
+			<textarea name="quest-assessment" rows="6" cols="50"></textarea>
+ 			</div>
+			</li>
+			
+			<li>
+			<h5><strong>Please list any conferences attended and/or presentations the student has participated in (or plans to participate in). <span>*</span></strong></h5>
+			<div>
+			<textarea name="quest-conference" rows="6" cols="50"></textarea>
+ 			</div>
+			</li>
+			
+			<li>
+			<h5><strong>Please comment on any disappointments/and/or concerns with the student and/or program you wish to include here. <span>*</span></strong></h5>
+			<div>
+			<textarea name="quest-concern" rows="6" cols="50"></textarea>
+ 			</div>
+			</li>
+			
+			<li>
+			<h5><strong>New Mexico AMP can assist my URS student by doing the following: <span>*</span></strong></h5>
+			<div>
+			<textarea name="quest-assist" rows="6" cols="50"></textarea>
+ 			</div>
+			</li>
+			<li class="buttons ">
+			<div>
+			<input type="submit" class="btn btn-default" name="submitsurvey" value="Submit">
+			<!-- <button type="button" class="btn btn-default" name="submitsurvey">Submit</button> -->
+			</div>
+			</li>
+			</ul>
+			
+			</form>
+			
+                </div>
+                </div>
+            </div>
+		</div>
+ 
+</div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="resultModal" tabindex="-1" role="dialog" 
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        	<!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" 
+                   data-dismiss="modal">
+                       <span aria-hidden="true">&times;</span>
+                       <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel"></h4>
+            </div>
+            
+            <!-- Modal Body -->
+            <form class="form-horizontal" role="form" id="userForm">
+            <div class="modal-body">
+                  <div class="form-group">
+                    <div class="col-sm-11 col-sm-offset-1">
+                        <p>Thank you for your time in completing this evaluation! 
+                        We appreciate your comments and will use them to assess program effectiveness and student progression. </p>
+                    </div>
+                  </div>
+            </div>
+            
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="evaluationhome">Close</button>
+            </div>
+            
+            </form>
+        </div>
+    </div>
+</div>
+<th:block th:include="mentor/layout :: scriptFragment"></th:block>
+<script src="../../js/util.mentor.eval.mid.js" th:src="@{/js/util.mentor.eval.mid.js}"></script>
+<script th:inline="javascript">
+/*<![CDATA[*/
+var evalPoint = /*[[${evalPoint}]]*/ ''; 
+var evalSemester = /*[[${evalSemester}]]*/ ''; 
+var evalYear =  eval(/*[[${evalYear}]]*/);
+var applicationID = eval(/*[[${applicationID}]]*/);
+var _csrf_token = /*[[${_csrf.token}]]*/ '';
+var _csrf_param_name = /*[[${_csrf.parameterName}]]*/ '';
+/*]]>*/
+
+</script>
+ 
+</body>
+</html>  

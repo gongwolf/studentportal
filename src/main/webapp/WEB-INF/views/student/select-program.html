@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 2018 Feng Liu
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="student/layout :: headerFragment (pageTitle='Select Program | Start Application')">
+<title></title>
+</head>
+<body>
+<div id="wrapper">
+ 
+ 	<nav class="navbar navbar-default navbar-static-top" role="navigation"
+		style="margin-bottom: 0;" th:include="student/layout :: navbarFragment">
+ 	</nav>
+ 	
+ 	<div id="page-wrapper">
+ 		<div class="row">
+            <div class="col-lg-12">
+                <div class="panel"><div class="panel-body">
+                <h3>Select Program</h3>
+                </div>
+                </div>
+            </div>
+		</div>
+		
+		<div class="row">
+			<div class="col-lg-12">
+                <div class="panel">
+                    <div class="panel-body">
+                    <form th:action="@{/application/select/program}" name="form" method="post">
+					<p>Please select the school you are currently enrolled in</p>
+					<select name="school" id="select_school" onChange="selectProgram();">
+					<option value="">-- Select One --</option>
+                    <option th:each="entry:${schools}" th:value="${entry.key}" th:text="${entry.value}"></option>
+					</select><br><br> 
+			 
+					<p>Please select the program you are applying</p>
+					<select name="program" id="select_program">
+					<option value="">-- Select One --</option>
+					</select><br><br> 
+					
+					<button type="submit" class="btn btn-primary btn-outline">
+					 Next <span class="fa fa-arrow-circle-right 2x" aria-hidden="true"></span>
+					</button>
+			 		
+					</form>
+                    </div>
+                 </div>
+            </div>
+        </div>
+        
+        <div class="row" id="fadeOut" th:if="!${#strings.isEmpty(status)}">
+           <div class="col-lg-12">
+              <div class="panel panel-info">
+                  <div class="panel-heading" >
+                  <i class="fa fa-info-circle fa-fw"></i><span th:text="${status}"></span>
+                  </div>
+              </div>
+           </div>
+        </div>
+	</div>
+</div>
+<th:block th:include="student/layout :: scriptFragment"></th:block>
+<script th:inline="javascript">
+/*<![CDATA[*/
+function selectProgram(){
+	select_program = document.getElementById('select_program');
+	removeAllOptions(select_program);
+	select_program.add( new Option('-- Select One --', '') );
+	var school = document.form.select_school; 
+	var jSchoolsTwoYr = [[${jSchoolsTwoYr}]];  
+	var jSchoolsFourYr = [[${jSchoolsFourYr}]];
+	var jProgramsTwoYr = [[${jProgramsTwoYr}]];
+	var jProgramsFourYr = [[${jProgramsFourYr}]];
+	var schoolsTwoYrObj = JSON.parse(jSchoolsTwoYr);
+	var schoolsFourYrObj = JSON.parse(jSchoolsFourYr);
+	var programsTwoYr = JSON.parse(jProgramsTwoYr);
+	var programsFourYr = JSON.parse(jProgramsFourYr);
+	
+	if(school.value in schoolsTwoYrObj){
+		for( var key in programsTwoYr ) { 
+			 select_program.add( new Option( programsTwoYr[key], key ) );
+		 };
+	}else{
+		for( var key in programsFourYr ) { 
+			if( school.value !== 'NMSU' && key === 'URS' )continue; 
+			 select_program.add( new Option( programsFourYr[key], key ) );
+		 };
+	}
+}
+ 
+function removeAllOptions(selectbox)
+{
+	var i;
+	for(i=selectbox.options.length-1;i>=0;i--)
+	{
+		selectbox.remove(i);
+	}
+} 
+/*]]>*/
+</script> 
+</body>
+</html>

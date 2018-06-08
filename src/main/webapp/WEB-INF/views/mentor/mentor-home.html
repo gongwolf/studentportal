@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 2018 Feng Liu
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="mentor/layout :: headerFragment (pageTitle='Home')">
+<title></title>
+</head>
+<body>
+ 
+<div id="wrapper">
+	
+	<nav class="navbar navbar-default navbar-static-top" role="navigation"
+		style="margin-bottom: 0;" th:include="mentor/layout :: navbarFragment">
+ 	</nav>
+
+	<div id="page-wrapper">
+		<div class="row">
+			<div class="col-lg-12"></div>
+		</div>
+		
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="jumbotron" style="margin-top: 30px;padding:0.5em 2em 2em 2em;">
+					<h3 class="page-header" th:text="'Welcome, ' + ${name} + '!'"></h3>
+					<p class="lead">With the online portal, as a faculty mentor and or as a
+						reference you can use this to review and/or submit application
+						components, such as project proposals, letters of recommendation,
+						etc.
+					</p>
+					<hr>
+					<p style="font-size: 90%;"><em>New Mexico AMP is a partnership
+						representing New Mexico&rsquo;s federally funded tribal colleges and
+						state funded community colleges and four-year universities. New
+						Mexico AMP&rsquo;s goals are to increase the number of underrepresented
+						minorities receiving B.S. degrees in Science, Technology,
+						Engineering, and Mathematics (STEM) and to increase the number of
+						these students who complete their graduate studies in STEM, with a
+						strong focus on progression to the Ph.D.</em></p>
+					<hr>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+<th:block th:include="mentor/layout :: scriptFragment"></th:block>	
+</body>
+</html> 
+ 

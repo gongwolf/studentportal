@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 2018 Feng Liu
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="student/layout :: headerFragment (pageTitle='Profile')">
+<title></title>
+</head>
+<body> 
+<div id="wrapper">
+ 
+ 	<nav class="navbar navbar-default navbar-static-top" role="navigation"
+		style="margin-bottom: 0;" th:include="student/layout :: navbarFragment">
+ 	</nav>
+ 		 
+	<div id="page-wrapper">
+	
+		<div class="row">
+        	<div class="col-lg-12">
+        		<div class="panel"><div class="panel-body">
+        			<h3 class="page-header" th:text="${#strings.capitalizeWords('Enter or edit your profile information')}"></h3>
+               </div></div>
+            </div>
+            <!-- /.col-lg-12 -->
+       	</div>
+            
+		<div class="row" id="fadeOut" th:if="!${#strings.isEmpty(status)}">
+           <div class="col-lg-12">
+              <div class="panel panel-info">
+                  <div class="panel-heading" >
+                  <i class="fa fa-info-circle fa-fw"></i><span th:text="${status}"></span>
+                  </div>
+              </div>
+           </div>
+        </div>
+	 
+		<div class="row">
+           <div class="col-lg-12">
+                <!-- begin for accordion -->
+                <div class="accordion" data-role="accordion" data-close-any="true">
+					<!-- Edit Profile -->
+					<div class="frame " th:attrappend="class=${section=='biography.do' ? 'active' : ''}">
+					<!--  ! space after 'frame' is important -->
+                    	<div class="heading">Biographical Information</div>
+                        <div class="content">
+	             		<form th:action="@{/profile/biography.do}" method="post" 
+	             		th:object="${biographyBean}">
+							<fieldset>
+								<div class="accordion-controls">
+									<label for="firstName" class="accordion-label"><span>First Name</span></label>
+									<div class="accordion-input">
+										<input name="firstName" type="text" th:field="*{firstName}" readonly="readonly">
+									</div>
+								</div>
+								
+								<div class="accordion-controls">
+									<label for="middleName" class="accordion-label"><span>Middle Initial</span></label>
+									<div class="accordion-input">
+										<input name="middleName" type="text" th:field="*{middleName}">
+									</div>
+									<span data-toggle="tooltip" data-placement="left" title="Put N/A if not available"><i class="fa fa-question-circle" aria-hidden="true" ></i></span>
+									<span th:if="${#fields.hasErrors('middleName')}" 
+										th:errors="*{middleName}" class="error"></span>
+								</div>
+								 
+								<div class="accordion-controls">
+									<label for="lastName" class="accordion-label"><span>Last Name</span></label>
+									<div class="accordion-input">
+										<input name="lastName" type="text" th:field="*{lastName}" readonly="readonly">
+									</div>
+								</div>
+								
+								<div class="accordion-controls">
+									<label for="ssnLastFour" class="accordion-label"><span>SSN last 4
+											digits</span></label>
+									<div class="accordion-input">
+										<input name="ssnLastFour" type="text" th:field="*{ssnLastFour}" 
+										maxlength="4" required>
+									</div>
+									<span th:if="${#fields.hasErrors('ssnLastFour')}" 
+										th:errors="*{ssnLastFour}" class="error"></span>
+								</div>
+							 
+								<div class="accordion-controls">
+									<label class="accordion-label"><span>Gender</span></label>
+									<div class="accordion-input">
+										<div th:each="entry:${gender}">
+										<label class="radio"> 
+										<input name="gender" type="radio" 
+										th:value="${entry.key}" th:field="*{gender}">
+											<span th:text="${entry.value}"></span>
+										</label> 
+										</div>
+									</div>
+									<span th:if="${#fields.hasErrors('gender')}" 
+										th:errors="*{gender}" class="error"></span>
+								</div>
+								<div class="accordion-controls">
+									<label class="accordion-label"><span>Date of
+											Birth</span></label>
+									<div class="accordion-input">
+										<input name="birthDate" type="text" 
+										th:value="${#dates.format(biographyBean.birthDate, 'MM/dd/yyyy')}"
+											th:field="*{birthDate}" readonly="readonly">
+									</div>
+									<span data-toggle="tooltip" data-placement="left" title="MM/dd/yyyy"><i class="fa fa-question-circle" aria-hidden="true" ></i></span>
+								</div>
+								 
+								<div class="accordion-controls">
+									<label class="accordion-label"><span>Are you New
+											Mexico resident?</span></label>
+									<div class="accordion-input" >
+										<div th:each="entry:${yesno}">
+										<label class="radio">
+										<input type="radio" name="isNMResident" th:value="${entry.key}" 
+										  th:field="*{isNMResident}" ><span th:text="${entry.value}"></span>
+										</label>
+										</div>
+									</div>
+									<span th:if="${#fields.hasErrors('isNMResident')}" 
+										th:errors="*{isNMResident}" class="error"></span>
+								</div>
+								<div class="accordion-controls">
+									<label class="accordion-label"><span>Citizenship</span></label>
+									<div class="accordion-input">
+										<div th:each="entry:${citizenship}" >
+										<label class="radio">
+										<input type="radio" name="citizenship" th:value="${entry.key}" 
+										  th:field="*{citizenship}"><span th:text="${entry.value}"></span>
+										</label>
+										</div>
+									</div>
+									<span th:if="${#fields.hasErrors('citizenship')}" 
+										th:errors="*{citizenship}" class="error"></span>
+								</div>
+								<div class="accordion-controls">
+									<label class="accordion-label"><span>Do either of your parents have 
+									a college or University Bachelor's degree?</span></label>
+									<div class="accordion-input" >
+										<div th:each="entry:${yesno}">
+										<label class="radio">
+										<input type="radio" name="parentHasDegree" th:value="${entry.key}" 
+										  th:field="*{parentHasDegree}" ><span th:text="${entry.value}"></span>
+										</label>
+										</div>
+									</div>
+									<span th:if="${#fields.hasErrors('parentHasDegree')}" 
+										th:errors="*{parentHasDegree}" class="error"></span>
+								</div>
+								</fieldset>
+							
+								<div class="accordion-controls">
+									<label class="accordion-label"></label>
+									<div class="accordion-input">
+										<input type="reset" class="btn btn-primary" value="Cancel">
+										<input type="submit" class="btn btn-primary" value="Save">
+									</div>
+								</div>
+							</form>
+                        </div>
+                    </div>
+                   
+                    <!-- Contact Information -->
+                    <div class="frame " th:attrappend="class=${section=='contact.do' ? 'active' : ''}">
+                    	<div class="heading">Contact Information</div>
+                        <div class="content">
+                        <form th:action="@{/profile/contact.do}" method="post" 
+                        th:object="${contactBean}" id="contact_info">
+							<fieldset>
+							<!--  Email and Phone -->
+							<div class="accordion-controls">
+								<label class="accordion-label"><span>Preferred Email</span></label>
+								<div class="accordion-input">
+									<input name="emailPref" type="email" readonly="readonly" required 
+									th:value="${contactBean.emailPref}" th:field="*{emailPref}">
+									<span th:if="${#fields.hasErrors('emailPref')}" 
+										th:errors="*{emailPref}" class="error"></span>
+								</div>
+							</div>
+							<div class="accordion-controls">
+								<label class="accordion-label"><span>Alternate Email</span></label>
+								<div class="accordion-input">
+									<input name="emailAltn" type="email" th:field=*{emailAltn}
+									th:value="${contactBean.emailAltn}">
+									<span th:if="${#fields.hasErrors('emailAltn')}" 
+										th:errors="*{emailAltn}" class="error"></span>
+								</div>
+								<span data-toggle="tooltip" data-placement="left" title="Optional"><i class="fa fa-question-circle" aria-hidden="true" ></i></span>
+							</div>
+							
+							<div class="accordion-controls">
+								<label class="accordion-label"><span>Phone Number</span></label>
+								<div class="accordion-input">
+									<input name="phone_num1" class="phone_num" type="text"
+										maxlength="14" placeholder="(XXX) XXX-XXXX" required
+										th:field="*{phoneNum1}" th:value="${contactBean.phoneNum1}">
+									<select name="phone_type1" id="phone_type1" 
+										class="phone_type" th:field="*{phoneType1}">
+									<option value="">-- Select One --</option>	
+									<option th:each="item:${phoneTypes}" th:value="${item}" th:text="${item}"></option>
+									</select>
+								</div>
+								<span th:if="${#fields.hasErrors('phoneNum1')}" 
+										th:errors="*{phoneNum1}" class="error"></span>
+								<span th:if="${#fields.hasErrors('phoneType1')}" 
+										th:errors="*{phoneType1}" class="error"></span>
+							</div>
+							<div class="accordion-controls">
+								<label class="accordion-label"><span>Alternate Phone</span></label>
+								<div class="accordion-input">
+									<input name="phone_num2" class="phone_num" type="text"
+										maxlength="14" placeholder="(XXX) XXX-XXXX" 
+										th:field="*{phoneNum2}" th:value="${contactBean.phoneNum2}">
+									<select name="phone_type2" id="phone_type2" 
+										class="phone_type" th:field="*{phoneType2}">
+									<option value="">-- Select One --</option>	
+									<option th:each="item:${phoneTypes}" th:value="${item}" th:text="${item}"></option>
+									</select>
+								</div>
+								<span data-toggle="tooltip" data-placement="left" title="Optional"><i class="fa fa-question-circle" aria-hidden="true" ></i></span>
+							</div>
+							<div class="accordion-controls">
+								<label class="accordion-label"></label>
+								<div class="accordion-input">
+									<label><input name="receiveSMS" id="receiveSMS" type="checkbox" 
+									value="1" th:field="*{receiveSMS}"> 
+									<span>Check the box if we can send you text messages.</span> </label>
+								</div>
+							</div>
+							</fieldset>
+							
+							<!-- Permanent address  -->
+							<fieldset>
+							<legend>Permanent Address</legend>
+							<div class="accordion-controls">
+								<label class="accordion-label" for="permanent_address"><span>Address
+										Line 1</span></label>
+								<div class="accordion-input">
+								<input id="permanent_address_line1" name="permanent_address_line1" 
+									maxlength="75" type="text" th:field="*{permanentAddressLine1}"
+									th:value="${contactBean.permanentAddressLine1}">
+								</div>
+								<span th:if="${#fields.hasErrors('permanentAddressLine1')}" 
+									th:errors="*{permanentAddressLine1}" class="error"></span>
+							</div>
+
+							<div class="accordion-controls">
+								<label class="accordion-label" for="permanent_address2">
+									<span>Address Line 2</span>
+								</label>
+								<div class="accordion-input">
+								<input id="permanent_address_line2" name="permanent_address_line2" 
+									maxlength="75" type="text" th:field="*{permanentAddressLine2}"
+									th:value="${contactBean.permanentAddressLine2}">
+								</div>
+								<span data-toggle="tooltip" data-placement="left" title="Optional"><i class="fa fa-question-circle" aria-hidden="true" ></i></span>
+							</div>
+							
+							<div class="accordion-controls">
+								<label class="accordion-label" for="permanent_city"><span>City</span></label>
+								<div class="accordion-input">
+									<input type="text" id="permanent_address_city"
+										name="permanent_address_city" maxlength="50" 
+										th:field="*{permanentAddressCity}"
+										th:value="${contactBean.permanentAddressCity}">
+								</div>
+								<span th:if="${#fields.hasErrors('permanentAddressLine1')}" 
+									th:errors="*{permanentAddressCity}" class="error"></span>
+							</div>
+
+							<div class="accordion-controls">
+								<label class="accordion-label"
+									for="permanent_address_country"><span>County</span></label>
+								<div class="accordion-input">
+									<input name="permanent_address_county"
+										id="permanent_address_county" type="text" 
+										th:field="*{permanentAddressCounty}"
+										th:value="${contactBean.permanentAddressCounty}">
+								</div>
+								<span th:if="${#fields.hasErrors('permanentAddressCounty')}" 
+									th:errors="*{permanentAddressCounty}" class="error"></span>
+							</div>
+							
+							<div class="accordion-controls">
+								<label class="accordion-label" for="permanent_state"><span>State</span></label>
+								<div class="accordion-input">
+								<select name="permanent_address_state" id="permanent_address_state" 
+								class="address_state" th:field="*{permanentAddressState}">
+								<option value="">-- Select One --</option>	
+								<option th:each="item:${states}" th:value="${item}" th:text="${item}"></option>
+								</select>
+								</div>
+								<span th:if="${#fields.hasErrors('permanentAddressState')}" 
+									th:errors="*{permanentAddressState}" class="error"></span>
+							</div>
+							
+							<div class="accordion-controls">
+								<label class="accordion-label" for="permanent_address_zip"><span>Zip</span></label>
+								<div class="accordion-input">
+									<input class="zipcode" name="permanent_address_zip"
+										id="permanent_address_zip" maxlength="10" type="text"
+										th:field="*{permanentAddressZip}"
+										th:value="${contactBean.permanentAddressZip}">
+								</div>
+								<span th:if="${#fields.hasErrors('permanentAddressZip')}" 
+									th:errors="*{permanentAddressZip}" class="error"></span>
+							</div>
+							
+							</fieldset>
+							
+							<!-- Current address -->
+							<fieldset><legend>Current Address</legend>
+							<div
+								class="accordion-controls text-field-wrapper perm_is_same_as_current-wrapper">
+								<label class="accordion-label"></label>
+								<div class="accordion-input">
+								<label>
+								<input name="is_perm_same_as_current" id="is_perm_same_as_current" type="checkbox"
+									onclick="if( this.checked) { fillCurrentAddress(); } else { clearCurrentAddress(); }">
+								<span>Check here if your current address is the same
+									as your permanent address.</span>
+								</label>
+								</div>
+							</div>
+							
+							<div class="accordion-controls">
+								<label class="accordion-label" for="current_address_line1"><span>Address
+										Line 1</span></label>
+								<div class="accordion-input">
+								<input id="current_address_line1" name="current_address_line1" 
+									maxlength="75" type="text" th:field="*{currentAddressLine1}"
+									th:value="${contactBean.currentAddressLine1}">
+								</div>
+								<span th:if="${#fields.hasErrors('currentAddressLine1')}" 
+									th:errors="*{currentAddressLine1}" class="error"></span>
+							</div>
+						 
+							<div class="accordion-controls">
+								<label class="accordion-label" for="current_address_line2">
+									<span>Address Line 2</span>
+								</label>
+								<div class="accordion-input">
+								<input id="current_address_line2" name="current_address_line2" 
+									maxlength="75" type="text" th:field="*{currentAddressLine2}"
+									th:value="${contactBean.currentAddressLine2}">
+								</div>
+								<span data-toggle="tooltip" data-placement="left" title="Optional"><i class="fa fa-question-circle" aria-hidden="true" ></i></span>
+							</div>
+							
+							<div class="accordion-controls">
+								<label class="accordion-label" for="current_address_city"><span>City</span></label>
+								<div class="accordion-input">
+									<input type="text" id="current_address_city"
+										name="current_address_city" maxlength="50" 
+										th:field="*{currentAddressCity}"
+										th:value="${contactBean.currentAddressCity}">
+								</div>
+								<span th:if="${#fields.hasErrors('currentAddressCity')}" 
+									th:errors="*{currentAddressCity}" class="error"></span>
+							</div>
+							 
+							<div class="accordion-controls">
+								<label class="accordion-label"
+									for="current_address_county"><span>County</span></label>
+								<div class="accordion-input">
+									<input name="current_address_county"
+										id="current_address_county" type="text" 
+										th:field="*{currentAddressCounty}"
+										th:value="${contactBean.currentAddressCounty}">
+								</div>
+								<span th:if="${#fields.hasErrors('currentAddressCounty')}" 
+									th:errors="*{currentAddressCounty}" class="error"></span>
+							</div>
+							
+							<div class="accordion-controls">
+								<label class="accordion-label" for="current_address_state"><span>State</span></label>
+								<div class="accordion-input">
+								<select name="current_address_state" id="current_address_state" 
+								class="address_state" th:field="*{currentAddressState}">
+								<option value="">-- Select One --</option>	
+								<option th:each="item:${states}" th:value="${item}" th:text="${item}"></option>
+								</select>
+								</div>
+								<span th:if="${#fields.hasErrors('currentAddressState')}" 
+									th:errors="*{currentAddressState}" class="error"></span>
+							</div>
+							
+							<div class="accordion-controls">
+								<label class="accordion-label" for="current_address_zip"><span>Zip</span></label>
+								<div class="accordion-input">
+									<input class="zipcode" name="current_address_zip"
+										id="current_address_zip" maxlength="10" type="text"
+										th:field="*{currentAddressZip}"
+										th:value="${contactBean.currentAddressZip}">
+								</div>
+								<span th:if="${#fields.hasErrors('currentAddressZip')}" 
+									th:errors="*{currentAddressZip}" class="error"></span>
+							</div>
+							</fieldset>
+							
+							<!-- Emergency Contact -->
+							<fieldset><legend>Emergency Contact</legend>
+							<div class="accordion-controls">
+								<label class="accordion-label"><span>First Name</span></label>
+								<div class="accordion-input">
+									<input name="ec_first_name" type="text" th:field="*{ecFirstName}"
+									th:value="${contactBean.ecFirstName}"
+										title="Name of person who will always know how to reach you">
+								</div>
+								<span th:if="${#fields.hasErrors('ecFirstName')}" 
+										th:errors="*{ecFirstName}" class="error"></span>
+							</div>
+							<div class="accordion-controls">
+								<label class="accordion-label"><span>Last Name</span></label>
+								<div class="accordion-input">
+									<input name="ec_last_name" type="text" th:field="*{ecLastName}"
+									th:value="${contactBean.ecLastName}"
+										title="Name of person who will always know how to reach you">
+								</div>
+								<span th:if="${#fields.hasErrors('ecLastName')}" 
+										th:errors="*{ecLastName}" class="error"></span>
+							</div>
+							
+							<div class="accordion-controls">
+								<label class="accordion-label"><span>Relationship to You</span></label>
+								<div class="accordion-input">
+									<input name="ec_relationship" type="text" th:field="*{ecRelationship}"
+									th:value="${contactBean.ecRelationship}">
+								</div>
+								<span th:if="${#fields.hasErrors('ecRelationship')}" 
+										th:errors="*{ecRelationship}" class="error"></span>
+							</div>
+							
+							<div class="accordion-controls">
+								<label class="accordion-label"><span>Phone Number</span></label>
+								<div class="accordion-input">
+									<input name="ec_phone_num1" class="phone_num" type="text"
+										maxlength="14" placeholder="(XXX) XXX-XXXX" required
+										th:field="*{ecPhoneNum1}" th:value="${contactBean.ecPhoneNum1}">
+									<select name="ec_phone_type1" id="ec_phone_type1" 
+										class="phone_type" th:field="*{ecPhoneType1}">
+									<option value="">-- Select One --</option>	
+									<option th:each="item:${phoneTypes}" th:value="${item}" th:text="${item}"></option>
+									</select>
+								</div>
+								<span th:if="${#fields.hasErrors('ecPhoneNum1')}" 
+										th:errors="*{ecPhoneNum1}" class="error"></span>
+								<span th:if="${#fields.hasErrors('ecPhoneType1')}" 
+										th:errors="*{ecPhoneType1}" class="error"></span>
+							</div>
+							
+							<div class="accordion-controls">
+								<label class="accordion-label"><span>Alternate Phone</span></label>
+								<div class="accordion-input">
+									<input name="ec_phone_num2" class="phone_num" type="text"
+										maxlength="14" placeholder="(XXX) XXX-XXXX" 
+										th:field="*{ecPhoneNum2}" th:value="${contactBean.ecPhoneNum2}">
+									<select name="ec_phone_type2" id="ec_phone_type2" 
+										class="phone_type" th:field="*{ecPhoneType2}">
+									<option value="">-- Select One --</option>	
+									<option th:each="item:${phoneTypes}" th:value="${item}" th:text="${item}"></option>
+									</select>
+								</div>
+								<span data-toggle="tooltip" data-placement="left" title="Optional"><i class="fa fa-question-circle" aria-hidden="true" ></i></span>
+							</div>
+							
+							<div class="accordion-controls">
+								<label class="accordion-label" for="ec_address_line1"><span>Address
+										Line 1</span></label>
+								<div class="accordion-input">
+								<input id="ec_address_line1" name="ec_address_line1" 
+									maxlength="75" type="text" th:field="*{ecAddressLine1}"
+									th:value="${contactBean.ecAddressLine1}">
+								</div>
+								<span th:if="${#fields.hasErrors('ecAddressLine1')}" 
+									th:errors="*{ecAddressLine1}" class="error"></span>
+							</div>
+						  
+							<div class="accordion-controls">
+								<label class="accordion-label" for="ec_address_line2">
+									<span>Address Line 2</span>
+								</label>
+								<div class="accordion-input">
+								<input id="ec_address_line2" name="ec_address_line2" 
+									maxlength="75" type="text" th:field="*{ecAddressLine2}"
+									th:value="${contactBean.ecAddressLine2}">
+								</div>
+								<span data-toggle="tooltip" data-placement="left" title="Optional"><i class="fa fa-question-circle" aria-hidden="true" ></i></span>
+							</div>
+							 		
+							<div class="accordion-controls">
+								<label class="accordion-label" for="ec_address_city"><span>City</span></label>
+								<div class="accordion-input">
+									<input type="text" id="ec_address_city"
+										name="ec_address_city" maxlength="50" 
+										th:field="*{ecAddressCity}"
+										th:value="${contactBean.ecAddressCity}">
+								</div>
+								<span th:if="${#fields.hasErrors('ecAddressCity')}" 
+									th:errors="*{ecAddressCity}" class="error"></span>
+							</div>
+							 
+							<div class="accordion-controls">
+								<label class="accordion-label"
+									for="ec_address_county"><span>County</span></label>
+								<div class="accordion-input">
+									<input name="ec_address_county"
+										id="ec_address_county" type="text" 
+										th:field="*{ecAddressCounty}"
+										th:value="${contactBean.ecAddressCounty}">
+								</div>
+								<span th:if="${#fields.hasErrors('ecAddressCounty')}" 
+									th:errors="*{ecAddressCounty}" class="error"></span>
+							</div>
+							
+							<div class="accordion-controls">
+								<label class="accordion-label" for="ec_address_state"><span>State</span></label>
+								<div class="accordion-input">
+								<select name="ec_address_state" id="ec_address_state" 
+								class="address_state" th:field="*{ecAddressState}">
+								<option value="">-- Select One --</option>	
+								<option th:each="item:${states}" th:value="${item}" th:text="${item}"></option>
+								</select>
+								</div>
+								<span th:if="${#fields.hasErrors('ecAddressState')}" 
+									th:errors="*{ecAddressState}" class="error"></span>
+							</div>
+							
+							<div class="accordion-controls">
+								<label class="accordion-label" for="ec_address_zip"><span>Zip</span></label>
+								<div class="accordion-input">
+									<input class="zipcode" name="ec_address_zip"
+										id="ec_address_zip" maxlength="10" type="text"
+										th:field="*{ecAddressZip}"
+										th:value="${contactBean.ecAddressZip}">
+								</div>
+								<span th:if="${#fields.hasErrors('ecAddressZip')}" 
+									th:errors="*{ecAddressZip}" class="error"></span>
+							</div>
+							</fieldset>
+							
+							<div class="accordion-controls">
+								<label class="accordion-label"></label>
+								<div class="accordion-input">
+									<input type="reset" class="btn btn-primary" value="Cancel">
+									<input type="submit" class="btn btn-primary" value="Save">
+								</div>
+							</div>
+						</form>
+                        </div>
+                    </div>
+                    
+                    <!-- Ethnicity Information  -->
+                    <div class="frame " th:attrappend="class=${section=='ethnicity.do' ? 'active' : ''}">
+                    	<div class="heading">Ethnicity and Race</div>
+                    	<div class="content">
+                    	<form th:action="@{/profile/ethnicity.do}" method="post" th:object="${ethnicityBean}">
+                    	<p style="font-style: italic;">For reporting purposes, New
+								Mexico AMP requests the following information.</p>
+							<fieldset>
+							<legend>Ethnicity and Race</legend>
+							<div class="accordion-controls">
+								<label class="accordion-label" for="isHispanic"><span>Do
+										you consider yourself Hispanic or Latino?</span></label>
+								<div class="accordion-input">
+									<div th:each="entry:${yesno}">
+										<label class="radio">
+										<input type="radio" name="isHispanic" th:value="${entry.key}" 
+										  th:field="*{isHispanic}" 
+										  title="Includes persons of Cuban, Mexican, Puerto Rican, South or Central American or other Spanish culture or origin"><span th:text="${entry.value}"></span>
+										</label>
+									</div>
+									<span th:if="${#fields.hasErrors('isHispanic')}" 
+										 th:errors="*{isHispanic}" class="error"></span>
+								</div>
+							</div>
+							<div class="accordion-controls">
+							<label class="accordion-label" for="race"> <span>Race</span></label>
+							<div class="accordion-input">
+								<div th:each="entry:${race}">
+									<label class="checkbox inline">
+									<input type="checkbox" name="race" th:value="${entry.key}" 
+									  th:field="*{race}"><span th:text="${entry.value}"></span>
+									</label>
+								</div>
+							</div>
+							<span th:if="${#fields.hasErrors('race')}" 
+										 th:errors="*{race}" class="error"></span>
+						</div>
+						</fieldset>
+						<fieldset>
+						<legend>Disability Status </legend>
+						<div class="accordion-controls">
+							<label class="accordion-label" for="disability"></label>
+							<div class="accordion-input">
+								<p>Choose yes if any of the following apply</p>
+								<select name="disability" id="disability" th:field="*{disability}">
+									<option value="">-- Select One --</option>
+									<option th:each="entry:${disability}" 
+								th:value="${entry.key}" th:text="${entry.value}"></option>
+								</select>
+								<span th:if="${#fields.hasErrors('disability')}" 
+										 th:errors="*{disability}" class="error"></span>
+								<ul style="padding: 0px; list-style-position: inside; list-style-type: circle; line-height: 150%;">
+									<li>Deaf or serious difficulty hearing</li>
+									<li>Blind or serious difficulty seeing even when
+										wearing glasses</li>
+									<li>Serious difficulty walking or climbing stairs</li>
+									<li>Other serious difficulty related to a physical,
+										mental, or emotional condition</li>
+								</ul>
+							</div>
+						</div>
+						</fieldset>
+					 
+						<div class="accordion-controls">
+								<label class="accordion-label"></label>
+								<div class="accordion-input">
+									<input type="reset" class="btn btn-primary" value="Cancel">
+									<input type="submit" class="btn btn-primary" value="Save">
+								</div>
+						</div>
+						</form>
+                    	</div>
+                   	</div>
+                    
+                    <!-- Student Agreement and Disclosure Form -->
+                    <div class="frame " th:attrappend="class=${section=='disclosure.do' ? 'active' : ''}">
+                    	<div class="heading">Student Agreement and Disclosure Form</div>
+                        <div class="content">
+                        <form name="transcript_info" id="transcript_info" enctype="multipart/form-data" th:object="${fileBucket}"
+							th:action="@{/profile/upload/student-agreement-and-disclosure-form}" method="post" >
+							<p>*please download, sign the <a th:href="@{/profile/download/template/student-agreement-and-disclosure-form}">Student Agreement and Disclosure Form</a> and scan, upload the form below.
+							</p>
+							<!--  Upload Transcript -->
+							<fieldset>
+								<legend>Upload Disclosure Form</legend>
+								<div class="accordion-controls">
+									<label class="accordion-label" for="file">File</label>
+									<div class="accordion-input">
+										<input name="file" id="file" type="file">
+										<p style="font-style: italic; font-size: 11px;">Allowed
+											file type: pdf; Max File Size: 5MB</p>
+									<span th:if="${#fields.hasErrors('file')}" 
+								th:errors="*{file}" class="error"></span> 
+									</div>
+								</div>
+								<div class="accordion-controls">
+									<label class="accordion-label"></label>
+									<div class="accordion-input">
+										<input name="submit" type="submit" value="Upload" class="btn btn-primary">
+									</div>
+								</div>
+							</fieldset>
+							 
+							<div class="accordion-controls" th:if="${fileBucket.fileExist}==1">
+							<label class="accordion-label"></label>
+							<div class="accordion-input">
+								<a th:href="@{/profile/download/student-agreement-and-disclosure-form}">
+								<i class="fa fa-file-pdf-o fa-fw"></i> Download uploaded file</a>
+							</div> 
+							</div> 
+						</form>
+                        </div>
+                    </div> 
+                </div>
+                <!-- end for accordion -->
+                </div> 
+            </div>
+            <!-- /.row -->
+	</div>
+	<!-- /#page-wrapper -->
+</div>
+<!-- /#wrapper -->
+
+   	<th:block th:include="student/layout :: scriptFragment"></th:block>
+   	<script src="../../js/metro.js" th:src="@{/js/metro.js}"></script>
+   	<script src="../../js/utils.profile.js" th:src="@{/js/utils.profile.js}"></script>
+   	
+</body>
+</html>

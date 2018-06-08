@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 2018 Feng Liu
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<link rel="shortcut icon" type="image/x-icon" href="../../css/favicon.ico"
+th:href="@{/css/favicon.ico}">
+<link th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.min.css}" rel="stylesheet">
+<link rel="stylesheet" href="../../css/style-home.css" th:href="@{/css/style-home.css}" />
+<title>Login | myNew Mexico AMP</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+	<nav role="navigation" class="navbar navbar-default">
+	<div class="navbar-header">
+		<a class="navbar-brand" th:href="@{/login}">New Mexico Alliance
+				for Minority Participation Portal</a>
+	</div>
+	</nav>
+
+	<div class="container">
+		<div class="row">
+
+		<div class="col-md-10 col-md-offset-1">
+
+				<div class="row">
+			 
+					<div class="col-md-6 col-md-offset-3">
+						<div class="login-panel panel panel-default"
+							>
+
+							<div class="panel-body" id="login">
+
+								<form th:action="@{/login}" method="post" name='loginForm'>
+									<fieldset>
+
+										<h2>Welcome</h2>
+										<hr>
+
+										<div class="form-group">
+											<label for="username" class="textfield"></label>
+											<input type="text" name="email" class="form-control"
+												placeholder="Email" required="required"
+												autofocus="autofocus" /> <input type="password"
+												name="password" class="form-control" placeholder="Password"
+												required="required" style="margin-top: 10px;" />
+										</div>
+
+										<input class="btn btn-lg btn-primary btn-block" type="submit"
+											value="Sign in">
+ 
+										<div class="fadeOut" th:if="${param.error}">
+											<div class="alert alert-danger">
+												Invalid email or password. 
+											</div>
+										</div>
+
+										<div class="fadeOut" th:if="${param.logout}">
+											<div class="alert alert-info">
+												You have been logged out.
+											</div>
+										</div>
+									</fieldset>
+								</form> 
+								
+								<div>
+									<p class="help">
+										<a th:href="@{/register}">Create Account?</a>
+									</p>
+									<p class="help">
+										<a th:href="@{/resetpassword}">Reset Password?</a>
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+
+	<div id="footer" class="footer navbar-fixed-bottom">
+		<ul>
+			<li><a href="http://nmsu.edu/">&copy; New Mexico State
+					University</a></li>
+			<li><a th:href="@{/contact}">Contact Us</a></li>
+		</ul>
+	</div>
+	 
+</body>
+<script
+	src="http://cdn.jsdelivr.net/webjars/org.webjars/jquery/1.12.4/jquery.min.js"
+	th:src="@{/webjars/jquery/1.12.4/jquery.min.js}"></script>
+<script type="text/javascript">
+	setTimeout(function() {
+		$(".fadeOut").fadeOut().empty();
+	}, 5000);
+</script>
+</html>

@@ -1,0 +1,78 @@
+<!--
+  ~ Copyright (c) 2018 Feng Liu
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<script type="text/javascript">
+
+function gup( name )
+{
+	name = name.replace( /[\[]/, '\\\[' ).replace( /[\]]/, '\\\]' ) ;
+	var regexS = '[\\?&]' + name + '=([^&#]*)' ;
+	var regex = new RegExp( regexS ) ;
+	var results = regex.exec( window.location.href ) ;
+
+	if ( results )
+		return results[ 1 ] ;
+	else
+		return '' ;
+}
+
+var interval;
+
+function sendData2Master()
+{
+	var destination = window.parent.parent ;
+	try
+	{
+		if ( destination.XDTMaster )
+		{
+			var t = destination.XDTMaster.read( [ gup( 'cmd' ), gup( 'data' ) ] ) ;
+			window.clearInterval( interval ) ;
+		}
+	}
+	catch (e) {}
+}
+
+function OnMessage (event) {
+	        var message = event.data;
+	        var destination = window.parent.parent;
+	        destination.XDTMaster.read( [ 'end', message, 'fpm' ] ) ;
+}
+
+function listenPostMessage() {
+    if (window.addEventListener) { // all browsers except IE before version 9
+            window.addEventListener ("message", OnMessage, false);
+    }else {
+            if (window.attachEvent) { // IE before version 9
+                        window.attachEvent("onmessage", OnMessage);
+                }
+        }
+}
+
+function onLoad()
+{
+	interval = window.setInterval( sendData2Master, 100 );
+	listenPostMessage();
+}
+
+</script>
+</head>
+<body onload="onLoad()"><p></p></body>
+</html>

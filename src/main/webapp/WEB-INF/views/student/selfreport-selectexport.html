@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 2018 Feng Liu
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="student/layout :: headerFragment (pageTitle='Self-Report')">
+<title></title>
+</head>
+<body>
+<div id="wrapper">
+ 
+ 	<nav class="navbar navbar-default navbar-static-top" role="navigation"
+		style="margin-bottom: 0;" th:include="student/layout :: navbarFragment">
+ 	</nav>
+  
+	<div id="page-wrapper">
+		<div class="row">
+            <div class="col-lg-12">
+                <h3 class="page-header">Create Resume</h3>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+            
+        <div class="row" id="fadeOut" th:if="!${#strings.isEmpty(status)}">
+           <div class="col-lg-12">
+              <div class="panel panel-info">
+                  <div class="panel-heading" >
+                  <i class="fa fa-info-circle fa-fw"></i><span th:text="${status}"></span>
+                  </div>
+              </div>
+           </div>
+        </div>
+        
+       <div class="row">
+           <div class="col-lg-12">
+               <div class="panel">
+                   <div class="panel-body">
+                         <div class="col-lg-6 col-md-6">
+                           <table class="table table-condensed table-hover">
+                               <thead>
+                                   <tr>
+                                   <th></th>
+                                       <th>Semester</th>
+										<th>Last Submit Date</th>
+                                       <th></th>
+                                   </tr>
+                               </thead>
+                               <tbody>
+                                  <tr th:each="entry:${selfreportWindows }">
+                                  <td style="vertical-align: middle">
+                                  <input type="checkbox" th:value = "${entry.windowID}+'*'+${entry.semester}"></td>
+								<td th:text="${entry.semester}" style="vertical-align: middle"></td>
+								<td th:text="${#dates.format(entry.submitDate, 'MM/dd/yyyy')}" style="vertical-align: middle"></td>
+				<td>
+				</td>
+			</tr>
+                               </tbody> 
+                           </table>
+                           <button class="btn btn-outline btn-primary btn-block" id = "exportbutton">Export</button>
+                          </div>
+                          
+                   </div>
+                   <!-- /.panel-body -->
+               </div>
+               <!-- /.panel -->
+           </div>
+           <!-- /.col-lg-12 -->
+       </div>
+            <!-- /.row -->
+	</div>
+</div>
+<th:block th:include="student/layout :: scriptFragment"></th:block>
+<script>
+$(function() {
+    $("button#exportbutton").click(function(){
+    	var checkedValues = $('input:checkbox:checked').map(function() {
+			return this.value;
+		}).get();
+    	
+    	if(checkedValues.length == 0){
+    		alert("No semester selected!"); 
+    	}else{
+    		$.ajax({
+    	    	type: 'GET',
+    			url: 'export/resume',
+    			data: 'ids='+checkedValues,
+    			dataType: 'json',
+	    	    success: function(response){
+	    	    	if(response.status=='ok'){
+				    	   window.location.href = "export/download?ids="+response.ids; 
+			    	}
+	    	    },
+	    	    error: function(e) { alert(e); }
+    	    });
+    	}
+    });
+   });
+</script>
+</body>
+</html>
+
+ 

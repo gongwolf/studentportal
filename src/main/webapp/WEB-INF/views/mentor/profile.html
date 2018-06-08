@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 2018 Feng Liu
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="mentor/layout :: headerFragment (pageTitle='Profile')">
+<title></title>
+</head>
+<body>
+<div id="wrapper">
+	<nav class="navbar navbar-default navbar-static-top" role="navigation"
+		style="margin-bottom: 0;" th:include="mentor/layout :: navbarFragment">
+ 	</nav>
+  
+	<div id="page-wrapper">
+		<div class="row">
+        	<div class="col-lg-12">
+        		<div class="panel"><div class="panel-body">
+               <h3 class="page-header" th:text="${#strings.capitalizeWords('Enter or edit your profile information')}"></h3>
+               </div></div>
+            </div>
+            <!-- /.col-lg-12 -->
+       	</div>
+       	
+       	<div class="row" id="fadeOut" th:if="!${#strings.isEmpty(status)}">
+           <div class="col-lg-12">
+              <div class="panel panel-info">
+                  <div class="panel-heading" >
+                  <i class="fa fa-info-circle fa-fw"></i><span th:text="${status}"></span>
+                  </div>
+              </div>
+           </div>
+        </div>
+        
+		<div class="row">
+           <div class="col-lg-12">
+                <!-- begin for accordion -->
+                <div class="accordion" data-role="accordion" data-close-any="true">
+                 
+					<!-- Faculty Mentor Information -->
+					<div class="frame " th:attrappend="class=${section=='mentor.do' ? 'active' : ''}">
+                    	<div class="heading">Faculty Mentor Information</div>
+                        <div class="content">
+                          <form th:action="@{/mentor/profile/mentor.do}" method="post" 
+                          th:object="${mentorBean}" id="contact_info">
+							<fieldset>
+								<div class="accordion-controls">
+									<label class="accordion-label" for="mentor_prefix"><span>Prefix</span></label>
+									<div class="accordion-input">
+										<select name="mentorPrefix" th:field="*{mentorPrefix}">
+										<option value="">-- Select One --</option>
+										<option th:each="entry:${mentorPrefix}" th:value="${entry.key}"
+										th:text="${entry.value}"></option>
+										</select>
+									</div>
+									<span th:if="${#fields.hasErrors('mentorPrefix')}" 
+										th:errors="*{mentorPrefix}" class="error"></span>
+								</div>
+								
+								<div class="accordion-controls">
+									<label class="accordion-label"><span>First Name</span></label>
+									<div class="accordion-input">
+										<input name="mentorFirstName" type="text" th:field="*{mentorFirstName}"/>
+									</div>
+									<span th:if="${#fields.hasErrors('mentorFirstName')}" 
+										th:errors="*{mentorFirstName}" class="error"></span>
+								</div>
+								<div class="accordion-controls">
+									<label class="accordion-label"><span>Middle Name</span></label>
+									<div class="accordion-input">
+										<input name="mentorMiddleName" type="text" th:field="*{mentorMiddleName}">
+									</div>
+									<span data-toggle="tooltip" data-placement="left" title="Optional"><i class="fa fa-question-circle" aria-hidden="true" ></i></span>
+								</div>
+								
+								<div class="accordion-controls">
+									<label class="accordion-label"><span>Last Name</span></label>
+									<div class="accordion-input">
+										<input name="mentorLastName" type="text" th:field="*{mentorLastName}"/>
+									</div>
+									<span th:if="${#fields.hasErrors('mentorLastName')}" 
+										th:errors="*{mentorLastName}" class="error"></span>
+								</div>
+
+								<div class="accordion-controls">
+									<label class="accordion-label"><span>Title</span></label>
+									<div class="accordion-input">
+										<input name="mentorTitle" type="text" th:field="*{mentorTitle}">
+									</div>
+									<span th:if="${#fields.hasErrors('mentorTitle')}" 
+										th:errors="*{mentorTitle}" class="error"></span>
+								</div>
+								<div class="accordion-controls">
+									<label class="accordion-label"><span>Name of Institution</span></label>
+									<div class="accordion-input">
+										<select name="mentorInstitution" th:field="*{mentorInstitution}">
+											<option value="">-- Select One --</option>
+											<option th:each="entry:${academicSchool}" th:value="${entry.key}" 
+											th:text="${entry.value}"></option>
+										</select>
+									</div>
+									<span th:if="${#fields.hasErrors('mentorInstitution')}" 
+										th:errors="*{mentorInstitution}" class="error"></span>
+								</div>
+								
+								<div class="accordion-controls">
+									<label class="accordion-label"><span>Department</span></label>
+									<div class="accordion-input">
+										<input name="mentorDept" type="text" th:field="*{mentorDept}">
+									</div>
+									<span th:if="${#fields.hasErrors('mentorDept')}" 
+										th:errors="*{mentorDept}" class="error"></span>
+								</div>
+
+								<!--  Email and Phone -->
+								<div class="accordion-controls">
+									<label class="accordion-label"><span>Preferred
+											Phone Number</span></label>
+									<div class="accordion-input">
+										<input name="mentorPhone" class="phone_num" type="text"
+											maxlength="14" placeholder="(XXX) XXX-XXXX" th:field="*{mentorPhone}">
+									</div>
+									<span th:if="${#fields.hasErrors('mentorPhone')}" 
+										th:errors="*{mentorPhone}" class="error"></span>
+								</div>
+
+								<div class="accordion-controls">
+									<label class="accordion-label"><span>Building/MSC</span></label>
+									<div class="accordion-input">
+										<input name="mentorBuilding" type="text" th:field="*{mentorBuilding}">
+									</div>
+									<span th:if="${#fields.hasErrors('mentorBuilding')}" 
+										th:errors="*{mentorBuilding}" class="error"></span>
+								</div>
+
+								<div class="accordion-controls">
+									<label class="accordion-label"><span>Preferred
+											Email</span></label>
+									<div class="accordion-input">
+										<input name="mentorEmail" type="text" th:field="*{mentorEmail}">
+									</div>
+									<span th:if="${#fields.hasErrors('mentorEmail')}" 
+										th:errors="*{mentorEmail}" class="error"></span>
+								</div>
+								<div class="accordion-controls">
+									<label class="accordion-label"><span>Fax Number</span></label>
+									<div class="accordion-input">
+										<input name="mentorFax" class="phone_num" type="text"
+											maxlength="14" placeholder="(XXX) XXX-XXXX" th:field="*{mentorFax}">
+									</div>
+									<span th:if="${#fields.hasErrors('mentorFax')}" 
+										th:errors="*{mentorFax}" class="error"></span>
+								</div>
+								<div class="accordion-controls">
+									<label class="accordion-label"></label>
+									<div class="accordion-input">
+										<input name="save" value="Save" class="btn btn-primary btn-save-personal-info" type="submit">
+									</div>
+								</div>
+							</fieldset>
+						</form>
+                        </div>
+                    </div>
+                    
+                    <!-- Ethnicity & Race -->
+					<div class="frame " th:attrappend="class=${section=='ethnicity.do' ? 'active' : ''}">
+                    	<div class="heading">Ethnicity and Race</div>
+                    	<div class="content">
+                    	<form th:action="@{/mentor/profile/ethnicity.do}" method="post" th:object="${ethnicityBean}">
+                    	<p style="font-style: italic;">For reporting purposes, New
+								Mexico AMP requests the following information.</p>
+							<fieldset>
+							<legend>Ethnicity and Race</legend>
+							<div class="accordion-controls">
+								<label class="accordion-label" for="isHispanic"><span>Do
+										you consider yourself Hispanic or Latino?</span></label>
+								<div class="accordion-input">
+									<div th:each="entry:${yesno}">
+										<label class="radio">
+										<input type="radio" name="isHispanic" th:value="${entry.key}" 
+										  th:field="*{isHispanic}" 
+										  title="Includes persons of Cuban, Mexican, Puerto Rican, South or Central American or other Spanish culture or origin"><span th:text="${entry.value}"></span>
+										</label>
+									</div>
+									<span th:if="${#fields.hasErrors('isHispanic')}" 
+										 th:errors="*{isHispanic}" class="error"></span>
+								</div>
+							</div>
+							<div class="accordion-controls">
+							<label class="accordion-label" for="race"> <span>Race</span></label>
+							<div class="accordion-input">
+								<div th:each="entry:${race}">
+									<label class="checkbox inline">
+									<input type="checkbox" name="race" th:value="${entry.key}" 
+									  th:field="*{race}"><span th:text="${entry.value}"></span>
+									</label>
+								</div>
+							</div>
+							<span th:if="${#fields.hasErrors('race')}" 
+										 th:errors="*{race}" class="error"></span>
+						</div>
+						</fieldset>
+						<fieldset>
+						<legend>Disability Status </legend>
+						<div class="accordion-controls">
+							<label class="accordion-label" for="disability"></label>
+							<div class="accordion-input">
+								<p>Choose yes if any of the following apply</p>
+								<select name="disability" id="disability" th:field="*{disability}">
+									<option value="">-- Select One --</option>
+									<option th:each="entry:${disability}" 
+								th:value="${entry.key}" th:text="${entry.value}"></option>
+								</select>
+								<span th:if="${#fields.hasErrors('disability')}" 
+										 th:errors="*{disability}" class="error"></span>
+								<ul style="padding: 0px; list-style-position: inside; list-style-type: circle; line-height: 150%;">
+									<li>Deaf or serious difficulty hearing</li>
+									<li>Blind or serious difficulty seeing even when
+										wearing glasses</li>
+									<li>Serious difficulty walking or climbing stairs</li>
+									<li>Other serious difficulty related to a physical,
+										mental, or emotional condition</li>
+								</ul>
+							</div>
+						</div>
+						</fieldset>
+					 
+						<div class="accordion-controls">
+								<label class="accordion-label"></label>
+								<div class="accordion-input">
+									<input type="reset" class="btn btn-primary" value="Cancel">
+									<input type="submit" class="btn btn-primary" value="Save">
+								</div>
+						</div>
+						</form>
+                    	</div>
+                   	</div> 
+                </div>
+                <!-- end for accordion -->
+			</div>
+		</div>
+	</div>
+</div>
+<th:block th:include="mentor/layout :: scriptFragment"></th:block>
+<script src="../../js/metro.js" th:src="@{/js/metro.js}"></script>	
+<script src="../../js/utils.profile.js" th:src="@{/js/utils.profile.js}"></script>
+</body>
+</html> 

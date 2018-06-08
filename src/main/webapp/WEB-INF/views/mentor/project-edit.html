@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 2018 Feng Liu
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="mentor/layout :: headerFragment (pageTitle='Edit Project Proposals')">
+<title></title>
+</head>
+<body>
+<div id="wrapper">
+	<nav class="navbar navbar-default navbar-static-top" role="navigation"
+		style="margin-bottom: 0;" th:include="mentor/layout :: navbarFragment">
+ 	</nav>
+ 
+	<div id="page-wrapper">
+	
+		<div class="row">
+        	<div class="col-lg-12">
+        		<div class="panel"><div class="panel-body">
+               	<h3 class="text-success">New Mexico AMP Undergraduate Research Scholars (URS)</h3><hr>
+               	<h4 class="text-success" th:text="|Term: ${applicationBean.schoolSemester} ${applicationBean.schoolYear}|">
+               	</h4> 
+               	<h4 class="text-success" th:text="|Student: ${applicationBean.firstName} ${applicationBean.lastName}|">
+               	</h4> 
+					
+               </div></div>
+            </div>
+            <!-- /.col-lg-12 -->
+       	</div>
+       	
+		<div class="row" id="fadeOut" th:if="!${#strings.isEmpty(status)}">
+           <div class="col-lg-12">
+              <div class="panel panel-info">
+                  <div class="panel-heading" >
+                  <i class="fa fa-info-circle fa-fw"></i><span th:text="${status}"></span>
+                  </div>
+              </div>
+           </div>
+        </div>
+	
+		<div class="row">
+			<div class="col-lg-12">
+                <!-- begin for accordion -->
+                <div class="accordion" data-role="accordion" data-close-any="true">
+				<!-- begin for accordion -->
+					<!-- Project Proposal -->
+					<div class="frame " th:attrappend="class=${section=='project.do' ? 'active' : ''}">
+                    	<div class="heading">Project Proposal</div>
+                        <div class="content">
+                        <form name="project_info" id="project_info" th:object="${projectBean}"
+							th:action="@{/mentor/project/edit/{schoolSemester}/{schoolYear}/{applicationID}/project.do(schoolSemester=${schoolSemester},schoolYear=${schoolYear},applicationID=${applicationID})}" 
+							method="post">
+							<p style="font-style: italic;">Note: A Faculty Review
+								Selection Committee will be reviewing all research proposals.</p>
+						 <fieldset>
+							<legend></legend>
+							<div class="accordion-controls">
+								<label class="accordion-label"><span>Research
+										Project Title</span></label>
+								<div class="accordion-input">
+								<textarea rows="2" cols="50" 
+								    name="projectTitle" th:field="*{projectTitle}"></textarea>
+								</div>
+								<span th:if="${#fields.hasErrors('projectTitle')}" 
+								th:errors="*{projectTitle}" class="error"></span>
+							</div>
+
+							<div class="accordion-controls">
+							<label class="accordion-label"><span>Is this an externally funded project?</span></label>
+							<div class="accordion-input" >
+								<div th:each="entry:${yesno}">
+								<label class="radio">
+								<input type="radio" name="externalProject" class="choose_is_external" 
+									th:value="${entry.key}" th:field="*{externalProject}">
+								<span th:text="${entry.value}"></span>
+								</label>
+								</div>
+							</div>
+							<span th:if="${#fields.hasErrors('externalProject')}" 
+								th:errors="*{externalProject}" class="error"></span>
+						</div>  
+
+						<fieldset id="project_external_detail">
+							<div class="accordion-controls">
+								<label class="accordion-label"><span>Title of Agency</span></label>
+								<div class="accordion-input">
+									<input name="project_external_agency" type="text" th:field="*{externalAgency}">
+								</div>
+							</div>
+					
+							<div class="accordion-controls" style="margin-top: 20px">
+								<label class="accordion-label"><span>Federal Project Title: </span></label>
+								<div class="accordion-input">
+									<input name="project_external_title" id="external_title" 
+									type="text" th:field="*{externalTitle}">
+								</div>
+							</div>
+							<div class="accordion-controls" style="margin-top: 20px">
+								<label class="accordion-label"><span>Duration of Project: </span></label>
+								<div class="accordion-input">
+									<input name="project_external_duration" id="external_duration" 
+									type="text" th:field="*{externalDuration}">
+								</div>
+							</div>
+						</fieldset>
+			  
+						<div class="accordion-controls">
+							<label class="accordion-label">
+							<span>State briefly your project's goals and objectives: </span><br/> 
+							<span>(<span id="counter_goal">100</span> words remaining)</span><br/><br/> 
+							<span th:if="${#fields.hasErrors('projectGoal')}" 
+							th:errors="*{projectGoal}" class="error"></span>
+							</label>
+							<div class="accordion-input">
+								<textarea rows="5" cols="50" id="project_goal" onkeyup="update_counter('counter_goal', 'project_goal', 100)" 
+								name="project_goal" th:field="*{projectGoal}"></textarea>
+							</div>
+						</div>
+						
+						<div class="accordion-controls">
+							<label class="accordion-label">
+							<span>Provide a review of the methods to be used: </span><br/> 
+							<span>(<span id="counter_method">200</span> words remaining)</span><br/><br/>
+							<span th:if="${#fields.hasErrors('projectMethod')}" 
+							th:errors="*{projectMethod}" class="error"></span>
+							</label>
+							<div class="accordion-input">
+								<textarea rows="5" cols="50" id="project_method" 
+									onkeyup="update_counter('counter_method', 'project_method', 200)" 
+									name="project_method" th:field="*{projectMethod}"></textarea>
+							</div>
+						</div>
+						
+						<div class="accordion-controls">
+							<label class="accordion-label">
+							<span>Indicate the results, benefits, or information expected to be gained from the project: </span><br/> 
+							<span>(<span id="counter_result">300</span> words remaining)</span><br/><br/>
+							<span th:if="${#fields.hasErrors('projectResult')}" 
+							th:errors="*{projectResult}" class="error"></span>
+							</label>
+							<div class="accordion-input">
+								<textarea rows="5" cols="50" id="project_result" 
+									onkeyup="update_counter('counter_result', 'project_result', 300)" 
+									name="project_result" th:field="*{projectResult}"></textarea>
+							</div>
+						</div>
+						
+						<div class="accordion-controls">
+							<label class="accordion-label">
+							<span>Identify three primary tasks/outcomes the student will complete or accomplish during the semester: </span><br/> 
+							<span>(<span id="counter_task">300</span> words remaining)</span><br/><br/>
+							<span th:if="${#fields.hasErrors('projectTask')}" 
+							th:errors="*{projectTask}" class="error"></span>
+							</label>
+							<div class="accordion-input">
+								<textarea rows="5" cols="50" id="project_task"
+									onkeyup="update_counter('counter_task', 'project_task', 300)"
+									name="project_task" th:field="*{projectTask}"></textarea>
+							</div>
+						</div>
+						<div class="accordion-controls">
+							<label class="accordion-label"></label>
+							<div class="accordion-input">
+								<input type="submit" value="Save" class="btn btn-primary" th:disabled="${tag}">
+							</div>
+						</div>
+					</fieldset>
+					</form>
+                    </div>
+                    </div>
+					
+                    <!-- Submit -->
+					<div class="frame " th:attrappend="class=${section=='submit.do' ? 'active' : ''}">
+                    	<div class="heading">Submit</div>
+                        <div class="content">
+                       <form name="project_info" id="project_info" th:object="${signatureBean}"
+							th:action="@{/mentor/project/edit/{schoolSemester}/{schoolYear}/{applicationID}/submit.do(schoolSemester=${schoolSemester},schoolYear=${schoolYear},applicationID=${applicationID})}" 
+							method="post">
+							<p style="font-style: italic;">Upon clicking the Submit button, an email will be sent to student who is responsible for the final review and submission of the application.</p>
+							<fieldset>
+								<div class="accordion-controls">
+									<label class="accordion-label"><span>Signature</span></label>
+									<div class="accordion-input">
+										<input name="signature" type="text" th:field="*{signature}">
+									</div>
+									<span th:if="${#fields.hasErrors('signature')}" 
+							th:errors="*{signature}" class="error"></span>
+								</div>
+								<div class="accordion-controls">
+									<label class="accordion-label"><span>Date</span></label>
+									<div class="accordion-input">
+									<input name="signature_date" type="text" id="signature_date" th:field="*{signatureDate}" placeholder="DD/mm/yyyy">
+									</div>
+									<span th:if="${#fields.hasErrors('signatureDate')}" 
+							th:errors="*{signatureDate}" class="error"></span>
+								</div>
+								<div class="accordion-controls">
+									<label class="accordion-label"></label>
+									<div class="accordion-input">
+										<input name="submit" value="Submit" class="btn btn-primary" th:disabled="${tag}"
+											type="submit">
+									</div>
+								</div>
+							</fieldset>
+						</form>
+                        </div>
+                    </div>
+                </div>
+                <!-- end for accordion -->
+			</div>
+		</div>
+	</div>
+ 
+</div>	 
+
+<th:block th:include="mentor/layout :: scriptFragment"></th:block>
+<script src="../../js/metro.js" th:src="@{/js/metro.js}"></script>
+<script th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.js}"></script>
+<script src="../../js/utils.apply.urs.js" th:src="@{/js/utils.apply.urs.js}"></script>
+</body>
+</html>

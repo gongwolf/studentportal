@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 2018 Feng Liu
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+>
+<head th:include="student/layout :: headerFragment (pageTitle='Mid Term Evaluation')">
+<title></title>
+</head>
+<body>
+<div id="wrapper">
+ 
+ 	<nav class="navbar navbar-default navbar-static-top" role="navigation"
+		style="margin-bottom: 0;" th:include="student/layout :: navbarFragment">
+ 	</nav>
+  
+	<div id="page-wrapper">
+		<div class="row">
+            <div class="col-lg-12">
+                <div class="panel"><div class="panel-body">
+                <form id="surveyform" name="surveyform" accept-charset="UTF-8" method="post">
+				<header>
+					<h4>Undergraduate Research Scholars (URS)</h4>
+					<div>
+					<h5>Mid Term Evaluation: <span class = "label label-info" th:text="|${evalSemester} ${evalYear}|"></span></h5>
+					<h5>URS Student: <span class = "label label-info" th:text="|${menteeName}|"></span></h5>
+					<h5>URS Mentor: <span class = "label label-info" th:text="|${mentorName}|"></span></h5><hr>
+                        <span class="help-block">Please answer the questions with thoughtful comments and observations. They can possibly be used for our reporting and program improvements.</span>
+					</div>
+				</header>
+				
+				<div class="form-group">
+				<label>Question 1. Please provide a summary of the progress you have made on your project through now. <span>*</span></label>
+				<ul class="help-block">
+				<li>What have you completed to this point?</li>
+				<li>What part of the work is currently in progress?</li>
+				<li>What work remains to be done?</li>
+				<li>What problems or unexpected things, if any, have arisen?</li>
+				<li>Overall perspective of the project?</li>
+				</ul> 
+				<textarea class="form-control" name="quest-1" rows="6" cols="50"></textarea>
+				</div>
+				  
+				<div class="form-group">
+				<label>Question 2. Please describe the working relationship with your mentor. <span>*</span></label>
+				<span class="help-block">(how often do you meet, how do they provide you feedback, do they involve you in regular project meeting, etc.)</span> 
+				<textarea class="form-control" name="quest-2" rows="6" cols="50"></textarea>
+				</div>
+				
+				<div class="form-group">
+				<label>Question 3. As the result of participation on the research project (to this point), I plan to ... or I have learned ... <span>*</span></label>
+				<textarea class="form-control" name="quest-3" rows="6" cols="50"></textarea>
+				</div>
+				
+				<div class="form-group">
+				<label></label>
+				<input type="submit" class="btn btn-default" name="submitsurvey" value="Submit">
+ 				</div> 
+			</form>
+			
+                </div>
+                </div>
+            </div>
+		</div> 
+  
+	</div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="resultModal" tabindex="-1" role="dialog" 
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        	<!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" 
+                   data-dismiss="modal">
+                       <span aria-hidden="true">&times;</span>
+                       <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel"></h4>
+            </div>
+            
+            <!-- Modal Body -->
+            <form class="form-horizontal" role="form" id="userForm">
+            <div class="modal-body">
+                  <div class="form-group">
+                    <div class="col-sm-11 col-sm-offset-1">
+                        <p>Thank you for your time in completing this evaluation!</p>
+                    </div>
+                  </div>
+            </div>
+            
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="evaluationhome">Close</button>
+            </div>
+            
+            </form>
+        </div>
+    </div>
+</div>
+<th:block th:include="student/layout :: scriptFragment"></th:block>
+<script th:inline="javascript">
+/*<![CDATA[*/
+var evalPoint = /*[[${evalPoint}]]*/ ''; 
+var evalSemester = /*[[${evalSemester}]]*/ ''; 
+var evalYear =  eval(/*[[${evalYear}]]*/);
+var applicationID = eval(/*[[${applicationID}]]*/);
+var _csrf_token = /*[[${_csrf.token}]]*/ '';
+var _csrf_param_name = /*[[${_csrf.parameterName}]]*/ '';
+/*]]>*/
+
+$('#surveyform').submit(function(e){
+	e.preventDefault();
+	 
+	if(!validate()){
+		alert("Missing required fields!"); 
+		return; 
+	}
+    
+	if (confirm('Are you sure you want to submit the evaluation?\n')){
+		var surveyform = $('#surveyform').serializeArray();
+		var surveyformmData = {};
+	    $.each(surveyform, function(i, v) { surveyformmData[v.name] = v.value; }); 
+	 
+	    var requestData = {
+			'json': JSON.stringify(surveyformmData),   
+			'applicationID': applicationID,  
+		    'evalSemester': evalSemester,  
+		    'evalYear': evalYear
+		};
+		requestData[_csrf_param_name] = _csrf_token; 
+    
+		$.ajax({
+	       type: 'POST',
+	       url: "/portal/evaluation/"+evalPoint,
+	       dataType: 'json',
+	       data: requestData, 
+	       success: function(data){
+	    	   $('#resultModal').modal('show');
+	       },
+	       error: function(ts){
+	      	 console.log(ts.responseText);
+	      	}
+	    });    
+ 
+	}
+ 
+}); 
+
+function validate(){
+	var isChecked = false; 
+
+	var textareaNames = ["quest-1","quest-2","quest-3"]; 
+	for(var i in textareaNames){
+		var val = $('textarea[name="'+textareaNames[i]+'"]').val(); 
+		if(val.trim().length === 0){
+			return false; 
+		}
+	}
+	 
+    return true; 
+}
+
+$("button#evaluationhome").click(function(event){
+	event.preventDefault();
+	window.location.href = '/portal/evaluation';
+}); 
+</script>
+</body>
+</html>
+
+ 

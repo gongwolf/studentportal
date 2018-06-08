@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 2018 Feng Liu
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head
+	th:include="admin/layout :: headerFragment (pageTitle='Manage Mobile Data')">
+<title></title>
+</head>
+<body>
+	<div id="wrapper">
+		<nav class="navbar navbar-default navbar-static-top" role="navigation"
+			style="margin-bottom: 0;" th:include="admin/layout :: navbarFragment">
+		</nav>
+
+		<div id="page-wrapper">
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header">Upload Conference Data</h1>
+				</div>
+				<!-- /.col-lg-12 -->
+			</div>
+
+			<div class="row" id="fadeOut" th:if="!${#strings.isEmpty(status)}">
+				<div class="col-lg-12">
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							<i class="fa fa-info-circle fa-fw"></i><span th:text="${status}"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-12 col-md-12">
+					<div class="panel panel-default">
+
+						<div id="tabs">
+							<ul>
+								<li><a href="#instruction">Instruction</a></li>
+								<li><a href="#upload-data">Upload Data</a></li>
+								<li><a href="#view-result">View Result</a></li>
+							</ul>
+
+							<div id="instruction">
+								<p><i>To update the Conference Schedule Database from .xlsx or .xls file. </i></p>
+								<p> 
+								</p>
+								<p style="margin-left: 2em; margin-right: 2em;">
+								</p>
+								<ul>
+								<li>The <i>Conference Start Date</i>, <i>Conference End Date</i>, <i>Conference Location</i>,
+								 and <i>Schedule, Speaker, Poster</i> data can be set separately at <i>Upload Data</i> tab.  
+								</li>
+								<li> 
+								The three Excel template files for preparing <strong>Schedule</strong>,
+								<strong>Speaker</strong>, and <strong>Poster</strong> data can be downloaded at <i>Upload Data</i> tab. 
+								</li>
+									<li>DON'T delete the first row or any column in the Excel files. 
+									</li> 
+								</ul>  
+							</div>
+
+							<div id="upload-data">
+							
+							<div class="row">
+							<div class="col-lg-12 col-md-12">
+								<div class="panel panel-default">
+									<div class="panel-heading">Conference Start Date</div>
+									<!-- /.panel-heading -->
+									<div class="panel-body">
+									<form th:action="@{/admin/manage-ampconf/upload-start}" method="post">
+										<fieldset>
+											<div class="accordion-controls">
+												<label class="accordion-label"><span></span></label>
+												<div class="accordion-input">
+													 <input name="start_date" id="start_date" 
+													 type="text" placeholder="YYYY-MM-DD">
+												</div>
+												<div class="accordion-input">
+												<input name="save" value="Update Start Date" class="btn btn-default"
+													type="submit">
+											</div>
+											</div> 
+										</fieldset>
+									 </form> 
+									</div>
+								</div>
+							</div>
+							</div>
+							
+							<div class="row">
+							<div class="col-lg-12 col-md-12">
+								<div class="panel panel-default">
+									<div class="panel-heading">Conference End Date</div>
+									<!-- /.panel-heading -->
+									<div class="panel-body">
+									<form th:action="@{/admin/manage-ampconf/upload-end}" method="post">
+										<fieldset>
+											<div class="accordion-controls">
+												<label class="accordion-label"><span></span></label>
+												<div class="accordion-input">
+													<input name="end_date" id="end_date" 
+												 type="text" placeholder="YYYY-MM-DD">
+												</div>
+												<div class="accordion-input">
+												<input name="save" value="Update End Date" class="btn btn-default"
+												type="submit">
+											</div>
+											</div> 
+										</fieldset>
+									 </form> 
+									</div>
+								</div>
+							</div>
+							</div>
+							
+							<div class="row">
+							<div class="col-lg-12 col-md-12">
+								<div class="panel panel-default">
+									<div class="panel-heading">Conference Location</div>
+									<!-- /.panel-heading -->
+									<div class="panel-body">
+									<form th:action="@{/admin/manage-ampconf/upload-location}" method="post">
+										<fieldset>
+											<div class="accordion-controls">
+												<label class="accordion-label"><span></span></label>
+												<div class="accordion-input">
+													<select name="location">
+													<option value="LCCC">Las Cruces Convention Center</option>
+													<option value="CCSU">Corbett Center Student Union</option>
+													</select>
+												</div>
+												<div class="accordion-input">
+												<input name="save" value="Update Location" class="btn btn-default"
+												type="submit">
+											</div>
+											</div> 
+										</fieldset>
+									 </form> 
+									</div>
+								</div>
+							</div>
+							</div>
+							
+							<div class="row">
+							<div class="col-lg-12 col-md-12">
+								<div class="panel panel-default">
+									<div class="panel-heading"><span>Upload <strong>Schedule</strong></span></div>
+									<!-- /.panel-heading -->
+									<div class="panel-body">
+									<form th:action="@{/admin/manage-ampconf/upload-schedule}" 
+									method="post" enctype="multipart/form-data">
+										<fieldset>
+										<div class="accordion-controls">
+											<label class="accordion-label"></label>
+											<div class="accordion-input">
+												<input name="schedule_file" type="file" accept=".xlsx,.xls">
+												<a
+													th:href="@{/admin/manage-ampconf/download/template/template-schedule}"
+													style="color: blue;"> <i
+													class="fa fa-file-excel-o fa-fw"></i> Download Template
+												</a>
+											</div>
+										</div>
+										<div class="accordion-controls">
+										<label class="accordion-label"><span></span></label>
+										<div class="accordion-input">
+											<input name="save" value="Upload" class="btn btn-default"
+												type="submit">
+										</div>
+									</div>
+											 
+										</fieldset>
+									 </form> 
+									</div>
+								</div>
+							</div>
+							</div>
+							
+							<div class="row">
+							<div class="col-lg-12 col-md-12">
+								<div class="panel panel-default">
+									<div class="panel-heading"><span>Upload <strong>Speaker</strong></span></div>
+									<!-- /.panel-heading -->
+									<div class="panel-body">
+									<form th:action="@{/admin/manage-ampconf/upload-speaker}" 
+									method="post" enctype="multipart/form-data">
+										<fieldset>
+										<div class="accordion-controls">
+											<label class="accordion-label"></label>
+											<div class="accordion-input">
+												<input name="speaker_file" type="file" accept=".xlsx,.xls">
+												<a
+													th:href="@{/admin/manage-ampconf/download/template/template-speaker}"
+													style="color: blue;"> <i
+													class="fa fa-file-excel-o fa-fw"></i> Download Template
+												</a>
+											</div>
+										</div>
+										<div class="accordion-controls">
+										<label class="accordion-label"><span></span></label>
+										<div class="accordion-input">
+											<input name="save" value="Upload" class="btn btn-default"
+												type="submit">
+										</div>
+									</div>
+											 
+										</fieldset>
+									 </form> 
+									</div>
+								</div>
+							</div>
+							</div>
+							
+							<div class="row">
+							<div class="col-lg-12 col-md-12">
+								<div class="panel panel-default">
+									<div class="panel-heading"><span>Upload <strong>Poster</strong></span></div>
+									<!-- /.panel-heading -->
+									<div class="panel-body">
+									<form th:action="@{/admin/manage-ampconf/upload-poster}" 
+									method="post" enctype="multipart/form-data">
+										<fieldset>
+										<div class="accordion-controls">
+											<label class="accordion-label"></label>
+											<div class="accordion-input">
+												<input name="poster_file" type="file" accept=".xlsx,.xls">
+												<a th:href="@{/admin/manage-ampconf/download/template/template-poster}"
+												style="color: blue;"> <i
+													class="fa fa-file-excel-o fa-fw"></i> Download Template
+												</a>
+											</div>
+										</div> 
+										<div class="accordion-controls">
+										<label class="accordion-label"><span></span></label>
+										<div class="accordion-input">
+											<input name="save" value="Upload" class="btn btn-default"
+												type="submit">
+										</div>
+									</div>
+											 
+										</fieldset>
+									 </form> 
+									</div>
+								</div>
+							</div>
+							</div>
+
+							</div>
+							<div id="view-result">
+								<textarea cols="20" rows="1" id="json"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<th:block th:include="admin/layout :: scriptFragment"></th:block>
+	<script th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.js}"></script>
+	<script src="../../js/util.adm.ampconf.js" th:src="@{/js/util.adm.ampconf.js}"></script>
+</body>
+</html>

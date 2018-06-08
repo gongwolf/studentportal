@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 2018 Feng Liu
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="student/layout :: headerFragment (pageTitle='Home')">
+<title></title>
+</head>
+<body>
+ 
+<div id="wrapper">
+  
+ 	<nav class="navbar navbar-default" role="navigation"
+		style="margin-bottom: 0;" th:include="student/layout :: navbarFragment">
+ 	</nav>  
+ 	 
+	<div id="page-wrapper">
+		<div class="row">
+			<div class="col-lg-12">
+			</div>
+			<!-- /.col-lg-12 -->
+		</div>
+		<!-- /.row -->
+		<div class="row">
+			<div class="col-lg-6 col-md-6">
+				<div class="well pstatement-container">
+					<h3 class="page-header" th:text="'Welcome, ' + ${name} + '!'"></h3>
+					<p><strong>Use the MYNMAMP Portal to: </strong></p>
+					<ul>
+					<li>Apply for the different New Mexico AMP Programs</li>
+					<li>View the status of your application(s)</li>
+					<li>Self-report on your activities (i.e. research travel, internships, and Co-ops, other activities such as clubs and organizations, and scholarships/awards)   
+					</li>
+					<li>Manage your program participation and activities</li>
+					</ul>
+					<hr>
+					<small class="help-block">
+					New Mexico AMP is a partnership representing New Mexico&rsquo;s federally funded tribal colleges and state funded community colleges and four-year universities.  New Mexico AMP&rsquo;s goals are to increase the number of underrepresented minorities receiving B.S. degrees in Science, Technology, Engineering, and Mathematics (STEM) and to increase the number of these students who complete their graduate studies in STEM, with a strong focus on progression to the Ph.D.
+					</small>
+				</div>
+			</div>
+			
+			<div class="col-lg-6 col-md-6">
+				<div class="well pstatement-container">
+					<div th:onclick="'javascript:previewPersonalStatement();'"
+                         class="animated bounce" style="cursor: pointer;">
+					<h4 class="page-header">Personal Statement</h4>
+                    <p th:if="${#strings.isEmpty(pstatement)}"><i class="fa fa-ellipsis-h"></i></p>
+                    <div th:unless="${#strings.isEmpty(pstatement)}"><p id="pstatement" align="justify"></p>
+                     </div>
+                    </div>
+                    <div th:unless="${#strings.isEmpty(pstatement)}"
+                         th:onclick="'javascript:revealHiddenOverflow(this);'"
+                         style="position: absolute;right: 20px;bottom: 20px;">
+                    <div><a><i class="fa fa-angle-double-down fa-lg" aria-hidden="true"></i></a>
+                    </div>
+                    </div>
+				</div>
+
+			</div>
+		</div>
+		<!-- /.row -->
+		
+		<div class="row">
+           <div class="col-lg-12 col-md-12">
+               <div class="panel panel-info">
+                   <div class="panel-heading">Application Status</div>
+                   <div class="panel-body">
+                   <table class="table table-expandable table-striped">
+				    <thead>
+				      <tr>
+				        <th>Program</th>
+						<th>Started Date</th>
+						<th>Completed Date</th>
+						<th>Status</th>
+				      </tr>
+				    </thead>
+				    <tbody th:if="${#lists.isEmpty(applicationList)}">
+				    	<tr><td colspan="4">No applications available</td></tr>
+				    </tbody>
+				   	<tbody th:if="!${#lists.isEmpty(applicationList)}" th:each="bean:${applicationList}">
+				   		<tr style="color:#0084B4;font-weight: bold;">
+					        <td th:text="${bean.schoolSemester}+' '+${bean.schoolYear}+' - '+${bean.programNameFull}"></td>
+					        <td th:text="${#dates.format(bean.startDate, 'MM/dd/yyyy')}"></td>
+					        <td th:text="${#dates.format(bean.completeDate, 'MM/dd/yyyy')}"></td>
+							<td th:if="${bean.startDate!=null and bean.completeDate==null}">Started</td>
+							<td th:if="${bean.completeDate!=null}">Completed</td>
+					   	</tr>
+					   	<tr>
+					        <td colspan="5">
+					        <h4>Application Checklist</h4>
+					        
+					        <table class="table" th:switch="${bean.programNameAbbr}">
+							<thead>
+								<tr>
+									<th>Item</th>
+									<th>Required</th>
+									<th>Date Submitted</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							
+							<!-- CCCONF  -->
+							<tbody th:case="'CCCONF'">
+								<tr>
+								<td>Application and Short Essay</td>
+								<td>Yes</td>
+								<td th:text="${#dates.format(bean.applicantSubmitDate, 'MM/dd/yyyy')}"></td>
+								<td></td>
+								</tr>
+								
+								<tr>
+								<td>Unofficial transcript</td>
+								<td>Yes</td>
+								<td th:text="${#dates.format(bean.transcriptDate, 'MM/dd/yyyy')}"></td>
+								<td></td>
+								</tr>
+							</tbody>
+							
+							<!-- IREP -->
+							<tbody th:case="'IREP'">
+								<tr>
+								<td>Student Application</td>
+								<td>Yes</td>
+								<td th:text="${#dates.format(bean.applicantSubmitDate, 'MM/dd/yyyy')}"></td>
+								<td></td>
+								</tr>
+								
+								<tr>
+								<td>Unofficial transcript</td>
+								<td>Yes</td>
+								<td th:text="${#dates.format(bean.transcriptDate, 'MM/dd/yyyy')}"></td>
+								<td></td>
+								</tr>
+								
+								<tr>
+								<td>Project Abstract</td>
+								<td>Yes</td>
+								<td th:text="${#dates.format(bean.mentorSubmitDate, 'MM/dd/yyyy')}"></td>
+								<td></td>
+							</tbody>
+							
+							<!-- MESA -->
+							<tbody th:case="'MESA'">
+								<tr>
+								<td>Application with Essay Questions</td>
+								<td>Yes</td>
+								<td th:text="${#dates.format(bean.applicantSubmitDate, 'MM/dd/yyyy')}"></td>
+								<td></td>
+								</tr>
+								
+								<tr>
+								<td>Letter of Reference</td>
+								<td>Yes</td>
+								<td th:text="${#dates.format(bean.recommenderSubmitDate, 'MM/dd/yyyy')}"></td>
+								<td></td>
+								</tr>
+								
+								<tr>
+								<td>Unofficial transcript</td>
+								<td>Yes</td>
+								<td th:text="${#dates.format(bean.transcriptDate, 'MM/dd/yyyy')}"></td>
+								<td></td>
+								</tr>
+							</tbody>
+							
+							<!-- SCCORE -->
+							<tbody th:case="'SCCORE'">
+								<tr>
+								<td>Application with Questionnaire</td>
+								<td>Yes</td>
+								<td th:text="${#dates.format(bean.applicantSubmitDate, 'MM/dd/yyyy')}"></td>
+								<td></td>
+								</tr>
+								
+								<tr>
+								<td>Unofficial transcript</td>
+								<td>Yes</td>
+								<td th:text="${#dates.format(bean.transcriptDate, 'MM/dd/yyyy')}"></td>
+								<td></td>
+								</tr>
+								
+								<tr>
+								<td>Medical Emergency Care Authorization Form</td>
+								<td>Yes</td>
+								<td th:text="${#dates.format(bean.medicalSubmitDate, 'MM/dd/yyyy')}"></td>
+								<td></td>
+								</tr>
+							</tbody>
+							
+							<!-- TRANS -->
+							<tbody th:case="'TRANS'">
+								<tr>
+								<td>Application with Essay Questions</td>
+								<td>Yes</td>
+								<td th:text="${#dates.format(bean.applicantSubmitDate, 'MM/dd/yyyy')}"></td>
+								<td></td>
+								</tr>
+								
+								<tr>
+								<td>Letter of Recommendation</td>
+								<td>Yes</td>
+								<td th:text="${#dates.format(bean.recommenderSubmitDate, 'MM/dd/yyyy')}"></td>
+								<td>
+								</td>
+								</tr>
+								
+								<tr>
+								<td>Community College Transcripts</td>
+								<td>Yes</td>
+								<td th:text="${#dates.format(bean.transcriptDate, 'MM/dd/yyyy')}"></td>
+								<td></td>
+								</tr>
+							</tbody>
+							
+							<!-- URS -->
+							<tbody th:case="'URS'">
+								<tr>
+								<td>Application with Essay Questions</td>
+								<td>Yes</td>
+								<td th:text="${#dates.format(bean.applicantSubmitDate, 'MM/dd/yyyy')}"></td>
+								<td></td>
+								</tr>
+								
+								<tr>
+								<td>Unofficial transcript</td>
+								<td>Yes</td>
+								<td th:text="${#dates.format(bean.transcriptDate, 'MM/dd/yyyy')}"></td>
+								<td></td>
+								</tr>
+								
+								<tr>
+								<td>Faculty Mentor Information</td>
+								<td>Yes</td>
+								<td th:text="${#dates.format(bean.mentorInfoDate, 'MM/dd/yyyy')}"></td>
+								<td></td>
+								</tr>
+								
+								<tr>
+								<td>Project Proposal</td>
+								<td>Yes</td>
+								<td th:text="${#dates.format(bean.mentorSubmitDate, 'MM/dd/yyyy')}"></td>
+								<td></td>
+							</tbody>
+								
+							</table>
+							 
+				        	</td>
+						</tr>
+				 
+				   </tbody>
+				   </table>
+                    
+                   </div>
+               </div>
+           </div>
+            </div>
+            <!-- /.row -->
+            
+            
+	</div>
+	<!-- /#page-wrapper -->
+</div>
+<!-- /#wrapper -->
+
+<div id="modalPersonalStatement" title="Update Personal Statement" style="display:none;">
+	<div class="modal-body">
+	<form class="form-horizontal" name="formPersonalStatement" 
+	id="formPersonalStatement" method="post">
+	<fieldset><legend> </legend>
+	</fieldset>
+        <div class="form-group">
+        <div class="col-sm-12">
+        <textarea class="form-control" rows="20" name="pstatementarea"></textarea>
+        </div>
+      	</div> 
+      	<div class="accordion-controls">
+			<label class="accordion-label"></label>
+			<div class="accordion-input">
+			<input type="submit" class="btn btn-default" value="Done"> 
+			</div>
+		</div> 
+      	</form>
+  		</div>
+  	</div>
+  	
+ 	<th:block th:include="student/layout :: scriptFragment"></th:block>
+ 	<script src="../../js/bootstrap-table-expandable.js" th:src="@{/js/bootstrap-table-expandable.js}"></script>
+ 	<script th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.js}"></script>
+ 	<script src="../../js/util.stu.home.js" th:src="@{/js/util.stu.home.js}"></script>
+    </body>
+<script th:inline="javascript">
+/*<![CDATA[*/
+var pstatement = /*[[${pstatement}]]*/; 
+var _csrf_token = /*[[${_csrf.token}]]*/ '';
+var _csrf_param_name = /*[[${_csrf.parameterName}]]*/ '';
+/*]]>*/
+</script>
+</html>

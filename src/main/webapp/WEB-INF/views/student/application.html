@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 2018 Feng Liu
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head
+	th:include="student/layout :: headerFragment (pageTitle='Your Applications')">
+<title></title>
+</head>
+<body>
+	<div id="wrapper">
+
+		<nav class="navbar navbar-default navbar-static-top" role="navigation"
+			style="margin-bottom: 0;"
+			th:include="student/layout :: navbarFragment"></nav>
+
+		<div id="page-wrapper">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel">
+						<div class="panel-body">
+							<h3>Manage Your Applications</h3>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row" id="fadeOut" th:if="!${#strings.isEmpty(status)}">
+				<div class="col-lg-12">
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							<i class="fa fa-info-circle fa-fw"></i> <span th:text="${status}"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-info animated fadeInLeft">
+						<div class="panel-heading">
+							<b>Start a new application</b>
+							<div class="pull-right"><a href="application/select">
+							<i class="fa fa-plus-square fa-lg" aria-hidden="true"></i></a>
+							</div>
+						</div>
+					</div>
+				</div>
+				 
+				<div class="col-lg-12 col-md-12">
+					<div class="panel">
+						<div class="panel-body">
+							<table id="applications" class="display"
+								style="overflow-x: auto; border-spacing: 0px; width: 100%">
+								<thead>
+									<tr>
+										<td><strong>Program</strong></td>
+										<td><strong>Semester</strong></td>
+										<td><strong>State Date</strong></td>
+										<th></th>
+									</tr>
+								</thead>
+							</table>
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<th:block th:include="student/layout :: scriptFragment"></th:block>
+	<script src="../../js/jquery.dataTables.js"
+		th:src="@{/js/jquery.dataTables.js}"></script>
+	<script src="../../js/moment.min.js" th:src="@{/js/moment.min.js}"></script>
+	<script src="../../js/moment-with-locales.min.js"
+		th:src="@{/js/moment-with-locales.min.js}"></script>
+	<script src="../../js/moment-timezone.min.js"
+		th:src="@{/js/moment-timezone.min.js}"></script>
+	<script src="../../js/util.stu.applications.js"
+		th:src="@{/js/util.stu.applications.js}"></script>
+
+	<script th:inline="javascript">
+/*<![CDATA[*/
+var data = eval(/*[[${applicationList}]]*/) ;
+ /*]]>*/
+ </script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 2018 Feng Liu
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head
+	th:include="admin/layout :: headerFragment (pageTitle='Manage Application')">
+<title></title>
+</head>
+<body>
+<div id="wrapper">
+	<nav class="navbar navbar-default navbar-static-top" role="navigation"
+		style="margin-bottom: 0;" th:include="admin/layout :: navbarFragment">
+	</nav>
+       
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Manage Applications</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+    </div>
+    
+    <div class="row" id="fadeOut" th:if="!${#strings.isEmpty(status)}">
+           <div class="col-lg-12">
+              <div class="panel panel-info">
+                  <div class="panel-heading" >
+                  <i class="fa fa-info-circle fa-fw"></i><span th:text="${status}"></span>
+                  </div>
+              </div>
+           </div>
+    </div>
+  
+	<div class="row">
+	    <div class="col-lg-12 col-md-12">
+	    	<div class="panel panel-default">
+	                <div class="panel-body">
+	                <form th:action="@{/admin/manage-application}" method="post" th:object="${applicationBean}">
+					<fieldset>
+						<div class="accordion-controls">
+							<label class="accordion-label"><span>Institution Applying From</span></label>
+							<div class="accordion-input">
+								<select name="academic_school" th:field="*{academicSchool}">
+									<option th:each="entry:${academicSchoolFrom}"
+											th:value="${entry.key}" th:text="${entry.value}"></option>
+								</select>
+							</div>
+						</div>
+
+						<div class="accordion-controls">
+							<label class="accordion-label"><span>Institution Applying To</span></label>
+							<div class="accordion-input">
+								<select name="academic_school" th:field="*{schoolTarget}">
+								<option th:each="entry:${academicSchoolTo}"
+								th:value="${entry.key}" th:text="${entry.value}"></option>
+								</select>
+							</div>
+						</div>
+						
+						<div class="accordion-controls">
+							<label class="accordion-label"><span>Year</span></label>
+							<div class="accordion-input">
+								<select name="select_year" th:field="*{schoolYear}">
+									<option value="0">-- Select One --</option>
+									<option th:each="year:${#numbers.sequence(#dates.year(#dates.createNow())-20, #dates.year(#dates.createNow())+2)}"
+										th:value="${year}" th:text="${year}"></option>
+								</select>
+								<span th:if="${#fields.hasErrors('schoolYear')}" 
+									th:errors="*{schoolYear}" class="error"></span>
+							</div>
+						</div>
+						
+						<div class="accordion-controls">
+							<label class="accordion-label"><span>Semester</span></label>
+							<div class="accordion-input">
+								<select name="select_semester" th:field="*{schoolSemester}">
+									<option value="">-- Select One --</option>
+									<option th:each="item:${academicSemester}" th:value="${item}" 
+										th:text="${item}"></option>
+								</select>
+								<span th:if="${#fields.hasErrors('schoolSemester')}" 
+									th:errors="*{schoolSemester}" class="error"></span>
+							</div>
+						</div>
+						
+						<div class="accordion-controls">
+							<label class="accordion-label"><span>Program</span></label>
+							<div class="accordion-input">
+								<select name="select_program" th:field="*{programNameAbbr}">
+									<option value="">-- Select One --</option>
+									<option th:each="entry:${programs}" th:value="${entry.key}" 
+										th:text="${entry.value}"></option>
+								</select>
+								<span th:if="${#fields.hasErrors('programNameAbbr')}" 
+									th:errors="*{programNameAbbr}" class="error"></span>
+							</div>
+						</div>
+					</fieldset>
+					<fieldset>
+					<div class="accordion-controls">
+							<label class="accordion-label"></label>
+								<div class="accordion-input">
+									<label><input name="completed_only"  type="checkbox" value="1" > 
+									<span>Check the box to view only completed applications.</span> </label>
+								</div>
+						</div>
+					</fieldset>
+					<div class="accordion-controls">
+						<label class="accordion-label"></label>
+						<div class="accordion-input">
+							<button type="reset" class="button">Cancel</button>
+							<button type="submit" class="button">Submit</button>
+						</div>
+					</div>
+				</form>
+	                  </div>
+	              </div>
+	          </div>
+	      </div>
+            
+        </div>
+    </div>
+    
+<th:block th:include="admin/layout :: scriptFragment"></th:block>
+</body>
+</html>
+ 

@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 2018 Feng Liu
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="student/layout :: headerFragment (pageTitle='Self-Report')">
+<title></title> 
+</head> 
+<body>
+
+<div id="wrapper">
+ 
+ 	<nav class="navbar navbar-default" role="navigation"
+		style="margin-bottom: 0;" th:include="student/layout :: navbarFragment">
+ 	</nav> 
+ 
+	<div id="page-wrapper">
+ 
+		<div class="row">
+        	<div class="col-lg-12">
+        		<div class="panel"><div class="panel-body">
+               	<h3 class="text-primary" th:text="'Self-Report for '+${semester}"></h3>
+  				<p th:text="|Self-report period: 8/1/${#strings.arraySplit(semester, ' ')[1]} - 7/31/${#strings.arraySplit(semester, ' ')[4]}|"></p>
+               </div></div>
+            </div>
+       	</div>
+       	
+       	<div class="row" id="fadeOut" th:if="!${#strings.isEmpty(status)}">
+           <div class="col-lg-12">
+              <div class="panel panel-info">
+                  <div class="panel-heading" >
+                  <i class="fa fa-info-circle fa-fw"></i><span th:text="${status}"></span>
+                  </div>
+              </div>
+           </div>
+        </div>
+        
+		<div class="row">
+			<div class="col-lg-12">
+                <!-- begin for accordion -->
+                <div class="accordion" data-role="accordion" data-close-any="true">
+					<!-- Academic Profile -->
+					<div class="frame " th:attrappend="class=${section=='academic.do' ? 'active' : ''}">
+                    	<div class="heading">Academic Profile</div>
+                        <div class="content">
+                        <form name="academic_info" id="academic_info" th:object="${reportAcademicBean}"
+							th:action="@{/selfreport/edit/academic.do}" method="post">
+							<fieldset>
+								<div class="accordion-controls">
+									<label class="accordion-label"><span>First Name</span></label>
+									<div class="accordion-input">
+										<input name="firstName" type="text" th:field="*{firstName}" readonly>
+									</div>
+								</div>
+
+								<div class="accordion-controls">
+									<label class="accordion-label"><span>Last Name</span></label>
+									<div class="accordion-input">
+										<input name="lastName" type="text" th:field="*{lastName}" readonly>
+									</div>
+								</div>
+								 
+								<legend></legend>
+								<div class="accordion-controls">
+								<label class="accordion-label" for="currentAddressLine1"><span>Address
+													Line 1</span></label>
+								<div class="accordion-input">
+								<input name="currentAddressLine1" th:field="*{currentAddressLine1}" type="text">
+								</div>
+								<span th:if="${#fields.hasErrors('currentAddressLine1')}" 
+										th:errors="*{currentAddressLine1}" class="error"></span>
+								</div>
+
+								<div class="accordion-controls">
+								<label class="accordion-label" for="currentAddressLine2">
+								<span>Address Line 2</span>
+								</label>
+								<div class="accordion-input">
+								<input name="currentAddressLine2" th:field="*{currentAddressLine2}" type="text">
+								</div>
+								<span data-toggle="tooltip" data-placement="left" title="Optional"><i class="fa fa-question-circle" aria-hidden="true" ></i></span>	
+								</div>
+
+								<div class="accordion-controls">
+								<label class="accordion-label" for="currentAddressCity"><span>City</span></label>
+								<div class="accordion-input">
+								<input type="text" name="currentAddressCity" th:field="*{currentAddressCity}">
+								</div>
+								<span th:if="${#fields.hasErrors('currentAddressCity')}" 
+										th:errors="*{currentAddressCity}" class="error"></span>
+								</div>
+
+								<div class="accordion-controls">
+								<label class="accordion-label" for="current_address_state"><span>State</span></label>
+								<div class="accordion-input">
+								<select name="current_address_state" id="current_address_state" 
+								class="address_state" th:field="*{currentAddressState}">
+								<option value="">-- Select One --</option>	
+								<option th:each="item:${states}" th:value="${item}" th:text="${item}"></option>
+								</select>
+								</div>
+								<span th:if="${#fields.hasErrors('currentAddressState')}" 
+									th:errors="*{currentAddressState}" class="error"></span>
+								</div>
+								
+								<div class="accordion-controls">
+									<label class="accordion-label" for="current_address_zip"><span>Zip</span></label>
+									<div class="accordion-input">
+										<input class="zipcode" name="current_address_zip" maxlength="10" type="text"
+											th:field="*{currentAddressZip}">
+									</div>
+									<span th:if="${#fields.hasErrors('currentAddressZip')}" 
+										th:errors="*{currentAddressZip}" class="error"></span>
+								</div>
+								
+								<legend></legend>
+								<div class="accordion-controls">
+									<label class="accordion-label" for="selectSchool"><span>College</span></label>
+									<div class="accordion-input">
+										<select name="selectSchool" th:field="*{selectSchool}">
+										<option value="">-- Select One --</option>
+										<option th:each="entry:${academicSchool}"
+										th:value="${entry.key}" th:text="${entry.value}"></option>
+										</select>
+									</div>
+									<span th:if="${#fields.hasErrors('selectSchool')}" 
+										th:errors="*{selectSchool}" class="error"></span>
+								</div>
+								
+								<div class="accordion-controls">
+									<label class="accordion-label" for="major"><span>Major</span></label>
+									<div class="accordion-input">
+									<input name="major" th:field="*{major}" type="text">
+									</div>
+									<span data-toggle="tooltip" data-placement="left" title="Use full name instead of abbreviation. i.e., Electrical Engineering instead of EE."><i class="fa fa-question-circle" aria-hidden="true" ></i></span>		
+									<span th:if="${#fields.hasErrors('major')}" th:errors="*{major}" class="error"></span>
+								</div>
+								
+								<div class="accordion-controls">
+									<label class="accordion-label" for="gpa"><span>Cumulative
+											GPA</span></label>
+									<div class="accordion-input">
+									<input name="gpa" type="text" maxlength="5" placeholder="#.##" th:field="*{gpa}">
+									</div>
+									<span th:if="${#fields.hasErrors('gpa')}" th:errors="*{gpa}" class="error"></span>
+								</div>
+							</fieldset>
+							<div class="accordion-controls">
+								<label class="accordion-label"></label>
+								<div class="accordion-input">
+									<input name="submit" type="submit" value="Save" class="btn btn-primary" >
+									<input type="hidden" name="windowID" th:value="${windowID}"/>
+									<input type="hidden" name="semester" th:value="${semester}"/>
+								</div>
+							</div>
+						</form>
+                        </div>
+                    </div>
+                    
+                    <!-- Internship/Co-ops -->
+					<div class="frame " th:attrappend="class=${section=='internship.do' ? 'active' : ''}">
+                    	<div class="heading">Internship/Co-ops</div>
+                        <div class="content">
+                        <table class="table table-hover small-text" id="tableIntern">
+						<tr class="tr-header">
+								<th colspan="2"><a href="javascript:void(0);" id="addIntern" title="Add Entry"><span><i class="fa fa-plus" aria-hidden="true"></i></span></a>
+								</th>
+								<th>Company Name</th>
+								<th>City</th>
+								<th>State</th>
+								<th>Start Date</th>
+								<th>End Date</th>
+								<th>Job Type</th>
+								<th>Duties</th>
+							</tr>
+						<tbody> 
+						</tbody>
+					</table>
+					
+					<!-- 
+					<div class="modal fade" id="modalIntern" tabindex="-1" role="dialog" 
+				     aria-labelledby="myModalLabel" aria-hidden="true">
+				    <div class="modal-dialog">
+				        <div class="modal-content"> 
+				            <div class="modal-header">
+				                <button type="button" class="close" 
+				                   data-dismiss="modal">
+				                       <span aria-hidden="true">&times;</span>
+				                       <span class="sr-only">Close</span>
+				                </button>
+				                <h4 class="modal-title" id="internModalTitle">Add</h4>
+				            </div>
+				             
+				            <div class="modal-body">
+				            
+				            </div>
+				             
+				            <div class="modal-footer">
+				            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				        		<button type="button" class="btn btn-primary" id="doneIntern">Done</button>
+				            </div>
+				            
+				        </div>
+				    </div>
+				</div>
+						 -->
+                        <!-- TSET -->
+                  
+    <div id="modalIntern" title="Create new entry" style="display:none;">
+       <div class="modal-body">
+       <form class="form-horizontal" id="formIntern">
+				           <div class="form-group">
+				           <label class="col-sm-3 control-label">Company Name</label>
+				           <div class="col-sm-9">
+				           <input type="text" class="form-control" name="jobCompany" id="jobCompany">
+				           </div>
+				         	</div>
+				         	<div class="form-group">
+				           <label class="col-sm-3 control-label">City</label>
+				           <div class="col-sm-9">
+				           <input type="text" class="form-control" name="jobCity" id="jobCity">
+				           </div>
+				         	</div>
+				          	
+				          <div class="form-group">
+				            <label class="col-sm-3 control-label">State</label>
+				            <div class="col-sm-9">
+				            <select name="jobState" class="form-control job_state" id="job_state">
+							<option value="">-- Select One --</option>
+						    <option th:each="item:${states}" th:value="${item}" th:text="${item}"></option>
+							</select>
+							</div>
+				          </div>
+				          
+				          <div class="form-group">
+				           <label class="col-sm-3 control-label">Start Date</label>
+				           <div class="col-sm-9">
+				           <input name="job_startdate" id="job_startdate" type="text" placeholder="MM/dd/yyyy">
+				           </div>
+				         	</div>
+				         	
+				         	<div class="form-group">
+				           <label class="col-sm-3 control-label">End Date</label>
+				           <div class="col-sm-9">
+				           <input name="job_enddate" id="job_enddate" type="text" placeholder="MM/dd/yyyy">
+				           </div>
+				         	</div>
+				         
+				         <div class="form-group">
+				            <label class="col-sm-3 control-label">Job Type</label>
+				            <div class="col-sm-9">
+				            <select name="job_type" id="job_type">
+							<option value="">-- Select One --</option>
+							<option value="Co-ops">Co-ops</option>
+							<option value="Internships">Internships</option>
+							<option value="Other">Other</option>		
+							</select>
+							</div>
+				       </div>
+				         
+				         <div class="form-group">
+				           <label class="col-sm-3 control-label">Duties</label>
+				           <div class="col-sm-9">
+				           	<textarea rows="5" cols="50" id="job_duty" name="job_duty"></textarea>
+				         	</div> 
+				         	</div>
+				         	</form>
+				     </div>  </div>
+           
+                        <!-- END -->
+                        
+						
+						<div>
+							<form name="internship_info" id="internship_info" method="post"
+							th:action="@{/selfreport/edit/internship.do}">
+									<div class="accordion-controls">
+										<label class="accordion-label"></label>
+										<div class="accordion-input">
+										<input name="submit" type="submit" value="Save" class="btn btn-primary" >
+										<br><br><p style="font-style: italic;">Max entries: 10</p>
+										<input type="hidden" name="windowID" th:value="${windowID}"/>
+										<input type="hidden" name="semester" th:value="${semester}"/>
+										<textarea name="internJson" id="internJson" style="display:none;"></textarea>
+										</div>
+									</div>
+							</form>
+						</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Travel Research -->
+					<div class="frame " th:attrappend="class=${section=='travel.do' ? 'active' : ''}">
+                    	<div class="heading">International Travel/Research</div>
+                        <div class="content">
+						<table class="table table-hover small-text" id="tableTravel">
+							<tr class="tr-header">
+							<th colspan="2"><a href="javascript:void(0);" id="addMoreTravel" title="Add Entry"><span><i class="fa fa-plus" aria-hidden="true"></i></span></a>
+							</th> 
+							<th>City</th>
+							<th>State</th>
+							<th>Start Date</th>
+							<th>End Date</th>
+							<th colspan="2">Purpose</th>
+						</tr>
+						<tbody></tbody>
+						</table>
+						 
+						 <div id="modalTravel" title="Create new entry" style="display:none;">
+       						<div class="modal-body">
+       						<form class="form-horizontal" id="formTravel">
+       						<fieldset><legend>Travel related to research that you were involved</legend>
+       						</fieldset>
+				           <div class="form-group">
+				           <label class="col-sm-3 control-label">City</label>
+				           <div class="col-sm-9">
+				           <input type="text" class="form-control" name="travelCity" id="travelCity">
+				           </div>
+				         	</div>
+				         	<div class="form-group">
+				           <label class="col-sm-3 control-label">State</label>
+				           <div class="col-sm-9">
+							<select name="travelState" id="travelState">
+							<option value="">-- Select One --</option>
+						    <option th:each="item:${states}" th:value="${item}" th:text="${item}"></option>
+							</select>
+							</div> 
+				         	</div>
+				          	
+				          <div class="form-group">
+				           <label class="col-sm-3 control-label">Start Date</label>
+				           <div class="col-sm-9">
+				           <input name="travelStartDate" id="travel_startdate" type="text" placeholder="MM/dd/yyyy">
+				           </div>
+				         	</div>
+				         	
+				         	<div class="form-group">
+				           <label class="col-sm-3 control-label">End Date</label>
+				           <div class="col-sm-9">
+				           <input name="travelEndDate" id="travel_enddate" type="text" placeholder="MM/dd/yyyy">
+				           </div>
+				         	</div>
+				         	 
+				         <div class="form-group">
+				            <label class="col-sm-3 control-label">Purpose related to research of student</label>
+				            <div class="col-sm-9"> 	
+				            	 <textarea rows="5" cols="50" name="travelPurpose" id="travelPurpose"></textarea>
+							</div>
+				       </div>
+				         	</form>
+				     		</div>
+				     	</div>
+						 
+							<form name="travel_info" id="travel_info" th:object="${reportTravelBean}" method="post"
+							th:action="@{/selfreport/edit/travel.do}"> 
+									<div class="accordion-controls">
+										<label class="accordion-label"></label>
+										<div class="accordion-input">
+										<input name="submit" type="submit" value="Save" class="btn btn-primary" >
+										<br><br><p style="font-style: italic;">Max entries: 10</p>
+										<input type="hidden" name="windowID" th:value="${windowID}"/>
+										<input type="hidden" name="semester" th:value="${semester}"/>
+										<textarea name="travelJson" id="travelJson" style="display:none;"></textarea>
+										</div>
+									</div>
+							</form>
+						 </div>
+                    </div>
+                    
+                    <!-- Conferences -->
+                    <div class="frame " th:attrappend="class=${section=='conference.do' ? 'active' : ''}">
+                    	<div class="heading">Conferences</div>
+                       <div class="content">
+						<table class="table table-hover small-text" id="tableConference">
+						<tr class="tr-header">
+						<th><a href="javascript:void(0);" id="addMoreConference" title="Add Entry"><span><i class="fa fa-plus" aria-hidden="true"></i></span></a>
+						</th><th></th>
+						<th>Conference Name</th>
+						<th>Date</th>
+						<th>Presentation Title</th>
+						<th>Presentation Type</th>
+						</tr>
+						<tbody> 
+						</tbody>
+						</table>
+						
+						<div id="modalConference" title="Create new entry" style="display:none;">
+      						<div class="modal-body">
+      						<form class="form-horizontal" id="formConference">
+      						<fieldset><legend>Conferences Attended (NOT including the New Mexico AMP Conference)</legend>
+      						</fieldset>
+			           <div class="form-group">
+			           <label class="col-sm-3 control-label">Conference Name</label>
+			           <div class="col-sm-9">
+			           <input type="text" class="form-control" name="conferenceName" id="conferenceName">
+			           </div>
+			         	</div>
+			         	<div class="form-group">
+			           <label class="col-sm-3 control-label">Presentation Title</label>
+			           <div class="col-sm-9">
+			           <input type="text" class="form-control" name="conferencePresentationTitle" id="conferencePresentationTitle">
+			           </div>
+			         	</div>
+			          	
+			          <div class="form-group">
+			           <label class="col-sm-3 control-label">Date</label>
+			           <div class="col-sm-9">
+			           <input name="conferenceDate" type="text" id="conference_date" placeholder="MM/dd/yyyy">
+			           </div>
+			         	</div>
+			         	
+			         <div class="form-group">
+			            <label class="col-sm-3 control-label">Presentation Type</label>
+			            <div class="col-sm-9">
+			            <select name="conferencePresentationType" id="conferencePresentationType"  >
+						<option value="">-- Select One --</option>
+						<option value="Poster">Poster</option>
+						<option value="Oral">Oral</option>
+						</select>
+						</div>
+			       		</div>
+			         	</form>
+			     		</div>
+			     	</div>
+					
+						<form name="conference_info" id="conference_info" th:object="${reportConferenceBean}" method="post"
+						th:action="@{/selfreport/edit/conference.do}">
+						<div class="accordion-controls">
+							<label class="accordion-label"></label>
+							<div class="accordion-input">
+								<input name="submit" type="submit" value="Save" class="btn btn-primary" >
+								<br><br><p style="font-style: italic;">Max entries: 10</p>
+								<input type="hidden" name="windowID" th:value="${windowID}"/>
+								<input type="hidden" name="semester" th:value="${semester}"/>
+								<textarea name="conferenceJson" id="conferenceJson" style="display:none;"></textarea>
+							</div>
+						</div>
+						</form>
+					</div>
+                    </div> 
+                    
+                    <!-- Publications -->
+					<div class="frame " th:attrappend="class=${section=='publication.do' ? 'active' : ''}">
+                    	<div class="heading">Publications</div>
+                        <div class="content">
+                        <table class="table table-hover small-text" id="tablePublication">
+						<tr class="tr-header">
+						<th><a href="javascript:void(0);" id="addMorePublication" title="Add Entry"><span><i class="fa fa-plus" aria-hidden="true"></i></span></a>
+						</th>
+						<th colspan="4">Publications</th>  
+						</tr>
+						<tbody>
+						<tr style="display: none;">
+						<td><a href='javascript:void(0);' class='removePublication' Title='Remove Entry'><span><i class='fa fa-times' aria-hidden='true'></i></span></a></td> 
+						<td><textarea rows="4" cols="80" name="publication"></textarea></td>
+						</tr>
+						</tbody>
+						</table>
+						
+						<form name="publication_info" id="publication_info" method="post"
+							th:action="@{/selfreport/edit/publication.do}">
+							 <div class="accordion-input">
+								<input name="submit" type="submit" value="Save" class="btn btn-primary" >
+								<br><br><p style="font-style: italic;">Max entries: 10</p>
+								<input type="hidden" name="windowID" th:value="${windowID}"/>
+								<input type="hidden" name="semester" th:value="${semester}"/>
+								<textarea name="publicationJson" id="publicationJson" style="display:none;"></textarea>
+							</div>
+							</form>
+                        </div>
+                    </div>
+                    
+                    <!-- Awards and Accomplishments -->
+					<div class="frame " th:attrappend="class=${section=='awards.do' ? 'active' : ''}">
+                    	<div class="heading">Awards and Accomplishments</div>
+                        <div class="content">
+                        <table class="table table-hover small-text" id="tableAwards">
+						<tr class="tr-header">
+						<th><a href="javascript:void(0);" id="addMoreAwards" title="Add Entry"><span><i class="fa fa-plus" aria-hidden="true"></i></span></a>
+						</th>
+						<th>Awards Name</th>
+						<th>Semester</th>
+						<th>Year</th> 
+						</tr>
+						<tbody>
+						<tr style="display: none;">
+						<td><a href='javascript:void(0);' class='removeAwards' Title='Remove Entry'><span><i class='fa fa-times' aria-hidden='true'></i></span></a></td> 
+						<td><input type="text" name="awardsName" class="form-control" disabled="disabled"></td>
+						<td><select name="awardsSemester" style="width: auto;" disabled="disabled">
+						<option value="">-- Select One --</option>
+						<option th:each="item:${academicSemester}" 
+						th:value="${item}" th:text="${item}"></option>
+						</select></td>
+						<td>
+					<select name="awardsYear" style="width: auto" disabled="disabled">
+						<option value="">-- Select One --</option>
+						<option
+							th:each="year:${#numbers.sequence(#dates.year(#dates.createNow())-1, #dates.year(#dates.createNow())+1)}"
+							th:value="${year}" th:text="${year}"></option>
+						</select>
+						</td>
+						 
+						</tr>
+						</tbody>
+						</table>
+						<div>
+						
+						 <form name="awards_info" id="awards_info" th:object="${reportAwardsBean}" method="post"
+							th:action="@{/selfreport/edit/awards.do}">
+						<div class="accordion-controls">
+							<label class="accordion-label"></label>
+							<div class="accordion-input">
+								<input name="submit" type="submit" value="Save" class="btn btn-primary" >
+								<br><br><p style="font-style: italic;">Max entries: 10</p>
+								<input type="hidden" name="windowID" th:value="${windowID}"/>
+								<input type="hidden" name="semester" th:value="${semester}"/>
+								<textarea name="awardsJson" id="awardsJson" style="display:none;"></textarea>
+							</div>
+						</div>
+						</form>
+						</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Other Activities -->
+					<div class="frame " th:attrappend="class=${section=='others.do' ? 'active' : ''}">
+                    	<div class="heading">Other Activities</div>
+                        <div class="content">
+                        <form name="awards_info" id="awards_info" th:object="${reportOthersBean}" method="post"
+							th:action="@{/selfreport/edit/others.do}">
+							<fieldset>
+							<p>For this section please:</p>
+							<ul>
+							  <li>List the student organizations that you were a member</li>
+							  <li>Tell us of  your plans for the summer (i.e., internship, Co-op, attending summer school, etc.)</li>
+							  <li>Tell us if you are graduating this semester and what is your plan (i.e., attending graduate school (where), seeking employment, or working at ______).</li>
+							</ul> 
+							<legend></legend>
+							<div class="accordion-input">
+								<textarea rows="5" cols="250" 
+								name="otherActivities" th:field="*{otherActivities}"></textarea>
+							</div>
+							</fieldset>
+							<div class="accordion-controls">
+								<label class="accordion-label"></label>
+								<div class="accordion-input">
+									<input name="submit" type="submit" value="Save" class="btn btn-primary" >
+									<input type="hidden" name="windowID" th:value="${windowID}"/>
+									<input type="hidden" name="semester" th:value="${semester}"/>
+								</div>
+							</div>
+						</form>
+                        </div>
+                    </div>
+                    
+                    <div>
+
+</div> 
+
+                    <!-- Submit -->
+                    <div class="frame " th:attrappend="class=${'active'}">
+                    	<div class="heading">Submit</div>
+                        <div class="content">
+                        <form method="post"
+							th:action="@{/selfreport/edit/submit.do}">
+							<fieldset>
+							<legend>After finishing the required entries, click the Finish button below.</legend>
+								<div class="accordion-controls">
+									<label class="accordion-label"></label>
+									<div class="accordion-input">
+										<input name="submit" value="Finish" class="btn btn-primary" type="submit">
+										<input type="hidden" name="windowID" th:value="${windowID}"/>
+									<input type="hidden" name="semester" th:value="${semester}"/>
+									</div>
+								</div>
+							</fieldset>
+						</form>
+                        </div>
+                    </div>
+                </div> 
+                <!-- end for accordion -->
+			</div>
+		</div>
+	</div>
+    
+</div>
+<th:block th:include="student/layout :: scriptFragment"></th:block>
+<script src="../../js/metro.js" th:src="@{/js/metro.js}"></script>
+<script th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.js}"></script>
+<script src="../../js/utils.selfreport.js" th:src="@{/js/utils.selfreport.js}"></script>
+<script th:inline="javascript">
+/*<![CDATA[*/
+var semester = [[${semester}]], windowID = [[${windowID}]];
+var internJson = [[${internJson}]],awardsJson = [[${awardsJson}]],travelJson = [[${travelJson}]]; 
+var publicationJson = [[${publicationJson}]], conferenceJson = [[${conferenceJson}]];
+/*]]>*/
+
+</script>
+</body>
+</html>

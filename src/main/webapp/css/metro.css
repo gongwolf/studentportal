@@ -1,0 +1,104 @@
+/*
+ * Copyright (c) 2018 Feng Liu
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+.accordion > .frame {
+  margin-top: 1px;
+}
+.accordion > .frame:first-child {
+  margin-top: 0;
+}
+.accordion > .frame > .heading {
+  display: block;
+  padding: 8px 16px 8px 20px;
+  background-color: #f6f6f6;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: bold;
+  position: relative;
+  border: 1px #eeeeee solid;
+  overflow: hidden;
+  z-index: 2;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  transition: all 0.3s ease;
+}
+.accordion > .frame > .heading:before {
+  position: absolute;
+  display: block;
+  left: 4px;
+  top: 6px;
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid black;
+  -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+  transition: all 0.3s ease;
+}
+.accordion > .frame > .heading:hover {
+  background-color: #eeeeee;
+}
+.accordion > .frame > .heading .icon {
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size: 3rem;
+  width: 3rem;
+  max-height: 3rem;
+  opacity: .6;
+  color: #999999;
+}
+.accordion > .frame.active > .heading {
+  background-color: #007fff; // #428bca; //#1ba1e2;
+  border-color: #003eff; //#1ba1e2;
+  color: #ffffff;
+  box-shadow: -1px 6px 6px -6px rgba(0, 0, 0, 0.35);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s ease;
+}
+.accordion > .frame.active > .heading .icon {
+  color: #ffffff;
+}
+.accordion > .frame.active > .heading:before {
+  left: 8px;
+  border-bottom-color: #ffffff;
+  transition: all 0.3s ease;
+  -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
+  -webkit-transform-origin: 50% 50%;
+          transform-origin: 50% 50%;
+}
+.accordion > .frame.active > .content {
+  display: block;
+  
+  padding: 20px 70px;
+}
+.accordion > .frame > .content {
+  padding: 1rem;
+  display: none;
+  background-color: #ffffff;
+  z-index: 1;
+}
+.accordion > .frame.disabled > .heading {
+  cursor: default;
+  background: #ffffff linear-gradient(-45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-size: 40px 40px;
+}
+ 

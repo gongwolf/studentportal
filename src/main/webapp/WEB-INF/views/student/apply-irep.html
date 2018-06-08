@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 2018 Feng Liu
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="student/layout :: headerFragment (pageTitle='Apply International Research and Education Participation')">
+<title></title>
+</head>
+<style type="text/css">
+#budgetTable input[type="text"]{
+width:100%; 
+border: none;
+padding-right: 5px; 
+text-align: right;
+}
+</style>
+<body>
+<div id="wrapper">
+ 
+ 	<nav class="navbar navbar-default navbar-static-top" role="navigation"
+		style="margin-bottom: 0;" th:include="student/layout :: navbarFragment">
+ 	</nav>
+ 	
+ 	<div id="page-wrapper">
+ 		<div class="row">
+        	<div class="col-lg-12">
+        		<div class="panel"><div class="panel-body">
+               	<h3 class="text-success">New Mexico AMP International Research and Education Participation (IREP)</h3>
+               	<h3 class="text-success" 
+               	th:text="'(4-year institution) - '+${schoolSemester}+' '+${schoolYear}">
+               	</h3> 
+               </div></div>
+            </div>
+            <!-- /.col-lg-12 -->
+       	</div>
+       	
+       	<div class="row" id="fadeOut" th:if="!${#strings.isEmpty(status)}">
+           <div class="col-lg-12">
+              <div class="panel panel-info">
+                  <div class="panel-heading" >
+                  <i class="fa fa-info-circle fa-fw"></i><span th:text="${status}"></span>
+                  </div>
+              </div>
+           </div>
+        </div>
+        
+        <div class="row">
+			<div class="col-lg-12">
+                <!-- begin for accordion -->
+                <div class="accordion" data-role="accordion" data-close-any="true">	
+					<!-- Academic Information -->
+					<div class="frame " th:attrappend="class=${section=='academic.do' ? 'active' : ''}">
+                    	<div class="heading">Academic Information</div>
+                        <div class="content">
+                        <form name="academic_info" id="academic_info" th:object="${academicBean}"
+							th:action="@{'/application/edit/academic.do/'+${appcode}}" method="post">
+						<fieldset>
+							<div class="accordion-controls">
+								<label class="accordion-label" for="academicSchool"><span>Institution
+										currently enrolled</span></label>
+								<div class="accordion-input">
+									<select name="academicSchool" th:field="*{academicSchool}" required>
+									<option value="">-- Select One --</option>	
+									<option th:each="entry:${academicSchoolFour}" 
+										th:value="${entry.key}" th:text="${entry.value}"></option>
+									</select>
+								</div>
+								<span th:if="${#fields.hasErrors('academicSchool')}" 
+								th:errors="*{academicSchool}" class="error"></span>
+							</div>
+							 
+							<div class="accordion-controls">
+							<label class="accordion-label" for=""><span>Academic
+									Year</span></label>
+							<div class="accordion-input">
+								<select name="academicYear" th:field="*{academicYear}" required>
+								<option value="">-- Select One --</option>
+								<option th:each="entry:${academicYear}" th:value="${entry.key}" th:text="${entry.value}"></option>
+								</select>
+							</div>
+							<span th:if="${#fields.hasErrors('academicYear')}" 
+								th:errors="*{academicYear}" class="error"></span>
+							</div>
+							 
+							<div class="accordion-controls">
+							<label class="accordion-label" for="academicGradDate"><span>Expected
+										Grad Date</span></label>
+							<div class="accordion-input">
+							<input name="academicGradDate" type="text" id="academic_grad_date" title="MM/dd/yyyy"
+								th:value="${#dates.format(academicBean.academicGradDate, 'MM/dd/yyyy')}"
+									th:field="*{academicGradDate}" required placeholder="DD/mm/yyyy">
+							</div>
+							<span th:if="${#fields.hasErrors('academicGradDate')}" 
+								th:errors="*{academicGradDate}" class="error"></span>
+							</div>
+		 
+							<div class="accordion-controls">
+								<label class="accordion-label" for="academicBannerID"><span>Student
+										ID</span></label>
+								<div class="accordion-input">
+								<input name="academicBannerID" maxlength="9" type="text"
+								th:field="*{academicBannerID}" th:value="${academicBean.academicBannerID}">
+								</div>
+								<span data-toggle="tooltip" data-placement="left" title="Optional"><i class="fa fa-question-circle" aria-hidden="true" ></i></span>
+							</div>
+							
+							<div class="accordion-controls">
+								<label class="accordion-label" for="academic_major"><span>Major</span></label>
+								<div class="accordion-input">
+								<input name="academicMajor" type="text" th:field="*{academicMajor}"
+								 th:value="${academicBean.academicMajor}" required>
+								</div>
+								<span th:if="${#fields.hasErrors('academicMajor')}" 
+								th:errors="*{academicMajor}" class="error"></span>
+								<span data-toggle="tooltip" data-placement="left" title="Use full name instead of abbreviation. i.e., Electrical Engineering instead of EE."><i class="fa fa-question-circle" aria-hidden="true" ></i></span>		
+							</div>
+							
+							<div class="accordion-controls">
+								<label class="accordion-label" for="academicMinor"><span>Minor</span></label>
+								<div class="accordion-input">
+								<input name="academicMinor" type="text" 
+									th:field="*{academicMinor}" th:value="${academicBean.academicMinor}">
+								</div>
+								<span data-toggle="tooltip" data-placement="left" title="Optional. Use full name instead of abbreviation. i.e., Electrical Engineering instead of EE."><i class="fa fa-question-circle" aria-hidden="true" ></i></span>		
+							</div>
+							
+							<div class="accordion-controls">
+							<label class="accordion-label" for="academicGPA"><span>Cumulative
+									GPA</span></label>
+							<div class="accordion-input">
+							<input name="academicGPA" type="text" maxlength="5" placeholder="#.##" 
+								th:field="*{academicGPA}" required
+									value="${academicBean.academicGPA}">
+							</div>
+							<span th:if="${#fields.hasErrors('academicGPA')}" 
+								th:errors="*{academicGPA}" class="error"></span>
+							</div>
+							<div class="accordion-controls">
+								<label class="accordion-label"></label>
+								<div class="accordion-input">
+									<input type="submit" value="Save" class="btn btn-primary" th:disabled="${tag}">
+								</div>
+							</div>
+						</fieldset>
+						</form>
+                        </div>
+                    </div>
+                    
+                    <!-- Mentor Information -->
+					<div class="frame " th:attrappend="class=${section=='mentor.do' ? 'active' : ''}">
+                    	<div class="heading">Mentor Information</div>
+                        <div class="content">
+                        <form name="mentor_info" id="mentor_info" th:object="${mentorBean}"
+							th:action="@{'/application/edit/irep-mentor.do/'+${appcode}}" method="post">
+							<fieldset>
+							<legend>Current Mentor</legend>
+							<div class="row">
+                                <div class="col-md-6 form-group">
+                                   <label><span>First Name</span></label>
+                                   <input type="text" class="form-control" required th:field="*{mentorFirstName}"/>
+                               	   <span th:if="${#fields.hasErrors('mentorFirstName')}" 
+									th:errors="*{mentorFirstName}" class="error"></span>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                	<label><span>Last Name</span></label>
+                                    <input type="text" class="form-control" required th:field="*{mentorLastName}"/>
+                                <span th:if="${#fields.hasErrors('mentorLastName')}" 
+									th:errors="*{mentorLastName}" class="error"></span>     
+                                </div> 
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                   <label><span>Institution</span></label>
+                                   <input type="text" class="form-control" required th:field="*{mentorInstitution}"/>
+                                   <span th:if="${#fields.hasErrors('mentorInstitution')}" 
+									th:errors="*{mentorInstitution}" class="error"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                   <label><span>Phone</span></label>
+                                   <input type="text" class="form-control" required th:field="*{mentorPhone}"/>
+                                   <span th:if="${#fields.hasErrors('mentorPhone')}" 
+									th:errors="*{mentorPhone}" class="error"></span>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                	<label><span>Email </span><span data-toggle="tooltip" data-placement="left" title="Please make sure that the email address provided is valid."><i class="fa fa-question-circle" aria-hidden="true" ></i></span>		
+                                	</label>
+                                    <input type="text" class="form-control" required th:field="*{mentorEmail}"/>
+                                    <span th:if="${#fields.hasErrors('mentorEmail')}" 
+									th:errors="*{mentorEmail}" class="error"></span>
+                                </div>
+                            </div>
+                          </fieldset>
+                          
+                          <fieldset>
+							<legend>International Mentor <span class="optional"> (optional)</span></legend>
+							<div class="row">
+                                <div class="col-md-6 form-group">
+                                   <label><span>First Name</span></label>
+                                   <input type="text" class="form-control" th:field="*{intlMentorFirstName}"/>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                	<label><span>Last Name</span></label>
+                                    <input type="text" class="form-control" th:field="*{intlMentorLastName}"/>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                   <label><span>Institution</span></label>
+                                   <input type="text" class="form-control" th:field="*{intlMentorInstitution}"/>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                   <label><span>Country</span></label>
+                                   <input type="text" class="form-control" th:field="*{intlMentorCountry}"/>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                   <label><span>Phone</span></label>
+                                   <input type="text" class="form-control" th:field="*{intlMentorPhone}"/>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                	<label><span>Email</span></label>
+                                    <input type="text" class="form-control" th:field="*{intlMentorEmail}"/>
+                                </div>
+                            </div>
+                          </fieldset>
+                          
+						<fieldset>
+							<div class="accordion-controls">
+								<label class="accordion-label"></label>
+								<div class="accordion-input">
+									<input type="submit" value="Save" class="btn btn-primary" th:disabled="${tag}">
+								</div>
+							</div>
+						</fieldset>
+						</form>
+                        </div>
+                    </div>
+                    
+                    <!-- Project Abstract -->
+					<div class="frame " th:attrappend="class=${section=='project.do' ? 'active' : ''}">
+                    	<div class="heading">Project Abstract</div>
+                        <div class="content">
+                        
+                        <form name="project_info" id="project_info" th:object="${irepProjectBean}"
+							th:action="@{'/application/edit/irep-project.do/'+${appcode}}" method="post">
+                          <fieldset>
+							<div class="row">
+                                <div class="col-md-6 form-group">
+                                   <label><span>Dates of Scheduled Research</span></label>
+                                   <input type="text" class="form-control" id='research_date' required  th:field="*{researchDate}"/>
+                                   <span th:if="${#fields.hasErrors('researchDate')}" 
+									th:errors="*{researchDate}" class="error"></span>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                	<label><span>Expected Date Leaving</span></label>
+                                    <input type="text" class="form-control" id='leave_date' required th:field="*{leaveDate}"/>
+                                    <span th:if="${#fields.hasErrors('leaveDate')}" 
+									th:errors="*{leaveDate}" class="error"></span>
+                                </div>
+                            </div>
+                              
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                   <label><span>Expected Date of Return</span></label>
+                                   <input type="text" class="form-control" id='return_date' required th:field="*{returnDate}"/>
+                                   <span th:if="${#fields.hasErrors('returnDate')}" 
+									th:errors="*{returnDate}" class="error"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-10 form-group">
+                                   <label><span>Have you been funded by New Mexico AMP Scholarships in past?</span></label>
+                                   <div th:each="entry:${yesno}" class="col-md-offset-1">
+									<label class="radio">
+									<input type="radio" name="everFundAmp" class="ever_fund_amp" 
+										th:value="${entry.key}" th:field="*{everFundAmp}">
+									<span th:text="${entry.value}"></span>
+									</label>
+									</div>
+									<span th:if="${#fields.hasErrors('everFundAmp')}" 
+									th:errors="*{everFundAmp}" class="error"></span>
+									<span th:if="${#fields.hasErrors('listProgram')}" 
+									th:errors="*{listProgram}" class="error"></span>
+                                </div>
+                            </div>
+                            
+                            <fieldset id="list_program"> 
+								<div class="col-md-10 form-group">
+									<label><span>List the program</span></label>
+									<div class="col-md-offset-1">
+										<textarea rows="3"  name="listProgram" th:field="*{listProgram}"
+											th:value="${irepProjectBean.listProgram}"></textarea>
+									</div>
+								</div>
+							</fieldset> 
+                            
+                            <div class="row">
+                                <div class="col-md-12 form-group">
+                                   <label><span>Project Abstract</span>
+                                   <span>(<span id="counter_abstract">300</span> words remaining)</span>
+                                   </label>
+                                    <div class="form-group">
+                                   <textarea rows="8" id="project_abstract"
+									onkeyup="update_counter('counter_abstract', 'project_abstract', 300)"
+									name="project_abstract" th:field="*{projectAbstract}"></textarea>
+							<span th:if="${#fields.hasErrors('projectAbstract')}" 
+							th:errors="*{projectAbstract}" class="error"></span>
+                                </div>
+                                </div>
+                            </div>
+                          </fieldset>
+                       
+						<fieldset>	 
+						<div class="accordion-controls">
+							<label class="accordion-label"></label>
+							<div class="accordion-input">
+								<input type="submit" value="Save" class="btn btn-primary">
+							</div>
+						</div>
+					</fieldset>
+					</form>
+					<form th:action="@{'/application/project-irep/send.do/'+${appcode}}" method="post">
+					<div class="accordion-controls">
+						<label class="accordion-label"></label>
+						<div class="accordion-input">
+						<input name="schoolYear" th:value="${schoolYear}" readonly type="hidden">
+						<input name="schoolSemester" th:value="${schoolSemester}" readonly type="hidden">
+						<button class="btn btn-outline btn-primary">Send to Mentor</button>
+						</div>
+					</div>
+					
+					<div class="accordion-controls">
+						<label class="accordion-label"></label>
+						<div class="accordion-input">
+						<ul>
+						<li><mark>
+						Please fill out the Mentor Information part before clicking the Send to Mentor button.
+						</mark>	</li>
+						<li>
+						<mark>
+						Upon clicking the Send to Mentor button, 
+						an email will be sent to your mentor who will review your project proposal.
+						</mark>	
+						</li>
+						<li>
+						<mark>You can send the Project Abstract to Current Mentor 
+						for review before submitting the application.</mark>
+						</li>
+						</ul>
+						</div> 
+					</div>
+					</form>
+                    </div>
+                    </div>
+                    
+                    <!--  Budget Worksheet -->
+					<div class="frame " th:attrappend="class=${section=='budget.do' ? 'active' : ''}">
+                    	<div class="heading">Budget Worksheet</div>
+                        <div class="content">
+                        <p>New Mexico AMP funding is available to assist with your uncovered (out of pocket) expenses. 
+                        Please detail your budget using best estimate figures where necessary. 
+                        Indicate the total expense anticipated by category, the level of funding currently secured, 
+                        and your remaining need. </p>
+                         <div>
+			              <div class="panel panel-info" id="alert">
+			                  <div class="panel-heading" >
+			                  <i class="fa fa-info-circle fa-fw"></i><span>Invalid input!</span>
+			                  </div>
+			              </div>
+			           </div>
+		
+                        <form name="budget_info" id="budget_info" th:object="${budgetBean}"
+							th:action="@{'/application/edit/budget.do/'+${appcode}}" method="post">
+							 
+          			<fieldset>	
+          			<legend></legend> 
+						 <table id="budgetTable" class="table table-striped">
+            <thead><tr><th></th><th>Total Expenses</th><th>Current Funding</th><th>Remaining Need</th></tr></thead>
+            <tbody>
+              <tr><td>Domestic Travel</td>
+              <td><input type="text" placeholder="0.00" class="number" pattern="[0-9.]*" required  th:field="*{totalDomesticTravel}"/>
+              <span th:if="${#fields.hasErrors('totalDomesticTravel')}" th:errors="*{totalDomesticTravel}" class="error"></span>
+              </td>
+              <td><input type="text" placeholder="0.00" class="number" pattern="[0-9.]*" required th:field="*{currentDomesticTravel}"/>
+              <span th:if="${#fields.hasErrors('currentDomesticTravel')}" th:errors="*{currentDomesticTravel}" class="error"></span>
+              </td>
+              <td><input type="text" placeholder="$0.00" readonly="readonly"/></td>
+              </tr>
+              <tr><td>Round Trip Airfare</td>
+              <td><input type="text" placeholder="0.00" class="number" pattern="[0-9.]*" required th:field="*{totalRoundTrip}"/>
+              <span th:if="${#fields.hasErrors('totalRoundTrip')}" th:errors="*{totalRoundTrip}" class="error"></span>
+              </td>
+              <td><input type="text" placeholder="0.00" class="number" pattern="[0-9.]*" required th:field="*{currentRoundTrip}"/>
+              <span th:if="${#fields.hasErrors('currentRoundTrip')}" th:errors="*{currentRoundTrip}" class="error"></span>
+              </td>
+              <td><input type="text" placeholder="$0.00" readonly="readonly"/></td>
+              </tr>
+              <tr><td>Visa</td>
+              <td><input type="text" placeholder="0.00" class="number" pattern="[0-9.]*" required th:field="*{totalVisa}"/>
+              <span th:if="${#fields.hasErrors('totalVisa')}" th:errors="*{totalVisa}" class="error"></span>
+              </td>
+              <td><input type="text" placeholder="0.00" class="number" pattern="[0-9.]*" required th:field="*{currentVisa}"/>
+              <span th:if="${#fields.hasErrors('currentVisa')}" th:errors="*{currentVisa}" class="error"></span>
+              </td>
+              <td><input type="text" placeholder="$0.00" readonly="readonly"/></td>
+			  </tr>
+              <tr><td>Passport and Photos</td>
+              <td><input type="text" placeholder="0.00" class="number" pattern="[0-9.]*" required th:field="*{totalPassport}"/>
+              <span th:if="${#fields.hasErrors('totalPassport')}" th:errors="*{totalPassport}" class="error"></span>
+              </td>
+              <td><input type="text" placeholder="0.00" class="number" pattern="[0-9.]*" required th:field="*{currentPassport}"/>
+              <span th:if="${#fields.hasErrors('currentPassport')}" th:errors="*{currentPassport}" class="error"></span>
+              </td>
+              <td><input type="text" placeholder="$0.00" readonly="readonly"/></td>
+              </tr>
+              <tr><td>Immunizations</td>
+              <td><input type="text" placeholder="0.00" class="number" pattern="[0-9.]*" required th:field="*{totalImmunization}"/>
+              <span th:if="${#fields.hasErrors('totalImmunization')}" th:errors="*{totalImmunization}" class="error"></span>
+              </td>
+              <td><input type="text" placeholder="0.00" class="number" pattern="[0-9.]*" required th:field="*{currentImmunization}"/>
+              <span th:if="${#fields.hasErrors('currentImmunization')}" th:errors="*{currentImmunization}" class="error"></span>
+              </td>
+              <td><input type="text" placeholder="$0.00" readonly="readonly"/></td>
+              </tr>
+              <tr><td>Housing</td>
+              <td><input type="text" placeholder="0.00" class="number" pattern="[0-9.]*" required th:field="*{totalHousing}"/>
+              <span th:if="${#fields.hasErrors('totalHousing')}" th:errors="*{totalHousing}" class="error"></span>
+              </td>
+              <td><input type="text" placeholder="0.00" class="number" pattern="[0-9.]*" required th:field="*{currentHousing}"/>
+              <span th:if="${#fields.hasErrors('currentHousing')}" th:errors="*{currentHousing}" class="error"></span>
+              </td>
+              <td><input type="text" placeholder="$0.00" readonly="readonly"/></td>
+              </tr>
+              <tr><td>Communication</td>
+              <td><input type="text" placeholder="0.00" class="number" pattern="[0-9.]*" required th:field="*{totalCommunication}"/>
+              <span th:if="${#fields.hasErrors('totalCommunication')}" th:errors="*{totalCommunication}" class="error"></span>
+              </td>
+              <td><input type="text" placeholder="0.00" class="number" pattern="[0-9.]*" required th:field="*{currentCommunication}"/>
+              <span th:if="${#fields.hasErrors('currentCommunication')}" th:errors="*{currentCommunication}" class="error"></span>
+              </td>
+              <td><input type="text" placeholder="$0.00" readonly="readonly"/></td>
+              </tr>
+              <tr><td>Meals</td>
+              <td><input type="text" placeholder="0.00" class="number" pattern="[0-9.]*" required th:field="*{totalMeal}"/>
+              <span th:if="${#fields.hasErrors('totalMeal')}" th:errors="*{totalMeal}" class="error"></span>
+              </td>
+              <td><input type="text" placeholder="0.00" class="number" pattern="[0-9.]*" required th:field="*{currentMeal}"/>
+              <span th:if="${#fields.hasErrors('currentMeal')}" th:errors="*{currentMeal}" class="error"></span>
+              </td>
+              <td><input type="text" placeholder="$0.00" readonly="readonly"/></td>
+              </tr>
+              <tr><td>Miscellaneous (describe below)</td>
+              <td><input type="text" placeholder="0.00" class="number" pattern="[0-9.]*" required th:field="*{totalMiscellaneous}"/>
+              <span th:if="${#fields.hasErrors('totalMiscellaneous')}" th:errors="*{totalMiscellaneous}" class="error"></span>
+              </td>
+              <td><input type="text" placeholder="0.00" class="number" pattern="[0-9.]*" required th:field="*{currentMiscellaneous}"/>
+              <span th:if="${#fields.hasErrors('currentMiscellaneous')}" th:errors="*{currentMiscellaneous}" class="error"></span>
+              </td>
+              <td><input type="text" placeholder="$0.00" readonly="readonly"/></td>
+              </tr> 
+              
+	            </tbody>
+				<tfoot><tr><th><strong>TOTAL</strong></th>
+				<th><input type="text" readonly="readonly" placeholder="$0.00"/></th>
+				<th><input type="text" readonly="readonly" placeholder="$0.00"/></th>
+				<th><input type="text" readonly="readonly" placeholder="$0.00"/></th></tr>
+				</tfoot>
+          </table>
+          
+          					<div class="row">
+                                <div class="col-md-12 form-group">
+                                   <label><span>Describe Miscellaneous Expenses:</span></label>
+                                    <div class="form-group">
+                                   <textarea rows="5" th:field="*{miscellaneousDescribe}"></textarea>
+                                </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-12 form-group">
+                                   <label><span>Your Additional Funding Sources:</span></label>
+                                    <div class="form-group">
+                                   <textarea rows="5" th:field="*{fundingSource}"></textarea>
+                                </div>
+                                </div>
+                            </div>
+						<div class="accordion-controls">
+							<label class="accordion-label"></label>
+							<div class="accordion-input">
+								<input type="submit" value="Save" class="btn btn-primary" th:disabled="${tag}">
+							</div>
+						</div>
+					</fieldset>
+					</form>
+                    </div>
+                    </div>
+                    
+                    <!-- Documents -->
+					<div class="frame " th:attrappend="class=${section=='transcript.do' ? 'active' : ''}">
+                    	<div class="heading">Transcripts</div>
+                        <div class="content">
+                        <form name="transcript_info" id="transcript_info" enctype="multipart/form-data"
+							th:action="@{'/application/edit/transcript.do/'+${appcode}}" method="post" th:object="${fileBucket}">
+							<p>*Application will not be accepted unless you submit a copy
+								of a current unofficial transcript.</p>
+							<fieldset>
+								<legend>Upload Transcript</legend>
+								<div class="accordion-controls">
+									<label class="accordion-label" for="file">File</label>
+									<div class="accordion-input">
+										<input name="file" id="file" type="file">
+										<p style="font-style: italic; font-size: 11px;">Allowed
+											file type: pdf; Max File Size: 5MB</p>
+										<span th:if="${#fields.hasErrors('file')}" 
+								th:errors="*{file}" class="error"></span>
+									</div>
+								</div>
+								<div class="accordion-controls">
+									<label class="accordion-label"></label>
+									<div class="accordion-input">
+										<input name="submit" type="submit" value="Upload" class="btn btn-primary" th:disabled="${tag}">
+									</div>
+								</div>
+							</fieldset>
+							<div class="accordion-controls" th:if="${fileBucket.fileExist}==1">
+							<label class="accordion-label"></label>
+							<div class="accordion-input">
+								<a th:href="@{'/application/download/transcript-'+${appcode}}">
+								<i class="fa fa-file-pdf-o fa-fw"></i> Download uploaded file</a>
+							</div>
+							</div>
+						</form>
+                        </div>
+                    </div>
+                    
+                    <!-- Submit -->
+					<div class="frame " th:attrappend="class=${section=='submit.do' ? 'active' : ''}">
+                    	<div class="heading">Submit</div>
+                        <div class="content">
+                        <form th:action="@{'/application/edit/submit.do/'+${appcode}}" method="post" th:object="${signatureBean}">
+						<fieldset>
+						<div class="accordion-controls">
+								<label class="accordion-label"></label>
+								<div class="accordion-input">
+								<p><strong>By signing below, I acknowledge my commitment to complete the following requirements: </strong></p>
+								<ul style="line-height: 2em;">
+								<li>Present at the New Mexico AMP Conference.</li>
+								<li>Complete an online survey upon return from my summer experience.</li>
+								<li>Participate in a Focus Group to share my experience to assist the program to evaluate project success.</li>
+								<li>Complete a "Trip Report" upon return from my summer experience.</li>
+								<li>I understand this is not a scholarship.</li>
+								<li>I understand that approved "out of pocket" expenses will be reimbursed only if receipts are provided upon my return.</li>
+								</ul>
+								</div>
+							</div>
+						</fieldset>
+						<fieldset>
+								<div class="accordion-controls">
+									<label class="accordion-label"><span>Signature</span></label>
+									<div class="accordion-input">
+										<input name="signature" type="text" th:field="*{signature}">
+									</div>
+									<span th:if="${#fields.hasErrors('signature')}" 
+							th:errors="*{signature}" class="error"></span>
+								</div>
+								<div class="accordion-controls">
+									<label class="accordion-label"><span>Date</span></label>
+									<div class="accordion-input">
+									<input name="signature_date" type="text" id="signature_date" th:field="*{signatureDate}" placeholder="DD/mm/yyyy">
+									</div>
+									<span th:if="${#fields.hasErrors('signatureDate')}" 
+							th:errors="*{signatureDate}" class="error"></span>
+								</div>
+								<input name="schoolYear" th:value="${schoolYear}" readonly type="hidden">
+								<input name="schoolSemester" th:value="${schoolSemester}" readonly type="hidden">
+								<div class="accordion-controls">
+									<label class="accordion-label"></label>
+									<div class="accordion-input">
+										<input name="submit" type="submit" value="Submit" class="btn btn-primary" th:disabled="${tag}">
+									</div>
+								</div>
+								<div class="accordion-controls"><label class="accordion-label"></label>
+								<div class="accordion-input">
+								<p style="color: red;font-size: 150%;"><i>Upon clicking the Submit button, an email will be sent to your mentor who will review your project proposal.</i></p>
+								</div>
+								</div>
+							</fieldset>
+						</form>
+                        </div>
+                    </div>
+				</div>
+				<!-- end for accordion -->
+			</div>
+		</div>
+	</div>
+</div>
+<th:block th:include="student/layout :: scriptFragment"></th:block>
+<script src="../../js/metro.js" th:src="@{/js/metro.js}"></script>
+<script th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.js}"></script>
+<script src="../../js/utils.apply.irep.js" th:src="@{/js/utils.apply.irep.js}"></script>
+ 
+</body>
+</html>

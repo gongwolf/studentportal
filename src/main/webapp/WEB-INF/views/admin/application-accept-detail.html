@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 2018 Feng Liu
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head
+	th:include="admin/layout :: headerFragment (pageTitle='URS Projects')">
+<title></title>
+</head>
+<body>
+<div id="wrapper">
+	<nav class="navbar navbar-default navbar-static-top" role="navigation"
+		style="margin-bottom: 0;" th:include="admin/layout :: navbarFragment">
+	</nav>
+       
+    <div id="page-wrapper">
+        <div class="row">
+			<div class="col-lg-12">
+				<div class="panel">
+					<div class="panel-body"></div>
+				</div>
+			</div>
+		</div>
+     
+	    <div class="row" id="fadeOut" th:if="!${#strings.isEmpty(status)}">
+	        <div class="col-lg-12">
+	           <div class="panel panel-info">
+	               <div class="panel-heading" >
+	               <i class="fa fa-info-circle fa-fw"></i><span th:text="${status}"></span>
+	               </div>
+	           </div>
+	        </div>
+	    </div>
+ 
+	<div class="row">
+	    <div class="col-lg-12 col-md-12">
+	    	<div class="panel panel-default">
+			<div class="panel-heading">
+			<a th:href="@{'/admin/application-accept/result?year='+${schoolYear}+'&semester='+${schoolSemester}+'&schoolTarget='+${schoolTarget}}">
+			<i class="fa fa-arrow-left fa-fw"></i> Back</a>
+			<div class="pull-right"><i class="fa fa-bar-chart-o fa-fw"></i> Detail</div>
+			</div>
+			<div class="panel-body">
+                <!-- Nav tabs -->
+                <ul class="nav nav-pills">
+                    <li class="active"><a href="#profile" data-toggle="tab">Profile</a>
+                    </li>
+                    <li><a href="#application" data-toggle="tab">Application</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="profile">
+                    <div class="panel panel-default">
+					<div class="panel-body">
+					  
+					<form class="form-horizontal" th:object="${user}">
+	                	<div class="form-group">
+					    <label class="col-sm-3 control-label">User ID</label>
+					    <div class="col-sm-7">
+					      <p class="form-control-static" th:text="*{userID}"></p>
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <label class="col-sm-3 control-label">Name</label>
+					    <div class="col-sm-7">
+					      <p class="form-control-static" th:text="|*{firstName} *{lastName}|"></p>
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <label class="col-sm-3 control-label">Email</label>
+					    <div class="col-sm-7">
+					      <p class="form-control-static" th:text="*{email}"></p>
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <label class="col-sm-3 control-label">Birth Date</label>
+					    <div class="col-sm-7">
+					      <p class="form-control-static" th:text="*{birthDate}"></p>
+					    </div>
+					  </div>
+					</form>
+						 
+					</div>
+					</div>
+                    </div>
+                    <div class="tab-pane fade" id="application">
+		            <div class="panel panel-default">
+		            <div class="panel-heading">
+							<i class="fa fa-bar-chart-o fa-fw"></i> 
+							<div class="pull-right">
+								<div class="btn-group">
+									<button type="button"
+										class="btn btn-default btn-xs dropdown-toggle"
+										data-toggle="dropdown">
+										Actions <span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu pull-right" role="menu">
+										<li class="divider"></li>
+										 <li class="divider"></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					<div class="panel-body">
+					
+					<table id="applicationTable" class="display" style="overflow-x:auto;border-spacing: 0px;width: 100%">
+					<thead>
+						<tr>
+							<th><input name="select_all" value="1" id="example-select-all" type="checkbox" /></th>
+							<th>Program</th>
+							<th>Semester</th>
+							<th>Decision</th>
+							<th>Accept School</th>
+						</tr>
+					</thead>
+					</table>
+					
+					</div>
+					</div>
+            
+                    </div>
+                  </div>
+              </div>
+                
+	              </div>
+	          </div>
+	      </div>
+	      </div>
+	  
+    </div>
+  
+<th:block th:include="admin/layout :: scriptFragment"></th:block>
+<script th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.js}"></script>
+<script src="../../js/jquery.dataTables.js" th:src="@{/js/jquery.dataTables.js}"></script>
+<script th:inline="javascript">
+/*<![CDATA[*/ 
+var data = eval(/*[[${applicationList}]]*/) ;
+var schoolYear = /*[[${schoolYear}]]*/; 
+var schoolSemester = /*[[${schoolSemester}]]*/; 
+var _csrf_token = /*[[${_csrf.token}]]*/ '';
+var _csrf_param_name = /*[[${_csrf.parameterName}]]*/ '';
+var rows_selected = [];
+/*]]>*/
+
+$(document).ready(function(){
+	var table = $('#applicationTable').DataTable( {
+   	"aaData": data, 
+   	'columnDefs': [{
+       'targets': 0,
+       'searchable':false,
+       'orderable':false,
+       'className': 'dt-body-center',
+       'render': function (data, type, full, meta){
+    	   return '<input class = "checkbox_input" type="checkbox" name="id[]" value="'+full.applicationID+'">';
+       }
+     },
+     {
+       'targets': 2,
+       'render': function (data, type, full, meta){
+       	return '<span>'+full.schoolSemester+' '+full.schoolYear+'</span>';
+       }
+     }
+      ],
+         "aoColumns": [
+           {"mData":""},
+           {"mData":"programNameFull"}, 
+           {"mData": ""},
+           {"mData": "decision"},
+           {"mData": "schoolTarget"}
+         ],
+         "paging":true,
+         "pageLength":10,
+         "ordering":true,
+         "order":[1,"asc"]
+    });
+	
+	$('#applicationTable tbody').on('click', 'input[type="checkbox"]',
+		function(e) {
+			var $row = $(this).closest('tr');
+			var data = table.row($row).data();
+			var index = $.inArray(data, rows_selected);
+			 
+			if (this.checked && index === -1) {
+				rows_selected.push(data);
+			} else if (!this.checked && index !== -1) {
+				rows_selected.splice(index, 1);
+			}
+			 
+			if (this.checked) {
+				$row.addClass('selected');
+			} else {
+				$row.removeClass('selected');
+			}
+			updateDataTableSelectAllCtrl(table);
+			e.stopPropagation();
+	});
+	
+	$('thead input[name="select_all"]', table.table().container())
+	.on('click', function(e) {
+		if (this.checked) {
+			$('#applicationTable tbody input[type="checkbox"]:not(:checked)').trigger('click');
+		} else {
+			$('#applicationTable tbody input[type="checkbox"]:checked').trigger('click');
+		}
+		e.stopPropagation();
+	});
+	
+	table.on('draw', function() {
+	updateDataTableSelectAllCtrl(table);
+	});
+	
+	function updateDataTableSelectAllCtrl(table){
+	   var $table             = table.table().node();
+	   var $chkbox_all        = $('tbody input[type="checkbox"]', $table);
+	   var $chkbox_checked    = $('tbody input[type="checkbox"]:checked', $table);
+	   var chkbox_select_all  = $('thead input[name="select_all"]', $table).get(0);
+
+	   if($chkbox_checked.length === 0){
+	      chkbox_select_all.checked = false;
+	      if('indeterminate' in chkbox_select_all){
+	         chkbox_select_all.indeterminate = false;
+	      }
+	   } else if ($chkbox_checked.length === $chkbox_all.length){
+	      chkbox_select_all.checked = true;
+	      if('indeterminate' in chkbox_select_all){
+	         chkbox_select_all.indeterminate = false;
+	      }
+	   } else {
+	      chkbox_select_all.checked = true;
+	      if('indeterminate' in chkbox_select_all){
+	         chkbox_select_all.indeterminate = true;
+	      }
+	   }
+	}
+}); 
+
+</script>
+ 			
+</body>
+</html>
+ 

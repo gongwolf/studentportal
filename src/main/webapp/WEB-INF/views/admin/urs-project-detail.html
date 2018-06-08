@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 2018 Feng Liu
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head
+	th:include="admin/layout :: headerFragment (pageTitle='URS Projects')">
+<title></title>
+</head>
+<body>
+<div id="wrapper">
+	<nav class="navbar navbar-default navbar-static-top" role="navigation"
+		style="margin-bottom: 0;" th:include="admin/layout :: navbarFragment">
+	</nav>
+       
+    <div id="page-wrapper">
+        <div class="row">
+			<div class="col-lg-12">
+				<div class="panel">
+					<div class="panel-body"></div>
+				</div>
+			</div>
+		</div>
+     
+	    <div class="row" id="fadeOut" th:if="!${#strings.isEmpty(status)}">
+	        <div class="col-lg-12">
+	           <div class="panel panel-info">
+	               <div class="panel-heading" >
+	               <i class="fa fa-info-circle fa-fw"></i><span th:text="${status}"></span>
+	               </div>
+	           </div>
+	        </div>
+	    </div>
+ 
+	<div class="row">
+	    <div class="col-lg-12 col-md-12">
+	    	<div class="panel panel-default">
+			<div class="panel-heading">
+			<a th:href="@{'/admin/urs-project/result?year='+${schoolYear}+'&semester='+${schoolSemester}+'&schoolTarget='+${schoolTarget}}">
+			<i class="fa fa-arrow-left fa-fw"></i> Back</a>
+			<div class="pull-right"><i class="fa fa-bar-chart-o fa-fw"></i> Project Proposal Detail</div>
+			</div>
+			<div class="panel-body">
+                <!-- Nav tabs -->
+                <ul class="nav nav-pills">
+                    <li class="active"><a href="#profile" data-toggle="tab">Profile</a>
+                    </li>
+                    <li><a href="#evaluation" data-toggle="tab">Evaluation by Mentor</a>
+                    </li>
+                    <li><a href="#evaluation-student" data-toggle="tab">Evaluation by Student</a>
+                    </li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                		<!-- profile -->
+                    <div class="tab-pane fade in active" id="profile">
+                    <div class="panel panel-default">
+					<div class="panel-body">
+					<form class="form-horizontal" th:object="${applicationBean}">
+	                	<div class="form-group">
+					    <label class="col-sm-3 control-label">Project Title</label>
+					    <div class="col-sm-7">
+					      <p class="form-control-static" th:text="*{projectBean.projectTitle}"></p>
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <label class="col-sm-3 control-label">Accepted Semester</label>
+					    <div class="col-sm-7">
+					      <p class="form-control-static" th:text="|${schoolSemester} ${schoolYear}|"></p>
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <label class="col-sm-3 control-label">Mentor Name</label>
+					    <div class="col-sm-7">
+					      <p class="form-control-static" th:text="|*{mentorBean.mentorFirstName} *{mentorBean.mentorLastName}|"></p>
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <label class="col-sm-3 control-label">Mentor Email</label>
+					    <div class="col-sm-7">
+					      <p class="form-control-static" th:text="*{mentorBean.mentorEmail}"></p>
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <label class="col-sm-3 control-label">Mentor's User ID</label>
+					    <div class="col-sm-7">
+					      <p class="form-control-static" th:text="*{mentorID}"></p>
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <label class="col-sm-3 control-label">Mentee Name</label>
+					    <div class="col-sm-7">
+					      <p class="form-control-static" th:text="|*{firstName} *{lastName}|"></p>
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <label class="col-sm-3 control-label">Mentee Email</label>
+					    <div class="col-sm-7">
+					      <p class="form-control-static" th:text="*{email}"></p>
+					    </div>
+					  </div>
+					</form>
+						 
+					</div>
+					</div>
+                    </div>
+                    <!-- eval by mentor -->
+                    <div class="tab-pane fade" id="evaluation">
+                    <div class="panel panel-default" th:if="${#httpSession.getAttribute('flagadmin')}">
+					<div class="panel-body">
+                    <form class="form-horizontal" role="form" th:object="${evaluationBean}"
+                    th:action="@{/admin/urs-project/detail/add-evaluation}" method="post">
+		            <div class="modal-body">
+		                  <fieldset>
+		                  <legend>Add mentor evaluation</legend>
+		                  <div class="form-group">
+		                    <label class="col-sm-3 control-label">Semester</label>
+		                    <div class="col-sm-4">
+		                    <select style="width: auto;" name="evalTerm" th:field="*{evalTerm}">
+		                    <option value="">-- Select One --</option>
+		                    <option value="Spring">Spring</option>
+		                    <option value="Summer">Summer</option>
+		                    <option value="Fall">Fall</option>
+		                    </select>
+		                    </div>
+		                    <div class="col-sm-5">
+		                        <select name="evalYear" style="width: auto" th:field="*{evalYear}">
+								<option value="">-- Select One --</option>
+								<option 
+								th:each="year:${#numbers.sequence(#dates.year(#dates.createNow())-1, #dates.year(#dates.createNow())+2)}"
+								th:value="${year}" th:text="${year}"></option>
+								</select>
+								<span th:if="${#fields.hasErrors('evalYear')}" th:errors="*{evalYear}" 
+							class="error"></span>
+							<span th:if="${#fields.hasErrors('evalTerm')}" th:errors="*{evalTerm}" 
+							class="error"></span>
+		                    </div>
+		                  </div>
+		                  <div class="form-group">
+		                    <label class="col-sm-3 control-label">Deadline</label>
+		                    <div class="col-sm-9">
+		                    <input type="text" title="MM/dd/yyyy" class="form-control evalDeadline" name="evalDeadline" 
+		                    id="evalDeadline" th:field="*{evalDeadline}" placeholder="MM/dd/yyyy"/>
+		                    <span th:if="${#fields.hasErrors('evalDeadline')}" th:errors="*{evalDeadline}" 
+							class="error"></span>
+							</div>
+		                  </div>
+		                  <div class="form-group">
+		                    <label class="col-sm-3 control-label">Evaluation Point</label>
+		                    <div class="col-sm-9">
+		                    <select name="evalPoint" th:field="*{evalPoint}">
+		                    <option value="">-- Select One --</option>
+		                    <option value="Mid-Term">Mid-Term Evaluation</option>
+		                    <option value="End-Of-Semester">End Of Semester Evaluation</option>
+		                    </select>
+		                    <span th:if="${#fields.hasErrors('evalPoint')}" th:errors="*{evalPoint}" 
+							class="error"></span>
+		                    </div>
+		                  </div>
+		                  </fieldset>
+		                  <div class="form-group">
+		                    <label class="col-sm-3 control-label"></label>
+		                    <div class="col-sm-9">
+		                     <button type="submit" class="btn btn-primary">Add</button>
+		                     <input name="applicationID" th:value="${applicationID}" type="hidden">
+							<input name="acceptSemester" th:value="${schoolSemester}" type="hidden">
+							<input name="acceptYear" th:value="${schoolYear}" type="hidden">
+							<input name="schoolTarget" th:value="${schoolTarget}" type="hidden">
+							<input name="menteeID" th:value="${applicationBean.userID}" type="hidden">
+							<input name="mentorID" th:value="${applicationBean.mentorID}" type="hidden">
+		                    </div>
+		                  </div>
+		            </div>
+		            </form>
+		            </div>
+		            </div>
+		            <div class="panel panel-default">
+		            <div class="panel-heading">
+							<i class="fa fa-bar-chart-o fa-fw"></i> 
+							<div class="pull-right">
+								<div class="btn-group">
+									<button type="button"
+										class="btn btn-default btn-xs dropdown-toggle"
+										data-toggle="dropdown">
+										Actions <span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu pull-right" role="menu">
+										<li class="divider"></li>
+										<li th:if="${#httpSession.getAttribute('flagadmin')}"><a href="javascript:updateDeadline()">Update Deadline </a></li>
+										<li th:if="${#httpSession.getAttribute('flagadmin')}"><a href="javascript:notifyMentor()">Notify Mentor </a></li>
+										<li class="divider"></li>
+										<li><a href="javascript:exportEvaluationPdf()">Export to PDF </a></li>
+										<li class="divider"></li>
+										<li class="divider"></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					<div class="panel-body">
+					
+					<table id="evaluationTable" class="display" style="overflow-x:auto;border-spacing: 0px;width: 100%">
+					<thead>
+						<tr>
+							<th><input name="select_all" value="1" id="example-select-all" type="checkbox" /></th>
+							<th>Semester</th>
+							<th>Point</th>
+							<th>Deadline</th>
+							<th>Notified Date</th>
+							<th>Submit Date</th>
+						</tr>
+					</thead>
+					</table>
+					
+					</div>
+					</div>
+            
+                    </div>
+                    <!-- eval by student -->
+                    <div class="tab-pane fade" id="evaluation-student">
+                    <div class="panel panel-default" th:if="${#httpSession.getAttribute('flagadmin')}">
+					<div class="panel-body">
+                    <form class="form-horizontal" role="form" th:object="${evaluationBeanStu}"
+                    th:action="@{/admin/urs-project/detail/add-evaluation-stu}" method="post">
+		            <div class="modal-body">
+		                  <fieldset>
+		                  <legend>Add student evaluation</legend>
+		                  <div class="form-group">
+		                    <label class="col-sm-3 control-label">Semester</label>
+		                    <div class="col-sm-4">
+		                    <select style="width: auto;" name="evalTerm" th:field="*{evalTerm}">
+		                    <option value="">-- Select One --</option>
+		                    <option value="Spring">Spring</option>
+		                    <option value="Summer">Summer</option>
+		                    <option value="Fall">Fall</option>
+		                    </select>
+		                    </div>
+		                    <div class="col-sm-5">
+		                        <select name="evalYear" style="width: auto" th:field="*{evalYear}">
+								<option value="">-- Select One --</option>
+								<option 
+								th:each="year:${#numbers.sequence(#dates.year(#dates.createNow())-1, #dates.year(#dates.createNow())+2)}"
+								th:value="${year}" th:text="${year}"></option>
+								</select>
+								<span th:if="${#fields.hasErrors('evalYear')}" th:errors="*{evalYear}" 
+							class="error"></span>
+							<span th:if="${#fields.hasErrors('evalTerm')}" th:errors="*{evalTerm}" 
+							class="error"></span>
+		                    </div>
+		                  </div>
+		                  <div class="form-group">
+		                    <label class="col-sm-3 control-label">Deadline</label>
+		                    <div class="col-sm-9">
+		                    <input type="text" title="MM/dd/yyyy" class="form-control evalDeadline" name="evalDeadline" 
+		                    id="evalDeadlineStu" th:field="*{evalDeadline}" placeholder="MM/dd/yyyy"/>
+		                    <span th:if="${#fields.hasErrors('evalDeadline')}" th:errors="*{evalDeadline}" 
+							class="error"></span>
+							</div>
+		                  </div>
+		                  <div class="form-group">
+		                    <label class="col-sm-3 control-label">Evaluation Point</label>
+		                    <div class="col-sm-9">
+		                    <select name="evalPoint" th:field="*{evalPoint}">
+		                    <option value="">-- Select One --</option>
+		                    <option value="Mid-Term">Mid-Term Evaluation</option>
+		                    <!-- 
+		                    <option value="End-Of-Semester">End Of Semester Evaluation</option>
+		                     -->
+		                     </select>
+		                    <span th:if="${#fields.hasErrors('evalPoint')}" th:errors="*{evalPoint}" 
+							class="error"></span>
+		                    </div>
+		                  </div>
+		                  </fieldset>
+		                  <div class="form-group">
+		                    <label class="col-sm-3 control-label"></label>
+		                    <div class="col-sm-9">
+		                     <button type="submit" class="btn btn-primary">Add</button>
+		                     <input name="applicationID" th:value="${applicationID}" type="hidden">
+							<input name="acceptSemester" th:value="${schoolSemester}" type="hidden">
+							<input name="acceptYear" th:value="${schoolYear}" type="hidden">
+							<input name="schoolTarget" th:value="${schoolTarget}" type="hidden">
+							<input name="menteeID" th:value="${applicationBean.userID}" type="hidden">
+							<input name="mentorID" th:value="${applicationBean.mentorID}" type="hidden">
+		                    </div>
+		                  </div>
+		            </div>
+		            </form>
+		            </div>
+		            </div>
+		            <div class="panel panel-default">
+		            <div class="panel-heading">
+							<i class="fa fa-bar-chart-o fa-fw"></i> 
+							<div class="pull-right">
+								<div class="btn-group">
+									<button type="button"
+										class="btn btn-default btn-xs dropdown-toggle"
+										data-toggle="dropdown">
+										Actions <span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu pull-right" role="menu">
+										<li class="divider"></li>
+										<li th:if="${#httpSession.getAttribute('flagadmin')}"><a href="javascript:updateDeadlineStu()">Update Deadline </a></li>
+										<li th:if="${#httpSession.getAttribute('flagadmin')}"><a href="javascript:notifyStudent()">Notify Student </a></li>
+										<li class="divider"></li>
+										<li><a href="javascript:exportEvaluationPdfStu()">Export to PDF </a></li>
+										<li class="divider"></li>
+										<li class="divider"></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					<div class="panel-body">
+					
+					<table id="evaluationTableStu" class="display" style="overflow-x:auto;border-spacing: 0px;width: 100%">
+					<thead>
+						<tr>
+							<th><input name="select_all" value="1" id="example-select-all" type="checkbox" /></th>
+							<th>Semester</th>
+							<th>Point</th>
+							<th>Deadline</th>
+							<th>Notified Date</th>
+							<th>Submit Date</th>
+						</tr>
+					</thead>
+					</table>
+					
+					</div>
+					</div>
+            
+                    </div>
+                    
+                  </div>
+              </div>
+                
+	              </div>
+	          </div>
+	      </div>
+	      </div>
+	  
+    </div>
+   
+<!-- Update Deadline Detail Modal -->
+<div class="modal fade" id="updateDeadlineModal" tabindex="-1" role="dialog" 
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" 
+                   data-dismiss="modal">
+                       <span aria-hidden="true">&times;</span>
+                       <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Update Deadline</h4>
+            </div>
+            
+            <!-- Modal Body -->
+            <form class="form-horizontal" id="updateDeadlineForm" method="post"
+            th:action="@{'/admin/urs-project/detail/update-deadline/'+${schoolSemester}+'/'+${schoolYear}+'/'+${applicationID}+'/'+${schoolTarget}}">
+            <div class="modal-body">
+                  <div class="form-group">
+                    <label class="col-sm-4 control-label">Evaluation Semester</label>
+                    <div class="col-sm-8">
+                        <p class="form-control-static" id = "modalEvalSemester"></p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-4 control-label">Evaluation Point</label>
+                    <div class="col-sm-8">
+                        <p class="form-control-static" id = "modalEvalPoint"></p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-4 control-label">Set Deadline</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control evalDeadline" id="modalEvalDeadline"
+                        name="evalDeadline" placeholder="MM/dd/yyyy"/>
+                    </div>
+                  </div>
+            </div>
+            
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" id="updateDeadline">Update</button>
+                <input type="hidden" id="footerEvalSemester" name="evalSemester"/>
+                <input type="hidden" id="footerEvalYear" name="evalYear"/>
+                <input type="hidden" id="footerEvalPoint" name="evalPoint"/>
+            </div>
+            
+            </form>
+        </div>
+    </div>
+</div>   
+
+<!-- Update Deadline Modal for Student -->
+<div class="modal fade" id="updateDeadlineModalStu" tabindex="-1" role="dialog" 
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" 
+                   data-dismiss="modal">
+                       <span aria-hidden="true">&times;</span>
+                       <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Update Deadline</h4>
+            </div>
+            
+            <!-- Modal Body -->
+            <form class="form-horizontal" id="updateDeadlineForm" method="post"
+            th:action="@{'/admin/urs-project/detail/update-deadline-stu/'+${schoolSemester}+'/'+${schoolYear}+'/'+${applicationID}+'/'+${schoolTarget}}">
+            <div class="modal-body">
+                  <div class="form-group">
+                    <label class="col-sm-4 control-label">Evaluation Semester</label>
+                    <div class="col-sm-8">
+                        <p class="form-control-static" id = "modalEvalSemester"></p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-4 control-label">Evaluation Point</label>
+                    <div class="col-sm-8">
+                        <p class="form-control-static" id = "modalEvalPoint"></p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-4 control-label">Set Deadline</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control evalDeadlineStu" id="modalEvalDeadlineStu"
+                        name="evalDeadline" placeholder="MM/dd/yyyy"/>
+                    </div>
+                  </div>
+            </div>
+            
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" id="updateDeadline">Update</button>
+                <input type="hidden" id="footerEvalSemester" name="evalSemester"/>
+                <input type="hidden" id="footerEvalYear" name="evalYear"/>
+                <input type="hidden" id="footerEvalPoint" name="evalPoint"/>
+            </div>
+            
+            </form>
+        </div>
+    </div>
+</div>   
+<th:block th:include="admin/layout :: scriptFragment"></th:block>
+<script th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.js}"></script>
+<script src="../../js/jquery.dataTables.js" th:src="@{/js/jquery.dataTables.js}"></script>
+<script src="../../js/moment.min.js" th:src="@{/js/moment.min.js}"></script>
+<script src="../../js/moment-with-locales.min.js" th:src="@{/js/moment-with-locales.min.js}"></script>
+<script src="../../js/moment-timezone.min.js" th:src="@{/js/moment-timezone.min.js}"></script>
+<script src="../../js/util.adm.urs.eval.js" th:src="@{/js/util.adm.urs.eval.js}"></script>
+
+<script th:inline="javascript">
+/*<![CDATA[*/ 
+var evaluationList = eval(/*[[${evaluationList}]]*/) ;
+var evaluationListStu = eval(/*[[${evaluationListStu}]]*/) ;
+var schoolYear = /*[[${schoolYear}]]*/; 
+var schoolSemester = /*[[${schoolSemester}]]*/; 
+var _csrf_token = /*[[${_csrf.token}]]*/ '';
+var _csrf_param_name = /*[[${_csrf.parameterName}]]*/ '';
+var rows_selected = [];
+var rows_selected_stu = [];
+/*]]>*/
+
+</script>
+ 			
+</body>
+</html>
+ 

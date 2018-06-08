@@ -1,0 +1,138 @@
+/*
+ * Copyright (c) 2018 Feng Liu
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/* style used by application and profile */
+#accordin {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: auto;
+}
+
+.accordion-heading {
+	background: #428bca;
+	height: auto;
+	margin: 2px;
+	color: #DDDDDD;
+	padding: 3px 10px;
+	cursor: pointer;
+	position: relative;
+}
+.accordion-body {
+	padding: 40px 70px;
+	margin-bottom: 10px;
+}
+
+.accordion-controls {
+	margin: 0 auto;
+	padding: 0;
+	padding-bottom: 1em;
+}
+
+.accordion-label {
+	margin: 0;
+	padding: 0;
+	display: block;
+	font-size: 100%;
+	padding-top: 1.0em;
+	padding-right: .25em;
+	width: 15em;
+	text-align: right;
+	float: left;
+}
+
+.accordion-input {
+	margin-left: 25px;
+	display: inline-block;
+	padding-top: 5px;
+	padding-right: 10px;
+}
+ 
+input[type=text], input[type=date], 
+input[type=password], input[type=email],
+textarea, select {
+	-webkit-transition: all 0.30s ease-in-out;
+	-moz-transition: all 0.30s ease-in-out;
+	-ms-transition: all 0.30s ease-in-out;
+	-o-transition: all 0.30s ease-in-out;
+	outline: none;
+	padding: 6px 0px 6px 6px;
+	margin: 5px 1px 3px 0px;
+	border: 1px solid #DDDDDD; 
+}
+ 
+input[type=text]:focus, input[type=text]:hover, 
+input[type=date]:focus, input[type=date]:hover,
+input[type=email]:focus, input[type=email]:hover,
+textarea:focus, textarea:hover, select:hover
+input[type=password]:focus, input[type=password]:hover
+{
+	box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+	padding: 6px 0px 6px 6px;
+	margin: 5px 1px 3px 0px;
+	border: 1px solid rgba(81, 203, 238, 1);
+}
+
+input[type=radio] {
+	border: 1px solid #DDDDDD; 
+}
+
+input[type=radio]:focus, input[type=radio]:hover, input[type=checkbox]:focus,
+	input[type=checkbox]:hover {
+	box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+	border: 1px solid rgba(81, 203, 238, 1);
+	cursor: pointer;
+}
+select {
+	background-color: #f9f9f9;
+}
+select:hover {
+	box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+	border: 1px solid rgba(81, 203, 238, 1);
+}
+textarea {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	width: 100%;
+}
+ 
+.phone_type {
+	width: auto;
+}
+ 
+span {
+	font-weight: normal;
+}
+
+.optional {
+	color: rgba(81, 203, 238, 1);
+}
+
+.error {
+	padding: 5px;
+	margin-bottom: 20px;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	color: #a94442;
+	background-color: #f2dede;
+	border-color: #ebccd1;
+}
+ 
+input[readonly] {
+	background-color: #F0F0F0;
+	color: #8c8c8c; 
+}

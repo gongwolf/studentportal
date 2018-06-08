@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 2018 Feng Liu
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="shortcut icon" type="image/x-icon" href="../../css/favicon.ico" th:href="@{/css/favicon.ico}">
+    <link th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.min.css}" rel="stylesheet">
+    <link rel="stylesheet" href="../../js/gridtab/gridtab.min.css" th:href="@{/js/gridtab/gridtab.min.css}" />
+	<link th:href="@{/webjars/startbootstrap-sb-admin-2/1.0.2/css/sb-admin-2.css}" rel="stylesheet">
+	<link th:href="@{/webjars/font-awesome/4.7.0/css/font-awesome.css}" rel="stylesheet">
+	<link rel="stylesheet" href="../../css/style-home.css" th:href="@{/css/style-home.css}" />
+	<title>Instruction | myNew Mexico AMP</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+
+	<div id="wrapper">
+
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0;">
+            <div class="navbar-header">
+                <a class="navbar-brand" th:href="@{/login}">New Mexico Alliance
+                    for Minority Participation Portal</a>
+            </div>
+
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li></li>
+                        <li><a th:href="@{/login}"><i class="fa fa-dashboard fa-fw"></i>
+                            Sign In</a></li>
+                        <li><a th:href="@{/instruction}"><i class="fa fa-check-square-o fa-fw"></i>
+                            Program Requirement</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+		<div id="page-wrapper">
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel">
+						<div class="panel-body">
+							<h3 class="page-header">Program Description and Requirements</h3>
+							<p>
+								Carefully review the brief program descriptions and requirements
+								before submitting an application. For more detailed information
+								on the program, visit <a href="https://nmamp.nmsu.edu">nmamp.nmsu.edu</a>.
+							</p>
+							<br>
+							<p>
+								Applications with the <span class="text-primary">BLUE TAB</span>,
+								such as Community College Professional Development Workshop
+								Stipend, Summer Community College Opportunity for Research
+								Experience (SCCORE) Program, and Transfer Scholarship are <span
+									class="text-danger">only available for students enrolled</span>
+								in a New Mexico Community College.
+							</p>
+							<br>
+							<p>
+								Applications with the <span class="text-success">GREEN
+									TAB</span>, such as MESA Scholarship and Undergraduate Research
+								Scholars (URS) are <span class="text-danger">available to
+									students that have been accepted/planned or enrolled</span> in a New
+								Mexico 4-year Institution.
+							</p>
+							<br>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-12">
+
+					<dl class="gridtab">
+						<dt style="background-color: #19B5FE;">
+							<span class="text-middle">Community College Professional
+								Development Workshop Stipend</span>
+						</dt>
+						<dd>
+							<div class="panel-container">
+								<p class="text-primary">
+									<strong>New Mexico AMP Community College Professional
+										Development Workshop Stipend (Community College)</strong>
+								</p>
+								<p>
+									<strong>Application deadline:</strong>
+								</p>
+								<ul th:each="item:${windows.get('CCCONF')}">
+									<li>
+										<p class="text-danger"
+											th:text="${item.semester}+' '+${item.year}+': '+${#dates.format(item.startDate, 'MM/dd/yyyy')}+' - '+${#dates.format(item.endDate, 'MM/dd/yyyy')}"></p>
+									</li>
+								</ul>
+								<p>
+									<strong>Brief Description:</strong>
+								</p>
+								<p style="margin-left: 2em; margin-right: 2em;">
+									Community College Professional Development Workshop Stipends
+									are awarded to a New Mexico community college student to <strong>attend
+										and participate</strong> in the New Mexico AMP Student Research
+									Conference at the Las Cruces Convention Center adjacent to the
+									New Mexico State University Campus, in October. The New Mexico
+									AMP program also will pay your conference registration fee.
+								</p>
+								<p style="margin-left: 2em; margin-right: 2em;">
+									You <strong>must attend</strong> the entire conference <strong>from
+										3:00 p.m. Thursday through noon on Saturday</strong> &mdash; failure to
+									do so may disqualify you from receiving the stipend. Please
+									contact us if you have questions.
+								</p>
+								<p style="margin-left: 2em; margin-right: 2em;">
+									<i>NOTE: Students are eligible to receive this stipend only
+										twice &mdash; students who have already received a second
+										award are welcome to attend but only their registration will
+										be paid.</i>
+								</p>
+								<p>
+									<strong>What are the requirements to receive a
+										stipend?</strong>
+								</p>
+								<ul>
+									<li>Hispanic/Latino, American Indian/Alaskan Native,
+										African American/Black, Native Hawaiian/Pacific Islander,
+										other underrepresented minority as defined by the National
+										Science Foundation.</li>
+									<li>Currently enrolled full time or part-time at a New
+										Mexico community college.</li>
+									<li>A major in a science, technology, engineering or math
+										(STEM) discipline.</li>
+									<li>A minimum 2.7 GPA.</li>
+									<li>Transcripts must provide evidence of STEM related
+										pre-transfer coursework.</li>
+									<li>Submission of a completed application form, with the
+										one-page essay and a current unofficial transcript.</li>
+									<li>Attend and actively participate all three days of the
+										conference.</li>
+								</ul>
+								<p>
+									<strong>Application Requirements:</strong>
+								</p>
+								<ul>
+									<li>Application with the essay questions
+										<ul>
+											<li>Complete the essay questions with thoughtful and
+												thorough responses</li>
+										</ul>
+									</li>
+									<li>Community College Transcripts
+										<ul>
+											<li>Cumulative 2.7 GPA or greater</li>
+											<li>Evaluated to help access academic progress and
+												intent (e.g., evidence of success in math, science, English,
+												and pre-engineering course)</li>
+										</ul>
+									</li>
+									<li>Student Agreement and Disclosure Form (filled out as
+										part of your profile)</li>
+								</ul>
+							</div>
+						</dd>
+
+						<dt style="background-color: #19B5FE;">
+							<span class="text-middle">Summer Community College
+										Opportunity for Research Experience</span>
+						</dt>
+						<dd>
+							<div class="panel-container">
+								<p class="text-primary">
+									<strong>New Mexico AMP Summer Community College
+										Opportunity for Research Experience (SCCORE) (Community
+										College)</strong>
+								</p>
+								<p>
+									<strong>Application deadline:</strong>
+								</p>
+								<ul th:each="item:${windows.get('SCCORE')}">
+									<li>
+										<p class="text-danger"
+											th:text="${item.semester}+' '+${item.year}+': '+${#dates.format(item.startDate, 'MM/dd/yyyy')}+' - '+${#dates.format(item.endDate, 'MM/dd/yyyy')}"></p>
+									</li>
+								</ul>
+								<p>
+									<strong>Brief Description:</strong>
+								</p>
+								<p style="margin-left: 2em; margin-right: 2em;">
+									Targeted to community college students in all STEM fields, the
+									annual <strong>Summer Community College Opportunity
+										for Research Experience (SCCORE)</strong> program supports pre-transfer
+									community college students to serve as research assistants to
+									university faculty mentors in their related fields in the
+									summer. Participating students live on the university campus,
+									attend a credit-bearing class, and receive professional
+									development training.
+								</p>
+								<p style="margin-left: 2em; margin-right: 2em;">
+									For more information: <a href="https://nmamp.nmsu.edu/sccore/">https://nmamp.nmsu.edu/sccore/</a>
+								</p>
+								<p>
+									<strong>Application Requirements:</strong>
+								</p>
+								<ul>
+									<li>Application with the questionnaire
+										<ul>
+											<li>Complete the questions</li>
+											<li>Identify two top 4-year institutions of where you
+												want to attend the SCCORE Program</li>
+										</ul>
+									</li>
+									<li>Unofficial transcript (most recent)</li>
+									<li>Medical Emergency Care Authorization Form</li>
+									<li>Student Agreement and Disclosure Form (filled out as
+										part of your profile)</li>
+								</ul>
+							</div>
+						</dd>
+
+						<dt style="background-color: #19B5FE;">
+							<span class="text-middle">Transfer Scholarship</span>
+						</dt>
+						<dd>
+							<div class="panel-container">
+								<p class="text-primary">
+									<strong>New Mexico AMP Transfer Scholarship (Community
+										College)</strong>
+								</p>
+								<p>
+									<strong>Application deadline:</strong>
+								</p>
+								<ul th:each="item:${windows.get('TRANS')}">
+									<li>
+										<p class="text-danger"
+											th:text="${item.semester}+' '+${item.year}+': '+${#dates.format(item.startDate, 'MM/dd/yyyy')}+' - '+${#dates.format(item.endDate, 'MM/dd/yyyy')}"></p>
+									</li>
+								</ul>
+								<p>
+									<strong>Brief Description:</strong>
+								</p>
+								<p style="margin-left: 2em; margin-right: 2em;">
+									The <strong>Transfer Scholarship</strong> is available to
+									students transferring from a 2-year to a 4-year institution to
+									pursue a degree in a STEM discipline. The scholarship is
+									awarded to community college students the first semester at the
+									four-year New Mexico Institution.
+								</p>
+								<p style="margin-left: 2em; margin-right: 2em;">
+									For more information: <a
+										href="https://nmamp.nmsu.edu/transfer-scholarship/">https://nmamp.nmsu.edu/transfer-scholarship/</a>
+								</p>
+								<p>
+									<strong>Application Requirements:</strong>
+								</p>
+								<ul>
+									<li>Application with the essay questions
+										<ul>
+											<li>Complete the essay questions with thoughtful and
+												thorough responses</li>
+											<li>Identify the 4-year institution you are transferring
+												to</li>
+										</ul>
+									</li>
+									<li>Letter of Recommendation (1 letter required)
+										<ul>
+											<li>Letter of recommendation from a community college
+												instructor or a New Mexico AMP institutional coordinator</li>
+										</ul>
+									</li>
+									<li>Community College Transcripts
+										<ul>
+											<li>Cumulative 2.5 GPA or greater at the time of
+												transfer</li>
+											<li>Evaluated to help access academic progress and
+												intent (e.g., evidence of success in math, science, English,
+												and pre-engineering course)</li>
+										</ul>
+									</li>
+									<li>Student Agreement and Disclosure Form (filled out as
+										part of your profile)</li>
+								</ul>
+							</div>
+						</dd>
+
+						<dt style="background-color: #3FC380;">
+							<span class="text-middle">MESA Scholarship</span>
+						</dt>
+						<dd>
+							<div class="panel-container">
+								<p class="text-success">
+									<strong>New Mexico AMP MESA Scholarship (4-year
+										institution)</strong>
+								</p>
+								<p>
+									<strong>Application deadline:</strong>
+								</p>
+								<ul th:each="item:${windows.get('MESA')}">
+									<li>
+										<p class="text-danger"
+											th:text="${item.semester}+' '+${item.year}+': '+${#dates.format(item.startDate, 'MM/dd/yyyy')}+' - '+${#dates.format(item.endDate, 'MM/dd/yyyy')}"></p>
+									</li>
+								</ul>
+								<p>
+									<strong>Brief Description:</strong>
+								</p>
+								<p style="margin-left: 2em; margin-right: 2em;">The New
+									Mexico MESA scholarship is available to students who have
+									participated in the New Mexico MESA program in high school.
+									Applicants must demonstrate an intent to complete a B.S. degree
+									in a STEM field at a 4-year institution and have a cumulative
+									3.0 GPA or higher.</p>
+								<p>
+									<strong>Application Requirements:</strong>
+								</p>
+								<ul>
+									<li>Application with the essay questions
+										<ul>
+											<li>Complete the essay questions with thoughtful and
+												thorough responses</li>
+											<li>Identify the 4-year institution you are planning to
+												attend</li>
+										</ul>
+									</li>
+									<li>High School Transcripts
+										<ul>
+											<li>Cumulative 3.0 GPA (last graded semester)</li>
+										</ul>
+									</li>
+									<li>Student Agreement and Disclosure Form (filled out as
+										part of your profile)</li>
+								</ul>
+							</div>
+						</dd>
+						<dt style="background-color: #3FC380;">
+							<span class="text-middle">Undergraduate Research Scholars
+								(URS)</span>
+						</dt>
+						<dd>
+							<div class="panel-container">
+								<p class="text-success">
+									<strong>New Mexico AMP Undergraduate Research Scholars
+										(URS) (4-year institution)</strong>
+								</p>
+								<p>
+									<strong>Application deadline:</strong>
+								</p>
+								<ul th:each="item:${windows.get('URS')}">
+									<li>
+										<p class="text-danger"
+											th:text="${item.semester}+' '+${item.year}+': '+${#dates.format(item.startDate, 'MM/dd/yyyy')}+' - '+${#dates.format(item.endDate, 'MM/dd/yyyy')}"></p>
+									</li>
+								</ul>
+								<p>
+									<strong>Brief Description:</strong>
+								</p>
+								<p style="margin-left: 2em; margin-right: 2em;">Undergraduate
+									Research Scholars (URS) serve as apprentice researchers under
+									the supervision of a faculty mentor. Students establish a
+									working schedule with their mentors and are expected to work a
+									minimum of 10 hours per week during the academic year (fall and
+									spring semesters) and 20 hours per week during the summer.
+									Applications must include a focused research project proposal.
+									Students are eligible to participate in the URS program until
+									they graduate; however, students must complete a reapplication
+									process at the end of each semester to update eligibility
+									requirements and research activities and goals.</p>
+								<p style="margin-left: 2em; margin-right: 2em;">
+									For more information: <a
+										href="https://nmamp.nmsu.edu/undergraduate-research-scholars-urs/">https://nmamp.nmsu.edu/undergraduate-research-scholars-urs/</a>
+								</p>
+								<p>
+									<strong>Application Requirements:</strong>
+								</p>
+								<ul>
+									<li>Application</li>
+									<li>Unofficial transcripts (current)</li>
+									<li>Project Proposal</li>
+									<li>Mentor/Student Goals</li>
+									<li>Faculty Mentor Information</li>
+									<li>Student Agreement and Disclosure Form (filled out as
+										part of your profile)</li>
+								</ul>
+							</div>
+						</dd>
+						<dt style="background-color: #3FC380;">
+							<span class="text-middle">International Research and
+								Education Participation (IREP)</span>
+						</dt>
+						<dd>
+							<div class="panel-container">
+								<p class="text-success">
+									<strong>New Mexico AMP International Research and
+										Education Participation (IREP) (4-year institution)</strong>
+								</p>
+								<p>
+									<strong>Application deadline:</strong>
+								</p>
+								<ul th:each="item:${windows.get('IREP')}">
+									<li>
+										<p class="text-danger"
+											th:text="${item.semester}+' '+${item.year}+': '+${#dates.format(item.startDate, 'MM/dd/yyyy')}+' - '+${#dates.format(item.endDate, 'MM/dd/yyyy')}"></p>
+									</li>
+								</ul>
+								<p>
+									<strong>Brief Description:</strong>
+								</p>
+								<p style="margin-left: 2em; margin-right: 2em;">New Mexico
+									AMP has designated funding to support students participating in
+									international research experiences. To qualify for this
+									support, students must work with their research mentors
+									(domestic and international) to plan the project and determine
+									anticipated expenses. Many students begin this process with the
+									support of their faculty mentor, who may have funding as well
+									as international collaborators through his or her research
+									program. Students are expected to leverage funding from
+									multiple sources to support their international experience. The
+									New Mexico AMP Institutional Coordinator is available to assist
+									students to identify funding opportunities and to support the
+									planning process.</p>
+								<p style="margin-left: 2em; margin-right: 2em;">
+									For more information: <a
+										href="https://nmamp.nmsu.edu/international-research-education-participation-irep/">https://nmamp.nmsu.edu/international-research-education-participation-irep/</a>
+								</p>
+								<p>
+									<strong>Funding Requirements/Guidelines:</strong>
+								</p>
+								<ul>
+									<li>Present at the New Mexico AMP Conference (typically late September/early October). </li>
+									<li>You may be asked to complete an online survey upon your return.</li>
+									<li>You may be asked to participate in a Focus Group to share your experience and help us to evaluate success of the IREP Scholars leveraging funding opportunity.</li>
+									<li>You may be asked to complete a "Trip Report" (a form that asks you information on your experience &amp; knowledge gained from your trip.</li>
+									<li>This is not a scholarship. Approved “out of pocket” expenses will only be reimbursed with receipts.</li>
+								</ul>
+								
+								<p>
+									<strong>Application Requirements:</strong>
+								</p>
+								<ul>
+									<li>A completed International Research and Education Participation (IREP Scholars) Funding Request Application</li>
+									<li>A completed Budget Worksheet</li>
+									<li>A 250 word Project Abstract for the summer project</li>
+									<li>Unofficial transcripts (current)</li>
+									<li>Faculty Mentor Information</li>
+									<li>Student Agreement and Disclosure Form (filled out as
+										part of your profile)</li>
+								</ul>
+							</div>
+						</dd>
+					</dl>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+    <script src="http://cdn.jsdelivr.net/webjars/org.webjars/jquery/1.12.4/jquery.min.js" th:src="@{/webjars/jquery/1.12.4/jquery.min.js}"></script>
+    <script src="http://cdn.jsdelivr.net/webjars/org.webjars/bootstrap/3.3.6/js/bootstrap.min.js" th:src="@{/webjars/bootstrap/3.3.6/js/bootstrap.min.js}"></script>
+    <script src="http://cdn.jsdelivr.net/webjars/org.webjars.bower/startbootstrap-sb-admin-2/1.0.2/js/plugins/metisMenu/metisMenu.js" th:src="@{/webjars/startbootstrap-sb-admin-2/1.0.2/js/plugins/metisMenu/metisMenu.js}"></script>
+    <script src="../../js/sb-admin-2.js" th:src="@{/js/sb-admin-2.js}"></script>
+	<script src="../../js/gridtab/gridtab.min.js"
+		th:src="@{/js/gridtab/gridtab.min.js}"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('.gridtab').gridtab({
+				grid : 3,
+				tabPadding : 5,
+				borderWidth : 10,
+				contentPadding : 5,
+				activeTabBackground : '#F5F5F5',
+				tabBorderColor : '#F5F5F5',
+				contentBorderColor : '#fff',
+				config : {
+					showClose : true,
+					layout : 'tab',
+					scrollToTab : true
+				},
+				responsive : [ {
+					breakpoint : 991,
+					settings : {
+						grid : 3,
+						contentPadding : 30
+					}
+				}, {
+					breakpoint : 767,
+					settings : {
+						grid : 2,
+						contentPadding : 20
+					}
+				} ]
+			});
+		});
+	</script>
+
+</body>
+</html>

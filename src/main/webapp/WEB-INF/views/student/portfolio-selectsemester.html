@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 2018 Feng Liu
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="student/layout :: headerFragment (pageTitle='Portfolio')">
+<title></title>
+</head>
+<body>
+<div id="wrapper">
+ 
+ 	<nav class="navbar navbar-default navbar-static-top" role="navigation"
+		style="margin-bottom: 0;" th:include="student/layout :: navbarFragment">
+ 	</nav>
+  
+	<div id="page-wrapper">
+		<div class="row">
+            <div class="col-lg-12">
+                <h3 class="page-header">Create New Portfolio</h3>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+            
+        <div class="row" id="fadeOut" th:if="!${#strings.isEmpty(status)}">
+           <div class="col-lg-12">
+              <div class="panel panel-info">
+                  <div class="panel-heading" >
+                  <i class="fa fa-info-circle fa-fw"></i><span th:text="${status}"></span>
+                  </div>
+              </div>
+           </div>
+        </div>
+        
+       <div class="row">
+           <div class="col-lg-12">
+               <div class="panel">
+                   <div class="panel-body">
+                   
+                   <form class="form-horizontal" th:action="@{/portfolio/create}" 
+                        method="post" th:object="${portfolioBean}">
+					  <div class="form-group">
+					    <label class="col-sm-2 control-label">Title</label>
+					    <div class="col-sm-10">
+					    <input type="text" name="title" th:value="${title}" th:field="*{title}" class="form-control">
+					    <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="error"></span>
+					
+					</div>
+					  </div>
+					  <div class="form-group">
+					    <label class="col-sm-2 control-label">Semester</label>
+					    <div class="col-sm-10">
+					    <select name="school_semester" th:field="*{schoolSemester}" style="width: auto" class="form-control">
+					<option value="">-- Select One --</option>
+					<option th:each="semester:${academicSemester}"
+						th:value="${semester}" th:text="${semester}">
+					</option>
+					</select>
+					
+					<span th:if="${#fields.hasErrors('schoolSemester')}" th:errors="*{schoolSemester}" class="error"></span>
+					</div>
+					  </div>
+					  <div class="form-group">
+					    <div class="col-sm-offset-2 col-sm-10">
+					      <select name="set_application_year" style="width: auto" th:field="*{schoolYear}" class="form-control">
+					<option value="">-- Select One --</option>
+					<option 
+						th:each="year:${#numbers.sequence(#dates.year(#dates.createNow()), #dates.year(#dates.createNow())+2)}"
+						th:value="${year}" th:text="${year}"></option>
+					</select>
+					<span th:if="${#fields.hasErrors('schoolYear')}" th:errors="*{schoolYear}" class="error"></span> 
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <div class="col-sm-offset-2 col-sm-10">
+					      <button type="submit" class="btn btn-outline btn-primary">Finish</button>
+					    </div>
+					  </div>
+					</form>
+  
+                   </div>
+                   <!-- /.panel-body -->
+               </div>
+               <!-- /.panel -->
+           </div>
+           <!-- /.col-lg-12 -->
+       </div>
+            <!-- /.row -->
+	</div>
+</div>
+<th:block th:include="student/layout :: scriptFragment"></th:block>
+</body>
+</html>

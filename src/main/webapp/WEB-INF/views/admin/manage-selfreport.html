@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 2018 Feng Liu
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head
+	th:include="admin/layout :: headerFragment (pageTitle='Manage Self-Report')">
+<title></title>
+</head>
+<body>
+<div id="wrapper">
+	<nav class="navbar navbar-default navbar-static-top" role="navigation"
+		style="margin-bottom: 0;" th:include="admin/layout :: navbarFragment">
+	</nav>
+
+	<div id="page-wrapper">
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">Manage Self-Report Window</h1>
+			</div>
+			<!-- /.col-lg-12 -->
+		</div>
+
+		<div class="row" id="fadeOut" th:if="!${#strings.isEmpty(status)}">
+           <div class="col-lg-12">
+              <div class="panel panel-info">
+                  <div class="panel-heading" >
+                  <i class="fa fa-info-circle fa-fw"></i><span th:text="${status}"></span>
+                  </div>
+              </div>
+           </div>
+        </div>
+		
+		<div class="row">
+			<div class="col-lg-12 col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<form th:action="@{/admin/manage-selfreport}" method="post" th:object="${selfReportBean}">
+							<fieldset>
+								<div class="accordion-controls">
+									<label class="accordion-label"><span>Set
+											Semester</span></label>
+									<div class="accordion-input">
+										<select name="set_application_semester" th:field="*{semester}">
+											<option value="">-- Select One --</option>
+											<option
+												th:each="year : ${#numbers.sequence(#dates.year(#dates.createNow())-1, #dates.year(#dates.createNow())+5)}"
+												th:value="'Fall '+${year}+' - Summer '+${year+1}" 
+												th:text="'Fall '+${year}+' - Summer '+${year+1}"></option>
+										</select>
+										<span th:if="${#fields.hasErrors('semester')}" 
+										th:errors="*{semester}" class="error"></span>
+										<br>
+									</div>
+								</div>
+								
+								<div class="accordion-controls">
+									<label class="accordion-label"><span>Set Start Date</span></label>
+									<div class="accordion-input">
+										<input name="start_date" id="start_date" type="text"
+											  th:field="*{startDate}">
+										<span th:if="${#fields.hasErrors('startDate')}" 
+										th:errors="*{startDate}" class="error"></span>
+									</div>
+								</div>
+
+								<div class="accordion-controls">
+									<label class="accordion-label"><span>Set End Date</span></label>
+									<div class="accordion-input">
+										<input name="end_date" id="end_date" type="text"
+											 th:field="*{endDate}">
+										<span th:if="${#fields.hasErrors('endDate')}" 
+										th:errors="*{endDate}" class="error"></span>
+									</div>
+								</div>
+ 
+							</fieldset>
+
+							<div class="accordion-controls">
+								<label class="accordion-label"><span></span></label>
+								<div class="accordion-input">
+									<input name="save" value="Add"
+										class="btn btn-primary" type="submit">
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-12 col-md-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">Previous Self-Report List</div>
+					<!-- /.panel-heading -->
+					<div class="panel-body">
+					<table id="windows" class="display" 
+						style="overflow-x:auto;border-spacing: 0px;width: 100%" >
+							<thead>
+								<tr>
+									<th><input name="select_all" value="1" id="example-select-all" type="checkbox" /></th>
+									<td><strong>Semester</strong></td>
+									<td><strong>State Date</strong></td>
+									<td><strong>End Date</strong></td>
+									<th>Action</th>
+									<th></th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<th:block th:include="admin/layout :: scriptFragment"></th:block>
+<script th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.js}"></script>
+<script src="../../js/jquery.dataTables.js" th:src="@{/js/jquery.dataTables.js}"></script>
+<script src="../../js/moment.min.js" th:src="@{/js/moment.min.js}"></script>
+<script src="../../js/moment-with-locales.min.js" th:src="@{/js/moment-with-locales.min.js}"></script>
+<script src="../../js/moment-timezone.min.js" th:src="@{/js/moment-timezone.min.js}"></script>
+<script src="../../js/util.adm.selfreport.js" th:src="@{/js/util.adm.selfreport.js}"></script> 
+<script th:inline="javascript">
+
+/*<![CDATA[*/ 
+var data = eval(/*[[${selfreportWindows}]]*/) ;
+/*]]>*/ 
+ 
+ </script>
+</body>
+</html>

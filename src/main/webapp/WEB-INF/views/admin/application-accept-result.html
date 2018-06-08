@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 2018 Feng Liu
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head
+	th:include="admin/layout :: headerFragment (pageTitle='Accepted Applications')">
+<title></title>
+</head>
+<body>
+<div id="wrapper">
+	<nav class="navbar navbar-default navbar-static-top" role="navigation"
+		style="margin-bottom: 0;" th:include="admin/layout :: navbarFragment">
+	</nav>
+       
+    <div id="page-wrapper">
+        <div class="row">
+			<div class="col-lg-12">
+				<div class="panel">
+					<div class="panel-body">
+						<h3 class="text-primary">Accepted Students and their Applications</h3>
+						<h3 class="text-primary"
+							th:text="|Accepted Semester: ${schoolSemester} ${schoolYear}|"></h3>
+					</div>
+				</div>
+			</div>
+		</div>
+     
+	    <div class="row" id="fadeOut" th:if="!${#strings.isEmpty(status)}">
+	        <div class="col-lg-12">
+	           <div class="panel panel-info">
+	               <div class="panel-heading" >
+	               <i class="fa fa-info-circle fa-fw"></i><span th:text="${status}"></span>
+	               </div>
+	           </div>
+	        </div>
+	    </div>
+ 
+	<div class="row">
+	    <div class="col-lg-12 col-md-12">
+	    	<div class="panel panel-default">
+	    		 <div class="panel-heading">
+							<i class="fa fa-bar-chart-o fa-fw"></i> Results
+							<div class="pull-right">
+								<div class="btn-group">
+									<button type="button"
+										class="btn btn-default btn-xs dropdown-toggle"
+										data-toggle="dropdown">
+										Actions <span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu pull-right" role="menu">
+										<li class="divider"></li>
+										<li><a href="javascript:getSelfReports()">Export Self-Report </a></li>
+										<li class="divider"></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						
+	                <div class="panel-body">
+					 <table id="students" class="display" 
+					 style="overflow-x:auto;border-spacing: 0px;width: 100%">
+						<thead>
+							<tr>
+							    <th></th>
+								<th><input name="select_all" value="1" id="example-select-all" type="checkbox" /></th>
+								<th>First Name</th>
+								<th>Last Name</th>
+								<th>Student Email</th>
+								<th>Accepted Semester</th>
+								<th>Details</th>
+							</tr>
+						</thead>
+					</table>
+	                  </div>
+	              </div>
+	          </div>
+	      </div>
+	      </div>
+</div>
+ 
+<!-- Self-report window modal -->
+<div class="modal fade" id="selfreportModal" tabindex="-1" role="dialog" 
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <button type="button" class="close" 
+                   data-dismiss="modal">
+                       <span aria-hidden="true">&times;</span>
+                       <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title">Select a semester</h4>
+            </div>
+            
+            <!-- Modal Body -->
+            <form class="form-horizontal" th:action="@{/admin/application-accept/export-selfreport/download}" method="get">
+            <div class="modal-body">
+                  <div class="form-group">
+                    <label class="col-sm-1 control-label"></label>
+                    <div class="col-sm-10" id="progresstable">
+                   	<fieldset>
+					<select name="semester" id="selfreport_semester">
+					<option value="">-- Select One --</option>
+					</select>
+					<br>
+					</fieldset>
+                    </div>
+                  </div>  
+            </div>
+            
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Download</button>
+                <input type="hidden" name="userIDList" id="userIDList"/>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+  
+<th:block th:include="admin/layout :: scriptFragment"></th:block>
+<script th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.js}"></script>
+<script src="../../js/jquery.dataTables.js" th:src="@{/js/jquery.dataTables.js}"></script>
+<script th:inline="javascript">
+/*<![CDATA[*/ 
+var data = eval(/*[[${studentList}]]*/) ;
+var schoolTarget = /*[[${schoolTarget}]]*/ '';
+/*]]>*/
+
+$(document).ready(function(){
+	var table = $('#students').DataTable( {
+   	"aaData": data, 
+   	'columnDefs': [
+   	{
+       'targets': 0,
+       'searchable':false,
+       'orderable':false,
+       'className': 'dt-body-center',
+       'render': function (data, type, full, meta){
+       	return meta.row+1;
+        }
+    },
+    {
+        'targets': 1,
+        'searchable':false,
+        'orderable':false,
+        'className': 'dt-body-center',
+        'render': function (data, type, full, meta){
+        	return '<input type="checkbox" name="id[]" value="'+full.userID+'">';
+         }
+     }, 
+     {
+         'targets': 5,
+         'render': function (data, type, full, meta){
+         	return '<span>'+full.schoolSemester+' '+full.schoolYear+'</span>';
+         }
+     },
+     {
+         'targets': 6,
+         'searchable':false,
+         'orderable':false,
+         'className': 'dt-body-center',
+         'render': function (data, type, full, meta){
+             return '<a href="detail/'+full.schoolSemester+'/'+full.schoolYear+'/'+full.userID+'/'+schoolTarget+'"><button class="btn btn-primary">Edit</button></a>';
+         }
+      }
+     
+      ],
+       "aoColumns": [
+    	     {"mData":""},
+         {"mData":""}, 
+         { "mData": "firstName"},
+         { "mData": "lastName"},
+         { "mData": "email"},
+         { "mData": ""},
+         { "mData": ""},
+       ],
+       "paging":true,
+       "pageLength":10,
+       "ordering":true,
+       "order":[2,"asc"]
+});
+	table.on( 'order.dt search.dt', function () {
+        table.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+    } ).draw();
+								    
+    $('#example-select-all').on('click', function(){
+		var rows = table.rows({ page: 'current' }).nodes();
+       $('input[type="checkbox"]', rows).prop('checked', this.checked);
+    });
+    
+    $('#students tbody').on('change', 'input[type="checkbox"]', function(){
+       if(!this.checked){
+          var el = $('#example-select-all').get(0);
+          if(el && el.checked && ('indeterminate' in el)){
+             el.indeterminate = true;
+          }
+       }
+    });
+}); 
+					      
+function getSelfReports(){
+	var table = $('#students').dataTable();
+	var matches = [];
+ 	var checkedcollection = table.$("input:checkbox:checked", { "page": "all" });
+ 	if(checkedcollection.length < 1){
+		alert("Please select a student!"); 
+	}else{
+		checkedcollection.each(function (index, elem) {matches.push($(elem).val()); });
+	    var checkedJsonString = JSON.stringify(matches);
+	    $.ajax({
+	      type: 'GET',
+	      url: "export-selfreport",
+	       success : function(response) {
+	    	   var dropdown = $("#selfreport_semester");
+	    	   $.each(JSON.parse(response), function(key,val){
+	    		   dropdown.append('<option value="' + val.windowID + '">' + val.semester + '</option>');
+	    	   }); 
+	    	   $("#selfreportModal #userIDList").val(matches); 
+	    	   $('#selfreportModal').modal('show');
+			},
+	       error: function(e){console.log(e);}
+		});
+	}
+}
+ 
+</script>
+ 			
+</body>
+</html>
+ 

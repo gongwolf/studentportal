@@ -3619,4 +3619,121 @@ public class AdminDAOImpl implements Schemacode{
 		}); 
 	 
 	}
+	
+	/*
+	 *Functions added by qixu 
+	 *
+	 **/
+	
+	/*
+	 * get Application by given application id
+	 */
+	public ApplicationBean getApplicationByApplicationID(String applicationID,String program)
+	{
+		StringBuilder sql = new StringBuilder();
+		String tableAppDetail = ProgramCode.TABLE_APPLICATION_DETAIL.get(program);
+		sql.append("SELECT * \n");
+		sql.append("FROM ").append(TABLE_APPLICATION_LIST).append(" a \n");
+		sql.append("LEFT JOIN ").append(tableAppDetail).append(" b\n");
+		sql.append("ON a.application_id = b.application_id\n");
+		sql.append("WHERE a.application_id = ");
+		sql.append(applicationID); 
+		sql.append("\n");
+		
+		System.out.println(sql);
+		switch (program) {
+		// programsTwoYr
+		case ProgramCode.CCCONF:
+			return getSingleApplicationURS(sql); 
+			
+		case ProgramCode.MESA:
+			return getSingleApplicationURS(sql); 
+			
+		case ProgramCode.TRANS:
+			return getSingleApplicationURS(sql); 
+ 	 
+			// programsFourYr
+		case ProgramCode.URS:
+			 return getSingleApplicationURS(sql); 
+		 
+		case ProgramCode.SCCORE:
+			return getSingleApplicationURS(sql); 
+			
+		case ProgramCode.IREP:
+			 return getSingleApplicationURS(sql); 
+ 		}
+		return null; 
+		
+	}
+	
+	public ApplicationBean getSingleApplicationURS(StringBuilder sql)
+	{
+		return jdbcTemplate.queryForObject(sql.toString(), new RowMapper<ApplicationBean>() {
+			@Override
+			public ApplicationBean mapRow(ResultSet reSet, int rowNum)
+					throws SQLException {
+				 
+				ApplicationBean bean = new ApplicationBean();
+				bean.setUserID(reSet.getInt("user_id"));
+				bean.setApplicationID(reSet.getInt("application_id"));
+				bean.setSchoolYear(reSet.getInt("school_year"));
+				bean.setSchoolSemester(reSet.getString("school_semester"));
+				bean.setSchoolTarget(reSet.getString("academic_school"));
+				bean.setProgramNameAbbr(reSet.getString("program"));
+				 
+				// get academicInfo
+				AcademicBean academicBean = null;
+				String academicSchool = reSet.getString("academic_school");
+                Date academic_grad_date = reSet.getDate("academic_grad_date");
+                if (academic_grad_date != null) {
+					academicBean = new AcademicBean(); 
+					academicBean.setAcademicSchool(academicSchool);
+					academicBean.setAcademicGradDate(reSet.getDate("academic_grad_date"));
+					academicBean.setAcademicMajor(reSet.getString("academic_major"));
+					academicBean.setAcademicGPA(reSet.getFloat("academic_gpa"));
+					bean.setAcademicBean(academicBean);
+				}
+				
+				// get essayBean 
+				EssayBean essayBean = null;
+				String essayEducationalGoal = reSet.getString("essay_educational_goal");
+				if (essayEducationalGoal != null) {
+					essayBean = new EssayBean(); 
+					essayBean.setEssayEducationalGoal(essayEducationalGoal);
+					bean.setEssayBean(essayBean);
+				}
+				 
+				// get project info 
+				ProjectBean projectBean = null; 
+				String projectTitle = reSet.getString("project_title");
+				if(projectTitle != null){
+					projectBean = new ProjectBean(); 
+					projectBean.setProjectTitle(projectTitle);
+					Integer isExternal = reSet.getInt("project_is_external"); 
+					projectBean.setExternalProject(isExternal);;
+					if(isExternal != null && isExternal == 1){
+						projectBean.setExternalAgency(reSet.getString("project_external_agency"));
+						projectBean.setExternalTitle(reSet.getString("project_external_title"));
+						projectBean.setExternalDuration(reSet.getString("project_external_duration"));
+					}
+					projectBean.setProjectGoal(reSet.getString("project_goal"));
+					projectBean.setProjectMethod(reSet.getString("project_method"));
+					projectBean.setProjectResult(reSet.getString("project_result"));
+					projectBean.setProjectTask(reSet.getString("project_task"));
+					bean.setProjectBean(projectBean);
+				}
+				
+				/* Transcript */
+				Blob blob = reSet.getBlob("transcript_content");
+				if(blob != null && blob.length() != 0){
+					byte[] content = blob.getBytes(1, (int)blob.length());
+					blob.free();
+					FileBucket fileBucket = new FileBucket(); 
+					fileBucket.setFileContent(content);
+					bean.setFileBucket(fileBucket);
+				}
+				return bean;
+			}
+		}); 
+	}
 }

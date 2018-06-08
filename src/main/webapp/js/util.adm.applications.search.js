@@ -129,12 +129,13 @@ $('#applications tbody').on('click', 'input[type="checkbox"]',
 		updateDataTableSelectAllCtrl(table);
 	});
 	
-	
+	//added by qixu
+	//show details information of one application
 	$(function() {
 		$('#applications tbody ').on('click','button#details_info',function () {
 			var full = table.row($(this).parents('tr')).data();
 //			alert(full.applicationID);
-			window.open('manage-application-result/application-preview?applicationID='+full.applicationID, 'name'); 
+			window.open('manage-application-result/application-preview?applicationID='+full.applicationID+'&program='+program, 'name'); 
 			})
 		})
 						    
@@ -299,10 +300,8 @@ function exportApplicationPdf(){
 		alert("Please select application!"); 
 	}else{
 		checkedcollection.each(function (index, elem) {matches.push($(elem).val()); });
-		alert(matches);
 	    var checkedJsonString = JSON.stringify(matches); 
 		var data = 'year='+schoolYear+'&semester='+schoolSemester+'&program='+program+'&appIDList='+checkedJsonString;
-		alert(data);
 		window.location.href = "manage-application-result/export-application-zip?"+data; 
 	}
 }

@@ -447,5 +447,10 @@ public class ApplicationBean implements Serializable {
 	public void setMedicalSubmitDate(Date medicalSubmitDate) {
 		this.medicalSubmitDate = medicalSubmitDate;
 	}
+	
+	public ApplicationBean appBean()
+	{
+		return this;
+	}
  
 }

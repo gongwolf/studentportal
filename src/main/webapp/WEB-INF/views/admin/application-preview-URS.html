@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<!--
+  ~ Copyright (c) 2018 Feng Liu
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head
+	th:include="admin/layout :: headerFragment (pageTitle='Application details ID:'+${applicationBean.applicationID})">
+<title></title>
+</head>
+<body>
+	<div id="container">
+		<div class="row">
+		    <div class="col-lg-2">
+		         Application ID:
+		    </div>
+		    <div class='clo-lg-2'>
+		         <span th:text="${applicationBean.ApplicationID}"></span>
+		    </div>
+	    </div>
+	    <div class="row">
+		    <div class="col-lg-2">
+		         Program:
+		    </div>
+		    <div class='clo-lg-2'>
+		    New Mexico AMP Undergraduate Research Scholars (URS)
+		    <span th:text="'(4-year institution) - '+${applicationBean.schoolSemester}+' '+${applicationBean.schoolYear}"></span>
+		    </div>
+	    </div>
+
+		<div class="row">
+			<div class="col-lg-12">
+				<!-- begin for accordion -->
+				<div class="accordion" data-role="accordion" data-close-any="true">
+					<!-- Academic Information -->
+					<div class="frame "
+						th:attrappend="class=${section=='academic.do' ? 'active' : ''}">
+						<div class="heading">Academic Information</div>
+						<div class="content">
+							<form name="academic_info" id="academic_info"
+								th:object="${academicBean}"
+								th:action="@{'/application/edit/academic.do/'+${appcode}}"
+								method="post">
+								<fieldset>
+									<div class="accordion-controls">
+										<label class="accordion-label" for="academicSchool"><span>Institution
+												currently enrolled</span></label>
+										<div class="accordion-input">
+											<select name="academicSchool" th:field="*{academicSchool}"
+												required>
+												<option value="">-- Select One --</option>
+												<option th:each="entry:${academicSchoolFour}"
+													th:value="${entry.key}" th:text="${entry.value}"></option>
+											</select>
+										</div>
+										<span th:if="${#fields.hasErrors('academicSchool')}"
+											th:errors="*{academicSchool}" class="error"></span>
+									</div>
+
+									<div class="accordion-controls">
+										<label class="accordion-label" for=""><span>Academic
+												Year</span></label>
+										<div class="accordion-input">
+											<select name="academicYear" th:field="*{academicYear}"
+												required>
+												<option value="">-- Select One --</option>
+												<option th:each="entry:${academicYear}"
+													th:value="${entry.key}" th:text="${entry.value}"></option>
+											</select>
+										</div>
+										<span th:if="${#fields.hasErrors('academicYear')}"
+											th:errors="*{academicYear}" class="error"></span>
+									</div>
+
+									<div class="accordion-controls">
+										<label class="accordion-label" for="academicGradDate"><span>Expected
+												Grad Date</span></label>
+										<div class="accordion-input">
+											<input name="academicGradDate" type="text"
+												id="academic_grad_date" title="MM/dd/yyyy"
+												th:value="${#dates.format(academicBean.academicGradDate, 'MM/dd/yyyy')}"
+												th:field="*{academicGradDate}" required
+												placeholder="DD/mm/yyyy">
+										</div>
+										<span th:if="${#fields.hasErrors('academicGradDate')}"
+											th:errors="*{academicGradDate}" class="error"></span>
+									</div>
+
+									<div class="accordion-controls">
+										<label class="accordion-label" for="academicBannerID"><span>Student
+												ID</span></label>
+										<div class="accordion-input">
+											<input name="academicBannerID" maxlength="9" type="text"
+												th:field="*{academicBannerID}"
+												th:value="${academicBean.academicBannerID}">
+										</div>
+										<span data-toggle="tooltip" data-placement="left"
+											title="Optional"><i class="fa fa-question-circle"
+											aria-hidden="true"></i></span>
+									</div>
+
+									<div class="accordion-controls">
+										<label class="accordion-label" for="academic_major"><span>Major</span></label>
+										<div class="accordion-input">
+											<input name="academicMajor" type="text"
+												th:field="*{academicMajor}"
+												th:value="${academicBean.academicMajor}" required>
+										</div>
+										<span th:if="${#fields.hasErrors('academicMajor')}"
+											th:errors="*{academicMajor}" class="error"></span> <span
+											data-toggle="tooltip" data-placement="left"
+											title="Use full name instead of abbreviation. i.e., Electrical Engineering instead of EE."><i
+											class="fa fa-question-circle" aria-hidden="true"></i></span>
+									</div>
+
+									<div class="accordion-controls">
+										<label class="accordion-label" for="academicMinor"><span>Minor</span></label>
+										<div class="accordion-input">
+											<input name="academicMinor" type="text"
+												th:field="*{academicMinor}"
+												th:value="${academicBean.academicMinor}">
+										</div>
+										<span data-toggle="tooltip" data-placement="left"
+											title="Optional. Use full name instead of abbreviation. i.e., Electrical Engineering instead of EE."><i
+											class="fa fa-question-circle" aria-hidden="true"></i></span>
+									</div>
+
+									<div class="accordion-controls">
+										<label class="accordion-label" for="academicGPA"><span>Cumulative
+												GPA</span></label>
+										<div class="accordion-input">
+											<input name="academicGPA" type="text" maxlength="5"
+												placeholder="#.##" th:field="*{academicGPA}" required
+												value="${academicBean.academicGPA}">
+										</div>
+										<span th:if="${#fields.hasErrors('academicGPA')}"
+											th:errors="*{academicGPA}" class="error"></span>
+									</div>
+									<div class="accordion-controls">
+										<label class="accordion-label"></label>
+										<div class="accordion-input">
+											<input type="submit" value="Save" class="btn btn-primary"
+												th:disabled="${tag}">
+										</div>
+									</div>
+								</fieldset>
+							</form>
+						</div>
+					</div>
+				</div>
+				<!-- end for accordion -->
+			</div>
+		</div>
+	</div>
+	<th:block th:include="admin/layout :: scriptFragment"></th:block>
+	<script src="../../js/metro.js" th:src="@{/js/metro.js}"></script>
+	<script th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.js}"></script>
+	<script src="../../js/utils.apply.urs.js"
+		th:src="@{/js/utils.apply.urs.js}"></script>
+</body>
+</html>

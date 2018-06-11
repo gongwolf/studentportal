@@ -720,13 +720,11 @@ public class AdmApplicationController {
 //		System.out.println(appBean.get);
 		model.addAttribute("program", program);
 		model.addAttribute("programNameFull", ProgramCode.PROGRAMS.get(program));
-//		model.addAttribute("schoolSemester", semester);
-//		model.addAttribute("schoolYear", year);
 //		model.addAttribute("schoolTarget", schoolTarget);
 //		model.addAttribute("completedOnly", completedOnly);
 		model.addAttribute("status", model.get("status"));
 
-		return "/admin/application-preview";
+		return "/admin/application-preview-"+program;
 	}
 
 }

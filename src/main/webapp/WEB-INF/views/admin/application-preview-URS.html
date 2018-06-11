@@ -18,158 +18,64 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
-<head
-	th:include="admin/layout :: headerFragment (pageTitle='Application details ID:'+${applicationBean.applicationID})">
-<title></title>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<link rel="shortcut icon" type="image/x-icon"
+	href="../../css/favicon.ico" th:href="@{/css/favicon.ico}">
+<link rel="stylesheet" href="../../css/details.css"
+	th:href="@{/css/details.css}" />
+<link th:href="@{/webjars/bootstrap/3.3.6/css/bootstrap.min.css}"
+	rel="stylesheet">
+<link th:href="@{/webjars/jquery-ui/1.12.1/jquery-ui.css}"
+	rel="stylesheet">
+<link
+	th:href="@{/webjars/startbootstrap-sb-admin-2/1.0.2/css/sb-admin-2.css}"
+	rel="stylesheet">
+<link th:href="@{/webjars/font-awesome/4.7.0/css/font-awesome.css}"
+	rel="stylesheet">
+<title>Application details</title>
 </head>
 <body>
-	<div id="container">
-		<div class="row">
-		    <div class="col-lg-2">
-		         Application ID:
-		    </div>
-		    <div class='clo-lg-2'>
-		         <span th:text="${applicationBean.ApplicationID}"></span>
-		    </div>
-	    </div>
-	    <div class="row">
-		    <div class="col-lg-2">
-		         Program:
-		    </div>
-		    <div class='clo-lg-2'>
-		    New Mexico AMP Undergraduate Research Scholars (URS)
-		    <span th:text="'(4-year institution) - '+${applicationBean.schoolSemester}+' '+${applicationBean.schoolYear}"></span>
-		    </div>
-	    </div>
+	<div id="container" class="details_container">
 
-		<div class="row">
-			<div class="col-lg-12">
-				<!-- begin for accordion -->
-				<div class="accordion" data-role="accordion" data-close-any="true">
-					<!-- Academic Information -->
-					<div class="frame "
-						th:attrappend="class=${section=='academic.do' ? 'active' : ''}">
-						<div class="heading">Academic Information</div>
-						<div class="content">
-							<form name="academic_info" id="academic_info"
-								th:object="${academicBean}"
-								th:action="@{'/application/edit/academic.do/'+${appcode}}"
-								method="post">
-								<fieldset>
-									<div class="accordion-controls">
-										<label class="accordion-label" for="academicSchool"><span>Institution
-												currently enrolled</span></label>
-										<div class="accordion-input">
-											<select name="academicSchool" th:field="*{academicSchool}"
-												required>
-												<option value="">-- Select One --</option>
-												<option th:each="entry:${academicSchoolFour}"
-													th:value="${entry.key}" th:text="${entry.value}"></option>
-											</select>
-										</div>
-										<span th:if="${#fields.hasErrors('academicSchool')}"
-											th:errors="*{academicSchool}" class="error"></span>
-									</div>
-
-									<div class="accordion-controls">
-										<label class="accordion-label" for=""><span>Academic
-												Year</span></label>
-										<div class="accordion-input">
-											<select name="academicYear" th:field="*{academicYear}"
-												required>
-												<option value="">-- Select One --</option>
-												<option th:each="entry:${academicYear}"
-													th:value="${entry.key}" th:text="${entry.value}"></option>
-											</select>
-										</div>
-										<span th:if="${#fields.hasErrors('academicYear')}"
-											th:errors="*{academicYear}" class="error"></span>
-									</div>
-
-									<div class="accordion-controls">
-										<label class="accordion-label" for="academicGradDate"><span>Expected
-												Grad Date</span></label>
-										<div class="accordion-input">
-											<input name="academicGradDate" type="text"
-												id="academic_grad_date" title="MM/dd/yyyy"
-												th:value="${#dates.format(academicBean.academicGradDate, 'MM/dd/yyyy')}"
-												th:field="*{academicGradDate}" required
-												placeholder="DD/mm/yyyy">
-										</div>
-										<span th:if="${#fields.hasErrors('academicGradDate')}"
-											th:errors="*{academicGradDate}" class="error"></span>
-									</div>
-
-									<div class="accordion-controls">
-										<label class="accordion-label" for="academicBannerID"><span>Student
-												ID</span></label>
-										<div class="accordion-input">
-											<input name="academicBannerID" maxlength="9" type="text"
-												th:field="*{academicBannerID}"
-												th:value="${academicBean.academicBannerID}">
-										</div>
-										<span data-toggle="tooltip" data-placement="left"
-											title="Optional"><i class="fa fa-question-circle"
-											aria-hidden="true"></i></span>
-									</div>
-
-									<div class="accordion-controls">
-										<label class="accordion-label" for="academic_major"><span>Major</span></label>
-										<div class="accordion-input">
-											<input name="academicMajor" type="text"
-												th:field="*{academicMajor}"
-												th:value="${academicBean.academicMajor}" required>
-										</div>
-										<span th:if="${#fields.hasErrors('academicMajor')}"
-											th:errors="*{academicMajor}" class="error"></span> <span
-											data-toggle="tooltip" data-placement="left"
-											title="Use full name instead of abbreviation. i.e., Electrical Engineering instead of EE."><i
-											class="fa fa-question-circle" aria-hidden="true"></i></span>
-									</div>
-
-									<div class="accordion-controls">
-										<label class="accordion-label" for="academicMinor"><span>Minor</span></label>
-										<div class="accordion-input">
-											<input name="academicMinor" type="text"
-												th:field="*{academicMinor}"
-												th:value="${academicBean.academicMinor}">
-										</div>
-										<span data-toggle="tooltip" data-placement="left"
-											title="Optional. Use full name instead of abbreviation. i.e., Electrical Engineering instead of EE."><i
-											class="fa fa-question-circle" aria-hidden="true"></i></span>
-									</div>
-
-									<div class="accordion-controls">
-										<label class="accordion-label" for="academicGPA"><span>Cumulative
-												GPA</span></label>
-										<div class="accordion-input">
-											<input name="academicGPA" type="text" maxlength="5"
-												placeholder="#.##" th:field="*{academicGPA}" required
-												value="${academicBean.academicGPA}">
-										</div>
-										<span th:if="${#fields.hasErrors('academicGPA')}"
-											th:errors="*{academicGPA}" class="error"></span>
-									</div>
-									<div class="accordion-controls">
-										<label class="accordion-label"></label>
-										<div class="accordion-input">
-											<input type="submit" value="Save" class="btn btn-primary"
-												th:disabled="${tag}">
-										</div>
-									</div>
-								</fieldset>
-							</form>
-						</div>
-					</div>
-				</div>
-				<!-- end for accordion -->
+		<div class="row text-title">
+			<div class="col-md-6 text-right ">
+				<h3>Application ID:</h3>
+			</div>
+			<div class="col-md-6">
+				<h3>
+					<span th:text="${applicationBean.ApplicationID}"></span>
+				</h3>
 			</div>
 		</div>
+
+		<div class="row text-title">
+			<div>
+				<h3 class="text-center">New Mexico AMP Undergraduate Research
+					Scholars (URS)</h3>
+			</div>
+		</div>
+
+		<div class="row border-bottom text-title">
+			<h3 class="text-center"
+				th:text="'(4-year institution) - '+${applicationBean.schoolSemester}+' '+${applicationBean.schoolYear}">
+			</h3>
+		</div>
+
+		<div class="row text-part">
+			<span> Part I: Application Form </span>
+		</div>
+
+		<div class="row text-content">
+			<div class="col-md-2">
+				<span> First Name: </span>
+			</div>
+			<div class="col-md-1">
+				<span th:text="${applicationBean.firstName}"> </span>
+			</div>
+
+		</div>
 	</div>
-	<th:block th:include="admin/layout :: scriptFragment"></th:block>
-	<script src="../../js/metro.js" th:src="@{/js/metro.js}"></script>
-	<script th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.js}"></script>
-	<script src="../../js/utils.apply.urs.js"
-		th:src="@{/js/utils.apply.urs.js}"></script>
 </body>
 </html>

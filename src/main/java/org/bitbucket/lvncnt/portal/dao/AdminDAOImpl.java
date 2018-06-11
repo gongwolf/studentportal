@@ -3640,7 +3640,7 @@ public class AdminDAOImpl implements Schemacode{
 		sql.append(applicationID); 
 		sql.append("\n");
 		
-		System.out.println(sql);
+//		System.out.println(sql);
 		switch (program) {
 		// programsTwoYr
 		case ProgramCode.CCCONF:

@@ -693,11 +693,11 @@ public class AdmApplicationController {
 	@GetMapping(value = "/manage-application-result/application-preview", params = { "applicationID", "program" })
 	public String PreviewApplicationDetailsByID(ModelMap model, @RequestParam("applicationID") String applicationID,
 			@RequestParam("program") String program) {
-		System.out.println(applicationID);
-		System.out.println(program);
+//		System.out.println(applicationID);
+//		System.out.println(program);
 
 		ApplicationBean appBean = adminDAO.getApplicationByApplicationID(applicationID, program);
-		System.out.println(appBean.getApplicationID());
+//		System.out.println(appBean.getApplicationID());
 
 		User user = ((UserDAOImpl) userDAO).getProfileStudentBasic(appBean.getUserID());
 		if (user != null) {

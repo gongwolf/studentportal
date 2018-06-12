@@ -68,14 +68,166 @@
 		</div>
 
 		<div class="row text-content">
-			<div class="col-md-2">
+			<div class="text-label">
 				<span> First Name: </span>
 			</div>
-			<div class="col-md-1">
-				<span th:text="${applicationBean.firstName}"> </span>
+			<div class="text-label">
+				<span> Last Name: </span>
+			</div>
+			<div class="text-label">
+				<span> Middle Name: </span>
+			</div>
+			<div class="text-label">
+				<span> SSN Last 4:</span>
+			</div>
+			<div class="text-label">
+				<span> Gender:</span>
+			</div>
+			<div class="text-label">
+				<span> Date of Birth: </span>
 			</div>
 
 		</div>
+
+		<div class="row text-content topborder">
+			<div class="text-field">
+				<span th:text="${profileBean.biographyBean.firstName}"> </span>
+			</div>
+			<div class="text-field">
+				<span th:text="${profileBean.biographyBean.lastName}"> </span>
+			</div>
+			<div class="text-field">
+				<span th:if="${profileBean.biographyBean.middleName}"
+					th:text="${profileBean.biographyBean.middleName}"> </span> <span
+					th:unless="${profileBean.biographyBean.middleName}">N/A </span>
+			</div>
+			<div class="text-field">
+				<span th:text="${profileBean.biographyBean.ssnLastFour}"></span>
+			</div>
+			<div class="text-field">
+				<span th:if="${profileBean.biographyBean.gender}=='M'">Male</span> <span
+					th:if="${profileBean.biographyBean.gender}=='f'">Female</span>
+			</div>
+			<div class="text-field">
+				<span th:text="${profileBean.biographyBean.birthDate}"> </span>
+			</div>
+		</div>
+
+
+		<div class="row text-content topborder">
+			<div class="text-label-2">
+				<span>Current address</span>
+			</div>
+			<div class="text-label">
+				<span>City</span>
+			</div>
+			<div class="text-label">
+				<span>County</span>
+			</div>
+			<div class="text-label">
+				<span>State</span>
+			</div>
+			<div class="text-label">
+				<span>Zip</span>
+			</div>
+		</div>
+		
+		<div class="row text-content topborder">
+			<div class="text-field-2">
+				<span th:text="${profileBean.ContactBean.currentAddressLine1}"+"${profileBean.ContactBean.currentAddressLine2}"></span>
+			</div>
+			<div class="text-field">
+				<span th:text="${profileBean.ContactBean.currentAddressCity}"></span>
+			</div>
+			<div class="text-field">
+				<span th:text="${profileBean.ContactBean.currentAddressCounty}"></span>
+			</div>
+			<div class="text-field">
+				<span th:text="${profileBean.ContactBean.currentAddressState}"></span>
+			</div>
+			<div class="text-field">
+				<span th:text="${profileBean.ContactBean.currentAddressZip}"></span>
+			</div>
+		</div>
+		
+		<div class="row text-content topborder">
+			<div class="text-label-2">
+				<span>Permanent address</span>
+			</div>
+			<div class="text-label">
+				<span>City</span>
+			</div>
+			<div class="text-label">
+				<span>County</span>
+			</div>
+			<div class="text-label">
+				<span>State</span>
+			</div>
+			<div class="text-label">
+				<span>Zip</span>
+			</div>
+		</div>
+		
+		<div class="row text-content topborder">
+			<div class="text-field-2">
+				<span th:text="${profileBean.ContactBean.permanentAddressLine1}"+"${profileBean.ContactBean.permanentAddressLine2}"></span>
+			</div>
+			<div class="text-field">
+				<span th:text="${profileBean.ContactBean.permanentAddressCity}"></span>
+			</div>
+			<div class="text-field">
+				<span th:text="${profileBean.ContactBean.permanentAddressCounty}"></span>
+			</div>
+			<div class="text-field">
+				<span th:text="${profileBean.ContactBean.permanentAddressState}"></span>
+			</div>
+			<div class="text-field">
+				<span th:text="${profileBean.ContactBean.permanentAddressZip}"></span>
+			</div>
+		</div>
+		
+		<div class="row text-content topborder">
+			<div class="text-label" style="width:20%">
+				<span>Cell Phone</span>
+			</div>
+			<div class="text-label" style="width:10%">
+				<span>Phone Type</span>
+			</div>
+			<div class="text-label" style="width:20%">
+				<span>Alternate Phone</span>
+			</div>
+			<div class="text-label" style="width:10%">
+				<span>Phone Type</span>
+			</div>
+			<div class="text-label" style="width:20%">
+				<span>Preferred Email</span>
+			</div>
+			<div class="text-label" style="width:20%">
+			    <span>Alternate Email</span>
+			</div>
+		</div>
+		
+		<div class="row text-content topborder">
+			<div class="text-field" style="width:20%">
+				<span th:text="${profileBean.ContactBean.phoneNum1}"></span>
+			</div>
+			<div class="text-field" style="width:10%">
+				<span th:text="${profileBean.ContactBean.phoneType1}"></span>
+			</div>
+			<div class="text-field" style="width:20%">
+				<span th:text="${profileBean.ContactBean.phoneNum2}"></span>
+			</div>
+			<div class="text-field" style="width:10%">
+				<span th:text="${profileBean.ContactBean.phoneType2}"></span>
+			</div>
+			<div class="text-field" style="width:20%">
+				<span th:text="${profileBean.ContactBean.emailPref}"></span>
+			</div>
+			<div class="text-field" style="width:20%">
+				<span th:text="${profileBean.ContactBean.emailAltn}"></span>
+			</div>
+		</div>
+
 	</div>
 </body>
 </html>

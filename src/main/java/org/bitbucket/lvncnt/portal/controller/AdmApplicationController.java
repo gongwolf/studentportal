@@ -456,6 +456,7 @@ public class AdmApplicationController {
 			@RequestParam("message") String message) {
 		String fileName = program + "-applications-for-review.zip";
 		response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
+		System.out.println(" I am here !!!");
 		try {
 			byte[] zip = getZipApplication(program, Arrays.asList(applicationlist), true);
 			FileCopyUtils.copy(zip, response.getOutputStream());
@@ -471,7 +472,7 @@ public class AdmApplicationController {
 		} else {
 			applications = adminDAO.getApplicationForZip(program, appIDs);
 		}
-
+	
 		Path tempDir = null;
 		try {
 			tempDir = Files.createTempDirectory("temp_nmamp_");
@@ -698,13 +699,20 @@ public class AdmApplicationController {
 
 		ApplicationBean appBean = adminDAO.getApplicationByApplicationID(applicationID, program);
 //		System.out.println(appBean.getApplicationID());
-
-		User user = ((UserDAOImpl) userDAO).getProfileStudentBasic(appBean.getUserID());
-		if (user != null) {
-			appBean.setFirstName(user.getFirstName());
-			appBean.setLastName(user.getLastName());
-			appBean.setEmail(user.getEmail());
-			appBean.setBirthDate(user.getBirthDate());
+		
+		int userID = appBean.getUserID();
+		ProfileBean profileBean = ((UserDAOImpl) userDAO).getProfileStudent(userID);
+		if (profileBean == null) {
+			profileBean = new ProfileBean();
+			BiographyBean biographyBean = new BiographyBean();
+			profileBean.setBiographyBean(biographyBean);
+			ContactBean contactBean = new ContactBean();
+			profileBean.setContactBean(contactBean);
+		}else{
+			appBean.setFirstName(profileBean.getBiographyBean().getFirstName());
+			appBean.setLastName(profileBean.getBiographyBean().getLastName());
+			appBean.setEmail(profileBean.getContactBean().getEmailPref());
+			appBean.setBirthDate(profileBean.getBiographyBean().getBirthDate());
 		}
 
 //		try {
@@ -717,6 +725,7 @@ public class AdmApplicationController {
 		
 		model.addAttribute("applicationBean", appBean.appBean());
 		model.addAttribute("academicBean", appBean.getAcademicBean());
+		model.addAttribute("profileBean", profileBean);
 //		System.out.println(appBean.get);
 		model.addAttribute("program", program);
 		model.addAttribute("programNameFull", ProgramCode.PROGRAMS.get(program));

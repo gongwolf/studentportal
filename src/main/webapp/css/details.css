@@ -3,8 +3,8 @@
 	margin-right: 10%;
 	margin-top: 30px;
 	border-style: solid;
-	border-color:#000000;
-	border-width:medium;
+	border-color: #000000;
+	border-width: medium;
 }
 
 #container .text-title {
@@ -16,19 +16,61 @@
 	margin: 2px;
 }
 
-#container .text-part{
-	margin-top:20px;
-	margin-left:0px;
-	margin-right:0px;
-	border-top:  1px solid black;
+#container .text-part {
+	margin-top: 20px;
+	margin-left: 0px;
+	margin-right: 0px;
+	border-top: 1px solid black;
 	border-bottom: 1px solid black;
 	font-size: 150%;
-	background:#729fcf;
+	background: #729fcf;
 }
 
+#container .topborder {
+	border-top: 1px solid black;
+}
 
-
-#container .text-content{
-	margin:0px;
+#container .text-content {
+	margin: 0px;
 	font-size: 100%;
+}
+
+#container .text-label {
+	width: 16.6667%;
+	position: relative;
+	padding: 0px;
+	padding-left: 15px;
+	float: left;
+	border-right: 1px solid black;
+	font-weight: bold;
+}
+
+#container .text-label-2 {
+	width: 33.333333%;
+	position: relative;
+	padding: 0px;
+	padding-left: 15px;
+	float: left;
+	border-right: 1px solid black;
+	font-weight: bold;
+}
+
+#container .text-field {
+	width: 16.6667%;
+	position: relative;
+	padding: 0px;
+	padding-left: 15px;
+	float: left;
+	border-right: 1px solid black;
+	height: 16px;
+}
+
+#container .text-field-2 {
+	width: 33.333333%;
+	position: relative;
+	padding: 0px;
+	padding-left: 15px;
+	float: left;
+	border-right: 1px solid black;
+	height: 16px;
 }

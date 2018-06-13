@@ -106,7 +106,7 @@
 			</div>
 			<div class="text-field">
 				<span th:if="${profileBean.biographyBean.gender}=='M'">Male</span> <span
-					th:if="${profileBean.biographyBean.gender}=='f'">Female</span>
+					th:if="${profileBean.biographyBean.gender}=='F'">Female</span>
 			</div>
 			<div class="text-field">
 				<span th:text="${profileBean.biographyBean.birthDate}"> </span>
@@ -131,7 +131,7 @@
 				<span>Zip</span>
 			</div>
 		</div>
-		
+
 		<div class="row text-content topborder">
 			<div class="text-field-2">
 				<span th:text="${profileBean.ContactBean.currentAddressLine1}"+"${profileBean.ContactBean.currentAddressLine2}"></span>
@@ -149,7 +149,7 @@
 				<span th:text="${profileBean.ContactBean.currentAddressZip}"></span>
 			</div>
 		</div>
-		
+
 		<div class="row text-content topborder">
 			<div class="text-label-2">
 				<span>Permanent address</span>
@@ -167,10 +167,11 @@
 				<span>Zip</span>
 			</div>
 		</div>
-		
+
 		<div class="row text-content topborder">
 			<div class="text-field-2">
-				<span th:text="${profileBean.ContactBean.permanentAddressLine1}"+"${profileBean.ContactBean.permanentAddressLine2}"></span>
+				<span
+					th:text="${profileBean.ContactBean.permanentAddressLine1}+' '+${profileBean.ContactBean.permanentAddressLine2}"></span>
 			</div>
 			<div class="text-field">
 				<span th:text="${profileBean.ContactBean.permanentAddressCity}"></span>
@@ -185,49 +186,757 @@
 				<span th:text="${profileBean.ContactBean.permanentAddressZip}"></span>
 			</div>
 		</div>
-		
+
 		<div class="row text-content topborder">
-			<div class="text-label" style="width:20%">
+			<div class="text-label" style="width: 20%">
 				<span>Cell Phone</span>
 			</div>
-			<div class="text-label" style="width:10%">
+			<div class="text-label" style="width: 10%">
 				<span>Phone Type</span>
 			</div>
-			<div class="text-label" style="width:20%">
+			<div class="text-label" style="width: 20%">
 				<span>Alternate Phone</span>
 			</div>
-			<div class="text-label" style="width:10%">
+			<div class="text-label" style="width: 10%">
 				<span>Phone Type</span>
 			</div>
-			<div class="text-label" style="width:20%">
+			<div class="text-label" style="width: 20%">
 				<span>Preferred Email</span>
 			</div>
-			<div class="text-label" style="width:20%">
-			    <span>Alternate Email</span>
+			<div class="text-label" style="width: 20%">
+				<span>Alternate Email</span>
 			</div>
 		</div>
-		
+
 		<div class="row text-content topborder">
-			<div class="text-field" style="width:20%">
+			<div class="text-field" style="width: 20%">
 				<span th:text="${profileBean.ContactBean.phoneNum1}"></span>
 			</div>
-			<div class="text-field" style="width:10%">
+			<div class="text-field" style="width: 10%">
 				<span th:text="${profileBean.ContactBean.phoneType1}"></span>
 			</div>
-			<div class="text-field" style="width:20%">
+			<div class="text-field" style="width: 20%">
 				<span th:text="${profileBean.ContactBean.phoneNum2}"></span>
 			</div>
-			<div class="text-field" style="width:10%">
+			<div class="text-field" style="width: 10%">
 				<span th:text="${profileBean.ContactBean.phoneType2}"></span>
 			</div>
-			<div class="text-field" style="width:20%">
+			<div class="text-field" style="width: 20%">
 				<span th:text="${profileBean.ContactBean.emailPref}"></span>
 			</div>
-			<div class="text-field" style="width:20%">
+			<div class="text-field" style="width: 20%">
 				<span th:text="${profileBean.ContactBean.emailAltn}"></span>
 			</div>
 		</div>
 
+		<!-- different with each type of program -->
+		<div class="row text-content topborder">
+			<div class="text-label" style="width: 33%">
+				<span>Institution currently enrolled</span>
+			</div>
+			<div class="text-label" style="width: 33%">
+				<span>Academic Year</span>
+			</div>
+			<div class="text-label" style="width: 24%">
+				<span>Banner ID</span>
+			</div>
+			<div class="text-label" style="width: 10%">
+				<span>Cum. GPA</span>
+			</div>
+		</div>
+
+		<div class="row text-content topborder">
+			<div class="text-field" style="width: 33%">
+				<span
+					th:text="${applicationBean.AcademicBean !=null} ? ${applicationBean.AcademicBean.academicSchoolFullName}"></span>
+			</div>
+			<div class="text-field" style="width: 33%">
+				<span
+					th:text="${applicationBean.AcademicBean !=null} ? ${applicationBean.AcademicBean.academicYear}"></span>
+			</div>
+			<div class="text-field" style="width: 24%">
+				<span
+					th:text="${applicationBean.AcademicBean !=null} ? ${applicationBean.AcademicBean.academicBannerID}"></span>
+			</div>
+			<div class="text-field" style="width: 10%">
+				<span
+					th:text="${applicationBean.AcademicBean !=null} ? ${applicationBean.AcademicBean.academicGPA}"></span>
+			</div>
+		</div>
+
+		<div class="row text-content topborder">
+			<div class="text-label" style="width: 30%">
+				<span>Major</span>
+			</div>
+			<div class="text-label" style="width: 30%">
+				<span>Minor</span>
+			</div>
+			<div class="text-label" style="width: 40%">
+				<span>Expected Grad Date (YYYY-MM-DD)</span>
+			</div>
+		</div>
+
+
+		<div class="row text-content topborder">
+			<div class="text-field" style="width: 30%">
+				<span
+					th:text="${applicationBean.AcademicBean != null } ? ${applicationBean.AcademicBean.academicMajor}"></span>
+			</div>
+			<div class="text-field" style="width: 30%">
+				<span
+					th:text="${applicationBean.AcademicBean != null } ? ${applicationBean.AcademicBean.academicMinor}"></span>
+			</div>
+			<div class="text-field" style="width: 40%">
+				<span
+					th:text="${applicationBean.AcademicBean != null } ? ${applicationBean.AcademicBean.academicGradDate}"></span>
+			</div>
+		</div>
+
+		<!-- end differences -->
+
+		<div class="row text-content topborder">
+			<div class="text-label" style="width: 15%">
+				<span>Citizenship</span>
+			</div>
+			<div class="text-field" style="width: 15%; height: 20px">
+				<th:block th:switch="${profileBean.BiographyBean.citizenship}">
+					<span th:case="'OT'"> Other Non-Citizen </span>
+					<span th:case="'PR'">Permanent Resident</span>
+					<span th:case="'US'">U.S. Citizen</span>
+				</th:block>
+			</div>
+			<div class="text-label" style="width: 15%">
+				<span>New Mexico Resident</span>
+			</div>
+			<div class="text-field" style="width: 10%; height: 20px">
+				<th:block th:switch="${profileBean.BiographyBean.isNMResident}">
+					<span th:case="'0'"> No. </span>
+					<span th:case="'1'">Yes.</span>
+				</th:block>
+			</div>
+			<div class="text-label" style="width: 35%">
+				<span>Do either of your parents have a college or University
+					Bachelor's degree</span>
+			</div>
+			<div class="text-field" style="width: 10%; height: 20px">
+				<th:block th:switch="${profileBean.BiographyBean.parentHasDegree}">
+					<span th:case="'0'"> No. </span>
+					<span th:case="'1'">Yes.</span>
+				</th:block>
+			</div>
+		</div>
+
+
+		<div class="row text-content topborder">
+			<div class="text-label" style="width: 10%">
+				<span>Hispanic or Latino</span>
+			</div>
+			<div class="text-field" style="width: 10%; height: 20px">
+				<th:block th:switch="${profileBean.EthnicityBean.isHispanic}">
+					<span th:case="'0'"> No. </span>
+					<span th:case="'1'">Yes.</span>
+				</th:block>
+			</div>
+			<div class="text-label" style="width: 10%">
+				<span>Race</span>
+			</div>
+			<div class="text-field" style="width: 40%; height: 20px">
+				<span> <th:block
+						th:each="item : ${profileBean.EthnicityBean.race}">
+						<th:block th:switch="${item}">
+							<span th:case="'AFRICANAMERICAN'"> African American or
+								Black, </span>
+							<span th:case="'AMERICANINDIAN'">American Indian, </span>
+							<span th:case="'ALASKANATIVE'">Alaska Native, </span>
+							<span th:case="'ASIAN'">Asian, </span>
+							<span th:case="'NATIVEHAWAIIAN'">Native Hawaiian or Other
+								Pacific Islander, </span>
+							<span th:case="'WHITE'">White, </span>
+						</th:block>
+					</th:block>
+				</span>
+			</div>
+
+			<div class="text-label" style="width: 10%">
+				<span>Disability</span>
+			</div>
+			<div class="text-field" style="width: 20%; height: 20px">
+				<th:block th:switch="${profileBean.EthnicityBean.disability}">
+					<span th:case="'Yes'"> Yes.</span>
+					<span th:case="'NO'">No.</span>
+					<span th:case="'OT'">Do not wish to provide</span>
+				</th:block>
+			</div>
+		</div>
+
+
+		<div class="row text-content topborder">
+			<div class="text-label" style="width: 30%">
+				<span>Name of person who will always know how to reach you</span>
+			</div>
+			<div class="text-label" style="width: 15%">
+				<span>Cell Phone</span>
+			</div>
+			<div class="text-label" style="width: 10%">
+				<span>Phone Type</span>
+			</div>
+			<div class="text-label" style="width: 15%">
+				<span>Alternate Phone</span>
+			</div>
+			<div class="text-label" style="width: 10%">
+				<span>Phone Type</span>
+			</div>
+			<div class="text-label" style="width: 20%">
+				<span>Relationship to Applicant</span>
+			</div>
+		</div>
+
+		<div class="row text-content topborder">
+			<div class="text-field" style="width: 30%">
+				<span
+					th:text="${profileBean.ContactBean.ecFirstName}+' '+${profileBean.ContactBean.ecLastName}"></span>
+			</div>
+			<div class="text-field" style="width: 15%">
+				<span th:text="${profileBean.ContactBean.ecPhoneNum1}"></span>
+			</div>
+			<div class="text-field" style="width: 10%">
+				<span th:text="${profileBean.ContactBean.ecPhoneType1}"></span>
+			</div>
+			<div class="text-field" style="width: 15%">
+				<span th:text="${profileBean.ContactBean.ecPhoneNum2}"></span>
+			</div>
+			<div class="text-field" style="width: 10%">
+				<span th:text="${profileBean.ContactBean.ecPhoneType2}"></span>
+			</div>
+			<div class="text-field" style="width: 20%">
+				<span th:text="${profileBean.ContactBean.ecRelationship}"></span>
+			</div>
+		</div>
+
+		<div class="row text-content topborder">
+			<div class="text-label-2">
+				<span>Address of Above Individual</span>
+			</div>
+			<div class="text-label">
+				<span>City</span>
+			</div>
+			<div class="text-label">
+				<span>County</span>
+			</div>
+			<div class="text-label">
+				<span>State</span>
+			</div>
+			<div class="text-label">
+				<span>Zip</span>
+			</div>
+		</div>
+		<div class="row text-content topborder">
+			<div class="text-field-2">
+				<span
+					th:text="${profileBean.ContactBean.ecAddressLine1}+' '+${profileBean.ContactBean.ecAddressLine2}"></span>
+			</div>
+			<div class="text-field">
+				<span th:text="${profileBean.ContactBean.ecAddressCity}"></span>
+			</div>
+			<div class="text-field">
+				<span th:text="${profileBean.ContactBean.ecAddressCounty}"></span>
+			</div>
+			<div class="text-field">
+				<span th:text="${profileBean.ContactBean.ecAddressState}"></span>
+			</div>
+			<div class="text-field">
+				<span th:text="${profileBean.ContactBean.ecAddressZip}"></span>
+			</div>
+		</div>
+
+		<div class="row text-content topborder">
+			<div class="text-label" style="width: 25%">
+				<span>Have you previously been in the URA Program?</span>
+			</div>
+			<div class="text-field" style="width: 5%; height: 20px">
+				<th:block th:if="${applicationBean.InvolvementBean!=null}">
+					<th:block
+						th:switch="${applicationBean.InvolvementBean.programEverIn}">
+						<span th:case="'1'"> Yes.</span>
+						<span th:case="'0'">No.</span>
+					</th:block>
+				</th:block>
+
+				<th:block th:if="${applicationBean.InvolvementBean==null}">
+					<span></span>
+				</th:block>
+			</div>
+			<div class="text-label" style="width: 25%">
+				<span>If Yes, list the semester(s) you have participated</span>
+			</div>
+			<div class="text-field" style="width: 45%; height: 20px">
+				<th:block th:if="${applicationBean.InvolvementBean!=null}">
+					<span
+						th:text="${applicationBean.InvolvementBean.programEverInSemesters}"></span>
+				</th:block>
+
+				<th:block th:if="${applicationBean.InvolvementBean==null}">
+					<span></span>
+				</th:block>
+			</div>
+		</div>
+
+
+		<div class="row text-content topborder">
+			<div class="text-label" style="width: 20%; height: 80px">
+				<span>Have you ever received an AMP scholarship from one of
+					our programs?</span>
+			</div>
+			<div class="text-field" style="width: 5%; height: 80px">
+				<th:block th:if="${applicationBean.InvolvementBean!=null}">
+					<th:block
+						th:switch="${applicationBean.InvolvementBean.ampScholarship}">
+						<span th:case="'1'"> Yes.</span>
+						<span th:case="'0'">No.</span>
+					</th:block>
+				</th:block>
+
+				<th:block th:if="${applicationBean.InvolvementBean==null}">
+					<span>N?A</span>
+				</th:block>
+			</div>
+
+
+			<div class="text-label " style="width: 25%; height: 20px">
+				<span>If Yes, at which school?</span>
+			</div>
+			<div class="text-field " style="width: 50%; height: 20px">
+				<th:block th:if="${applicationBean.InvolvementBean!=null}">
+					<span
+						th:text="${applicationBean.InvolvementBean.ampScholarshipSchool}"></span>
+				</th:block>
+
+				<th:block th:if="${applicationBean.InvolvementBean==null}">
+					<span></span>
+				</th:block>
+			</div>
+
+			<div class="text-label topborder" style="width: 35%; height: 20px">
+				<span>If Yes, what type of New Mexico AMP scholarship?</span>
+			</div>
+			<div class="text-field topborder" style="width: 40%; height: 20px">
+				<th:block th:if="${applicationBean.InvolvementBean!=null}">
+					<th:block
+						th:switch="${applicationBean.InvolvementBean.ampScholarshipType}">
+						<span th:case="'CCCONF'"> CC Conference Stipend </span>
+						<span th:case="'IREP'">IREP</span>
+						<span th:case="'MESA'">MESA</span>
+						<span th:case="'SCCORE'"> SCCORE </span>
+						<span th:case="'TRANS'">Transfer Scholarship</span>
+						<span th:case="'SSTEM'">S-STEM</span>
+					</th:block>
+				</th:block>
+
+				<th:block th:if="${applicationBean.InvolvementBean==null}">
+					<span></span>
+				</th:block>
+			</div>
+			<div class="text-label topborder" style="width: 35%; height: 40px">
+				<span>What Semester/Year was the New Mexico AMP Scholarship
+					awarded?</span>
+			</div>
+			<div class="text-field topborder" style="width: 10%; height: 40px">
+				<th:block th:if="${applicationBean.InvolvementBean!=null}">
+					<span
+						th:if="${applicationBean.InvolvementBean.ampScholarshipSemester!=null}"
+						th:text="${applicationBean.InvolvementBean.ampScholarshipSemester}+' '+${applicationBean.InvolvementBean.ampScholarshipYear}"></span>
+				</th:block>
+
+				<th:block th:if="${applicationBean.InvolvementBean==null}">
+					<span></span>
+				</th:block>
+			</div>
+			<div class="text-label topborder" style="width: 20%; height: 40px">
+				<span>Amount of New Mexico AMP Scholarship?</span>
+			</div>
+			<div class="text-field topborder" style="width: 10%; height: 40px">
+				<th:block th:if="${applicationBean.InvolvementBean!=null}">
+					<span
+						th:text="${applicationBean.InvolvementBean.ampScholarshipAmount}"></span>
+				</th:block>
+
+				<th:block th:if="${applicationBean.InvolvementBean==null}">
+					<span></span>
+				</th:block>
+			</div>
+		</div>
+
+
+		<div class="row text-content topborder">
+			<div class="text-label" style="width: 20%; height: 60px">
+				<span>Are you currently receiving other scholarships or
+					research support?</span>
+			</div>
+			<div class="text-field" style="width: 5%; height: 60px">
+				<th:block th:if="${applicationBean.InvolvementBean!=null}">
+					<th:block
+						th:switch="${applicationBean.InvolvementBean.otherScholarship}">
+						<span th:case="'1'"> Yes.</span>
+						<span th:case="'0'">No.</span>
+					</th:block>
+				</th:block>
+
+				<th:block th:if="${applicationBean.InvolvementBean==null}">
+					<span></span>
+				</th:block>
+			</div>
+
+
+			<div class="text-label " style="width: 25%; height: 60px">
+				<span>If Yes, list:</span>
+			</div>
+			<div class="text-field " style="width: 50%; height: 60px">
+				<th:block th:if="${applicationBean.InvolvementBean!=null}">
+					<span
+						th:text="${applicationBean.InvolvementBean.listOtherScholarship}"></span>
+				</th:block>
+
+				<th:block th:if="${applicationBean.InvolvementBean==null}">
+					<span></span>
+				</th:block>
+			</div>
+		</div>
+
+
+		<div class="row text-part">
+			<span> Part II: Essay Questions </span>
+		</div>
+		<div class="row text-content topborder ">
+			<div class="text-label center"
+				style="width: 10%; height: 70px; line-height: 70px">
+				<span>Essay Goal</span>
+			</div>
+			<div class="text-field" style="width: 90%; height: 70px">
+				<th:block th:if="${applicationBean.EssayBean!=null}">
+					<span th:text="${applicationBean.EssayBean.essayEducationalGoal}"></span>
+				</th:block>
+				<th:block th:if="${applicationBean.EssayBean==null}">
+					<span></span>
+				</th:block>
+			</div>
+		</div>
+
+		<div class="row text-part">
+			<span> Part III: Faculty Mentor Information </span>
+		</div>
+		<div class="row text-content">
+			<div class="text-label" style="width: 25%">
+				<span> First Name: </span>
+			</div>
+			<div class="text-label" style="width: 25%">
+				<span> Middle Name: </span>
+			</div>
+			<div class="text-label" style="width: 25%">
+				<span> Last Name: </span>
+			</div>
+			<div class="text-label" style="width: 25%">
+				<span> Prefix:</span>
+			</div>
+		</div>
+
+		<div class="row text-content topborder">
+			<div class="text-field" style="width: 25%">
+				<th:block th:if="${profileBean.MentorBean!=null}">
+					<span th:text="${profileBean.MentorBean.mentorFirstName}"></span>
+				</th:block>
+
+				<th:block th:if="${profileBean.MentorBean==null}">
+					<span></span>
+				</th:block>
+			</div>
+			<div class="text-field" style="width: 25%">
+				<th:block th:if="${profileBean.MentorBean!=null}">
+					<span th:text="${profileBean.MentorBean.mentorMiddleName}"></span>
+				</th:block>
+
+				<th:block th:if="${profileBean.MentorBean==null}">
+					<span></span>
+				</th:block>
+			</div>
+			<div class="text-field" style="width: 25%">
+				<th:block th:if="${profileBean.MentorBean!=null}">
+					<span th:text="${profileBean.MentorBean.mentorLastName}"></span>
+				</th:block>
+
+				<th:block th:if="${profileBean.MentorBean==null}">
+					<span></span>
+				</th:block>
+			</div>
+			<div class="text-field" style="width: 25%">
+				<th:block th:if="${profileBean.MentorBean!=null}">
+					<span th:text="${profileBean.MentorBean.mentorPrefix}"></span>
+				</th:block>
+
+				<th:block th:if="${profileBean.MentorBean==null}">
+					<span></span>
+				</th:block>
+			</div>
+		</div>
+
+		<div class="row text-content">
+			<div class="text-label topborder" style="width: 15%">
+				<span> Title: </span>
+			</div>
+			<div class="text-field topborder" style="width: 85%">
+				<th:block th:if="${profileBean.MentorBean!=null}">
+					<span th:text="${profileBean.MentorBean.mentorTitle}"></span>
+				</th:block>
+
+				<th:block th:if="${profileBean.MentorBean==null}">
+					<span></span>
+				</th:block>
+			</div>
+		</div>
+
+		<div class="row text-content">
+			<div class="text-label topborder" style="width: 50%">
+				<span> Name of Institution or Organization</span>
+			</div>
+			<div class="text-label topborder" style="width: 50%">
+				<span> Name of Department </span>
+			</div>
+		</div>
+
+		<div class="row text-content">
+			<div class="text-field topborder" style="width: 50%">
+				<th:block th:if="${profileBean.MentorBean!=null}">
+					<span th:text="${profileBean.MentorBean.mentorInstitution}"></span>
+				</th:block>
+
+				<th:block th:if="${profileBean.MentorBean==null}">
+					<span></span>
+				</th:block>
+			</div>
+			<div class="text-field topborder" style="width: 50%">
+				<th:block th:if="${profileBean.MentorBean!=null}">
+					<span th:text="${profileBean.MentorBean.mentorDept}"></span>
+				</th:block>
+
+				<th:block th:if="${profileBean.MentorBean==null}">
+					<span></span>
+				</th:block>
+			</div>
+		</div>
+
+
+
+		<div class="row text-content">
+			<div class="text-label topborder" style="width: 25%">
+				<span> Building/MSC</span>
+			</div>
+			<div class="text-label topborder" style="width: 25%">
+				<span> Preferred Phone Number </span>
+			</div>
+			<div class="text-label topborder" style="width: 25%">
+				<span> Fax Number</span>
+			</div>
+			<div class="text-label topborder" style="width: 25%">
+				<span> Preferred Email </span>
+			</div>
+		</div>
+		<div class="row text-content">
+			<div class="text-field topborder" style="width: 25%">
+				<th:block th:if="${profileBean.MentorBean!=null}">
+					<span th:text="${profileBean.MentorBean.mentorBuilding}"></span>
+				</th:block>
+
+				<th:block th:if="${profileBean.MentorBean==null}">
+					<span></span>
+				</th:block>
+			</div>
+			<div class="text-field topborder" style="width: 25%">
+				<th:block th:if="${profileBean.MentorBean!=null}">
+					<span th:text="${profileBean.MentorBean.mentorPhone}"></span>
+				</th:block>
+
+				<th:block th:if="${profileBean.MentorBean==null}">
+					<span></span>
+				</th:block>
+			</div>
+			<div class="text-field topborder" style="width: 25%">
+				<th:block th:if="${profileBean.MentorBean!=null}">
+					<span th:text="${profileBean.MentorBean.mentorFax}"></span>
+				</th:block>
+
+				<th:block th:if="${profileBean.MentorBean==null}">
+					<span></span>
+				</th:block>
+			</div>
+			<div class="text-field topborder" style="width: 25%">
+				<th:block th:if="${profileBean.MentorBean!=null}">
+					<span th:text="${profileBean.MentorBean.mentorEmail}"></span>
+				</th:block>
+
+				<th:block th:if="${profileBean.MentorBean==null}">
+					<span></span>
+				</th:block>
+			</div>
+		</div>
+
+
+		<div class="row text-part">
+			<span> Part IV: Project Proposal </span>
+		</div>
+		<div class="row text-content">
+			<div class="text-label topborder" style="width: 20%">
+				<span> Research Project Title</span>
+			</div>
+			<div class="text-field topborder" style="width: 80%">
+				<th:block th:if="${applicationBean.ProjectBean!=null}">
+					<span th:text="${applicationBean.ProjectBean.projectTitle}"></span>
+				</th:block>
+
+				<th:block th:if="${applicationBean.ProjectBean==null}">
+					<span></span>
+				</th:block>
+			</div>
+		</div>
+
+		<div class="row text-content">
+			<div class="text-label topborder" style="width: 15%; height: 81px">
+				<span> externally funded project?</span>
+			</div>
+			<div class="text-field topborder" style="width: 5%; height: 81px">
+				<th:block th:if="${applicationBean.ProjectBean!=null}">
+					<th:block
+						th:switch="${applicationBean.ProjectBean.externalProject}">
+						<span th:case="'1'"> Yes.</span>
+						<span th:case="'0'">No.</span>
+					</th:block>
+				</th:block>
+
+				<th:block th:if="${applicationBean.ProjectBean==null}">
+					<span>N/A</span>
+				</th:block>
+			</div>
+			<div class="text-label topborder" style="width: 5%; height: 81px">
+				<span> If Yes</span>
+			</div>
+
+			<div class="text-label topborder" style="width: 15%; height: 27px">
+				<span> Title of Agency</span>
+			</div>
+			<div class="text-field topborder" style="width: 60%; height: 27px">
+				<th:block th:if="${applicationBean.ProjectBean!=null}">
+					<th:block th:switch="${applicationBean.ProjectBean.externalAgency}">
+						<span th:case="'1'"> Yes.</span>
+						<span th:case="'0'">No.</span>
+					</th:block>
+				</th:block>
+
+				<th:block th:if="${applicationBean.ProjectBean==null}">
+					<span>N/A</span>
+				</th:block>
+			</div>
+
+			<div class="text-label topborder" style="width: 15%; height: 27px">
+				<span> Federal Project Title:</span>
+			</div>
+			<div class="text-field topborder" style="width: 60%; height: 27px">
+				<th:block th:if="${applicationBean.ProjectBean!=null}">
+					<th:block th:switch="${applicationBean.ProjectBean.externalTitle}">
+						<span th:case="'1'"> Yes.</span>
+						<span th:case="'0'">No.</span>
+					</th:block>
+				</th:block>
+
+				<th:block th:if="${applicationBean.ProjectBean==null}">
+					<span>N/A</span>
+				</th:block>
+			</div>
+
+			<div class="text-label topborder" style="width: 15%; height: 27px">
+				<span> Duration of Project:</span>
+			</div>
+			<div class="text-field topborder" style="width: 60%; height: 27px">
+				<th:block th:if="${applicationBean.ProjectBean!=null}">
+					<th:block
+						th:switch="${applicationBean.ProjectBean.externalDuration}">
+						<span th:case="'1'"> Yes.</span>
+						<span th:case="'0'">No.</span>
+					</th:block>
+				</th:block>
+
+				<th:block th:if="${applicationBean.ProjectBean==null}">
+					<span>N/A</span>
+				</th:block>
+			</div>
+		</div>
+
+		<div class="row text-content topborder ">
+			<div class="text-label center"
+				style="width: 20%; height: 70px; line-height: 70px">
+				<span>Project Goals</span>
+			</div>
+			<div class="text-field" style="width: 80%; height: 70px">
+				<th:block th:if="${applicationBean.ProjectBean!=null}">
+					<span th:text="${applicationBean.ProjectBean.projectGoal}"></span>
+				</th:block>
+				<th:block th:if="${applicationBean.ProjectBean==null}">
+					<span></span>
+				</th:block>
+			</div>
+		</div>
+		<div class="row text-content topborder ">
+			<div class="text-label center"
+				style="width: 20%; height: 70px; line-height: 70px">
+				<span>Project Methods</span>
+			</div>
+			<div class="text-field" style="width: 80%; height: 70px">
+				<th:block th:if="${applicationBean.ProjectBean!=null}">
+					<span th:text="${applicationBean.ProjectBean.projectMethod}"></span>
+				</th:block>
+				<th:block th:if="${applicationBean.ProjectBean==null}">
+					<span></span>
+				</th:block>
+			</div>
+		</div>
+		<div class="row text-content topborder ">
+			<div class="text-label center"
+				style="width: 20%; height: 70px; line-height: 70px">
+				<span>Project Results</span>
+			</div>
+			<div class="text-field" style="width: 80%; height: 70px">
+				<th:block th:if="${applicationBean.ProjectBean!=null}">
+					<span th:text="${applicationBean.ProjectBean.projectResult}"></span>
+				</th:block>
+				<th:block th:if="${applicationBean.ProjectBean==null}">
+					<span></span>
+				</th:block>
+			</div>
+		</div>
+		<div class="row text-content topborder ">
+			<div class="text-label center"
+				style="width: 20%; height: 70px; line-height: 70px">
+				<span>Project Task</span>
+			</div>
+			<div class="text-field" style="width: 80%; height: 70px">
+				<th:block th:if="${applicationBean.ProjectBean!=null}">
+					<span th:text="${applicationBean.ProjectBean.projectTask}"></span>
+				</th:block>
+				<th:block th:if="${applicationBean.ProjectBean==null}">
+					<span></span>
+				</th:block>
+			</div>
+		</div>
+
+		<div class="row text-part-1">
+			<span>Transcript:</span>
+			<th:block th:if="${applicationBean.fileBucket!=null}">
+				<span><a
+					th:href="@{'download-application-transcript?program='+${program}+'&appID='+${applicationBean.applicationID}}">Download
+						Script</a></span>
+			</th:block>
+			<th:block th:if="${applicationBean.fileBucket==null}">
+				<span>N/A</span>
+			</th:block>
+		</div>
 	</div>
+
 </body>
 </html>

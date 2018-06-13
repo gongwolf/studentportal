@@ -17,16 +17,17 @@ package org.bitbucket.lvncnt.portal.model;
 
 import java.util.Date;
 
+import org.bitbucket.lvncnt.portal.service.ProgramCode;
 import org.springframework.format.annotation.DateTimeFormat;
 
 public class AcademicBean {
 
-	private Integer userID; 
-	private Integer applicationID; 
+	private Integer userID;
+	private Integer applicationID;
 	private int schoolYear;
 	private String schoolSemester;
-	private String programNameAbbr; 
-	
+	private String programNameAbbr;
+
 	public String getProgramNameAbbr() {
 		return programNameAbbr;
 	}
@@ -52,38 +53,39 @@ public class AcademicBean {
 	}
 
 	private String academicSchool;
+	private String academicSchoolFullName;
 	private String academicBannerID;
 	private String academicMajor;
 	private Float academicGPA;
- 
-	private String academicCredit; 
-	private String academicStatus; 
-	private String academicTransferSchool; 
-	
-	@DateTimeFormat(pattern="MM/dd/yyyy")
+
+	private String academicCredit;
+	private String academicStatus;
+	private String academicTransferSchool;
+
+	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date academicTransferDate;
-	
-	private String academicIntendedMajor; 
-	private String academicReferrer; 
- 
+
+	private String academicIntendedMajor;
+	private String academicReferrer;
+
 	private String academicYear;
-	
-	@DateTimeFormat(pattern="MM/dd/yyyy")
+
+	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private Date academicGradDate;
-	
+
 	private String academicMinor;
- 
+
 	public AcademicBean() {
 		super();
 	}
 
 	public AcademicBean(AcademicBean from) {
-		this.userID = from.userID; 
-		this.applicationID = from.applicationID; 
-		this.programNameAbbr = from.programNameAbbr; 
+		this.userID = from.userID;
+		this.applicationID = from.applicationID;
+		this.programNameAbbr = from.programNameAbbr;
 		this.schoolSemester = from.schoolSemester;
 		this.schoolYear = from.schoolYear;
-		
+
 		this.academicSchool = from.academicSchool;
 		this.academicBannerID = from.academicBannerID;
 		this.academicMajor = from.academicMajor;
@@ -97,6 +99,7 @@ public class AcademicBean {
 		this.academicYear = from.academicYear;
 		this.setAcademicGradDate(from.getAcademicGradDate());
 		this.academicMinor = from.academicMinor;
+		this.academicSchoolFullName = from.getAcademicSchoolFullName(); // add by qixu
 	}
 
 	public String getAcademicYear() {
@@ -132,13 +135,15 @@ public class AcademicBean {
 	}
 
 	public Date getAcademicGradDate() {
-		if(academicGradDate == null) return null; 
-		return (Date)academicGradDate.clone();
+		if (academicGradDate == null)
+			return null;
+		return (Date) academicGradDate.clone();
 	}
 
 	public void setAcademicGradDate(Date academicGradDate) {
-		if(academicGradDate == null) return; 
-		this.academicGradDate = (Date)academicGradDate.clone();
+		if (academicGradDate == null)
+			return;
+		this.academicGradDate = (Date) academicGradDate.clone();
 	}
 
 	public String getAcademicBannerID() {
@@ -173,7 +178,6 @@ public class AcademicBean {
 		this.academicGPA = academicGPA;
 	}
 
-	
 	public String getAcademicCredit() {
 		return academicCredit;
 	}
@@ -199,13 +203,15 @@ public class AcademicBean {
 	}
 
 	public Date getAcademicTransferDate() {
-		if(academicTransferDate == null) return null; 
-		return (Date)academicTransferDate.clone();
+		if (academicTransferDate == null)
+			return null;
+		return (Date) academicTransferDate.clone();
 	}
 
 	public void setAcademicTransferDate(Date academicTransferDate) {
-		if(academicTransferDate == null) return; 
-		this.academicTransferDate = (Date)academicTransferDate.clone();
+		if (academicTransferDate == null)
+			return;
+		this.academicTransferDate = (Date) academicTransferDate.clone();
 	}
 
 	public String getAcademicIntendedMajor() {
@@ -223,7 +229,20 @@ public class AcademicBean {
 	public void setAcademicReferrer(String academicReferrer) {
 		this.academicReferrer = academicReferrer;
 	}
- 
- 
+
+	// Add by qixu
+	public String getAcademicSchoolFullName() {
+		return academicSchoolFullName;
+	}
+
+	public void setAcademicSchoolFullName(String academicSchoolFullName) {
+		this.academicSchoolFullName = academicSchoolFullName;
+	}
+
+	public void setAcademicSchoolFullName() {
+		if (this.getAcademicSchool() != null) {
+			this.academicSchoolFullName = ProgramCode.ACADEMIC_SCHOOL.get(this.getAcademicSchool());
+		}
+	}
 
 }

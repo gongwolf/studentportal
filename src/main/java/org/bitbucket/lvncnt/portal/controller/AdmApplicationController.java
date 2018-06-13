@@ -472,7 +472,7 @@ public class AdmApplicationController {
 		} else {
 			applications = adminDAO.getApplicationForZip(program, appIDs);
 		}
-	
+
 		Path tempDir = null;
 		try {
 			tempDir = Files.createTempDirectory("temp_nmamp_");
@@ -694,12 +694,12 @@ public class AdmApplicationController {
 	@GetMapping(value = "/manage-application-result/application-preview", params = { "applicationID", "program" })
 	public String PreviewApplicationDetailsByID(ModelMap model, @RequestParam("applicationID") String applicationID,
 			@RequestParam("program") String program) {
-//		System.out.println(applicationID);
-//		System.out.println(program);
+		// System.out.println(applicationID);
+		// System.out.println(program);
 
 		ApplicationBean appBean = adminDAO.getApplicationByApplicationID(applicationID, program);
-//		System.out.println(appBean.getApplicationID());
-		
+		// System.out.println(appBean.getApplicationID());
+
 		int userID = appBean.getUserID();
 		ProfileBean profileBean = ((UserDAOImpl) userDAO).getProfileStudent(userID);
 		if (profileBean == null) {
@@ -708,32 +708,37 @@ public class AdmApplicationController {
 			profileBean.setBiographyBean(biographyBean);
 			ContactBean contactBean = new ContactBean();
 			profileBean.setContactBean(contactBean);
-		}else{
+		} else {
 			appBean.setFirstName(profileBean.getBiographyBean().getFirstName());
 			appBean.setLastName(profileBean.getBiographyBean().getLastName());
 			appBean.setEmail(profileBean.getContactBean().getEmailPref());
 			appBean.setBirthDate(profileBean.getBiographyBean().getBirthDate());
+			
+			if (program.equals(ProgramCode.URS) && appBean.getMentorID() != null) {
+				MentorBean mentorBean = ((UserDAOImpl) userDAO).getProfileMentorBean(appBean.getMentorID());
+				profileBean.setMentorBean(mentorBean);
+			}
+
 		}
 
-//		try {
-//			model.addAttribute("application", objectMapper.writeValueAsString(appBean));
-//			System.out.println(objectMapper.writeValueAsString(appBean));
-//		} catch (JsonProcessingException e) {
-//			logger.error(e.getMessage());
-//		}
-		
-		
+		// try {
+		// model.addAttribute("application", objectMapper.writeValueAsString(appBean));
+		// System.out.println(objectMapper.writeValueAsString(appBean));
+		// } catch (JsonProcessingException e) {
+		// logger.error(e.getMessage());
+		// }
+		// System.out.println(profileBean.getEthnicityBean().getRace());
 		model.addAttribute("applicationBean", appBean.appBean());
 		model.addAttribute("academicBean", appBean.getAcademicBean());
 		model.addAttribute("profileBean", profileBean);
-//		System.out.println(appBean.get);
+		// System.out.println(appBean.get);
 		model.addAttribute("program", program);
 		model.addAttribute("programNameFull", ProgramCode.PROGRAMS.get(program));
-//		model.addAttribute("schoolTarget", schoolTarget);
-//		model.addAttribute("completedOnly", completedOnly);
+		// model.addAttribute("schoolTarget", schoolTarget);
+		// model.addAttribute("completedOnly", completedOnly);
 		model.addAttribute("status", model.get("status"));
 
-		return "/admin/application-preview-"+program;
+		return "/admin/application-preview-" + program;
 	}
 
 }

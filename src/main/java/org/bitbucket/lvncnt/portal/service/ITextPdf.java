@@ -1759,7 +1759,7 @@ public class ITextPdf {
 		String ampScholarshipTerm = "", ampScholarshipAmount = ""; 
 		if(bean != null && ampScholarship == 1){
 			ampScholarshipSchool = bean.getAmpScholarshipSchool(); 
-			ampScholarshipTerm = bean.getAmpScholarshipSemester() + "/" + bean.getAmpScholarshipYear(); 
+			ampScholarshipTerm = bean.getAmpScholarshipSemester() + "/" + bean.getAmpScholarshipYear();
 			ampScholarshipType = bean.getAmpScholarshipType();
 			ampScholarshipAmount = String.valueOf(bean.getAmpScholarshipAmount()); 
 		}

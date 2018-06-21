@@ -43,14 +43,14 @@
 			</div>
 
 			<div class="row" id="fadeOut" th:if="!${#strings.isEmpty(status)}">
-           <div class="col-lg-12">
-              <div class="panel panel-info">
-                  <div class="panel-heading" >
-                  <i class="fa fa-info-circle fa-fw"></i><span th:text="${status}"></span>
-                  </div>
-              </div>
-           </div>
-        </div>
+				<div class="col-lg-12">
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							<i class="fa fa-info-circle fa-fw"></i><span th:text="${status}"></span>
+						</div>
+					</div>
+				</div>
+			</div>
 
 			<div class="row">
 				<div class="col-lg-12 col-md-12">
@@ -66,42 +66,52 @@
 									</button>
 									<ul class="dropdown-menu pull-right" role="menu">
 										<li class="divider"></li>
-										<li><a href="javascript:exportApplicationPdf()">Export Selection
-												to Pdf </a></li>
+										<li><a href="javascript:exportApplicationPdf()">Export
+												Selection to Pdf </a></li>
 										<li class="divider"></li>
-										<li><a href="javascript:exportApplicationExcel()">Download Selected
-												Application Forms (Excel) </a></li> 
-										<li><a href="javascript:downloadApplicationTranscript()">Download Selected
-												Transcripts </a></li>
-										<li><a href="javascript:downloadApplicationReference()">Download Selected
-												References (TRANS, MESA) </a></li>
-										<li><a href="javascript:downloadApplicationMedicalForm()">Download Selected
-												Medical Forms (SCCORE)</a></li>
+										<li><a href="javascript:exportApplicationExcel()">Download
+												Selected Application Forms (Excel) </a></li>
+										<li><a href="javascript:downloadApplicationTranscript()">Download
+												Selected Transcripts </a></li>
+										<li><a href="javascript:downloadApplicationReference()">Download
+												Selected References (TRANS, MESA) </a></li>
+										<li><a href="javascript:downloadApplicationMedicalForm()">Download
+												Selected Medical Forms (SCCORE)</a></li>
 										<li class="divider"></li>
-										<li th:if="${#httpSession.getAttribute('flagadmin')}"><a href="javascript:updateDecision('admit')">Set Decision:
+										<li th:if="${#httpSession.getAttribute('flagadmin')}"><a
+											href="javascript:updateDecision('admit')">Set Decision:
 												Admit </a></li>
-										<li th:if="${#httpSession.getAttribute('flagadmin')}"><a href="javascript:updateDecision('deny')">Set Decision:
+										<li th:if="${#httpSession.getAttribute('flagadmin')}"><a
+											href="javascript:updateDecision('deny')">Set Decision:
 												Deny </a></li>
-										<li th:if="${#httpSession.getAttribute('flagadmin')}"><a href="javascript:updateDecision('reset')">Reset
-												Decision </a></li>
+										<li th:if="${#httpSession.getAttribute('flagadmin')}"><a
+											href="javascript:updateDecision('withdrew')">Set Decision:
+												Withdrew </a></li>
+										<li th:if="${#httpSession.getAttribute('flagadmin')}"><a
+											href="javascript:updateDecision('reset')">Reset Decision
+										</a></li>
 										<li class="divider"></li>
-										<li th:if="${#httpSession.getAttribute('flagadmin')}"><a href="javascript:sendApplications()">Send To
-												Committee for Review </a></li>
-										<li th:if="${#httpSession.getAttribute('flagadmin')}"><a href="javascript:emailDecision()">Email
-												Decision To Student </a></li>
-									    <li class="divider"></li>
-										<li th:if="${#httpSession.getAttribute('flagadmin')}"><a href="javascript:deleteApplication()">Delete Selected Application </a></li>
+										<li th:if="${#httpSession.getAttribute('flagadmin')}"><a
+											href="javascript:sendApplications()">Send To Committee
+												for Review </a></li>
+										<li th:if="${#httpSession.getAttribute('flagadmin')}"><a
+											href="javascript:emailDecision()">Email Decision To
+												Student </a></li>
+										<li class="divider"></li>
+										<li th:if="${#httpSession.getAttribute('flagadmin')}"><a
+											href="javascript:deleteApplication()">Delete Selected
+												Application </a></li>
 									</ul>
 								</div>
 							</div>
 						</div>
-						
+
 						<div class="panel-body">
 							<table id="applications" class="display"
-							style="overflow-x:auto;border-spacing: 0px;width: 100%">
+								style="overflow-x: auto; border-spacing: 0px; width: 100%">
 								<thead>
 									<tr>
-									    <th></th>
+										<th></th>
 										<th><input name="select_all" value="1"
 											id="example-select-all" type="checkbox" /></th>
 										<td><strong>Application ID</strong></td>
@@ -138,9 +148,9 @@
 				</div>
 
 				<!-- Modal Body -->
-				<form class="form-horizontal" role="form" id="userForm" 
-				enctype="multipart/form-data" method = "post"
-				th:action="@{/admin/manage-application-result/send-to-review-committee}">
+				<form class="form-horizontal" role="form" id="userForm"
+					enctype="multipart/form-data" method="post"
+					th:action="@{/admin/manage-application-result/send-to-review-committee}">
 					<div class="modal-body">
 						<div class="form-group">
 							<label class="col-sm-2 control-label">Selected
@@ -174,26 +184,27 @@
 							<div class="col-sm-9">
 								<a href="manage-application-result/download-review-zip"
 									id="downloadzip" style="color: blue;"> <i
-									class="fa fa-file-zip-o fa-fw"></i>
-									<span th:text="|${program}-applications-for-review.zip|"></span>
+									class="fa fa-file-zip-o fa-fw"></i> <span
+									th:text="|${program}-applications-for-review.zip|"></span>
 								</a>
 							</div>
 						</div>
-						
+
 						<div class="form-group">
 							<label class="col-sm-2 control-label">Attachment 2:</label>
 							<div class="col-sm-9">
-								<input name="file1" id="file1" type="file" 
-								accept=".doc,.docx,.xlsx,.xls,.pdf,.txt">
+								<input name="file1" id="file1" type="file"
+									accept=".doc,.docx,.xlsx,.xls,.pdf,.txt">
 							</div>
 						</div>
-						
+
 						<div class="form-group">
 							<label class="col-sm-2 control-label">Attachment 3:</label>
 							<div class="col-sm-9">
 								<input name="file2" id="file2" type="file"
-								accept=".doc,.docx,.xlsx,.xls,.pdf,.txt">
-								<span class="optional">Allowed file types: doc, docx, xls, xlsx, pdf, txt; </span>
+									accept=".doc,.docx,.xlsx,.xls,.pdf,.txt"> <span
+									class="optional">Allowed file types: doc, docx, xls,
+									xlsx, pdf, txt; </span>
 							</div>
 						</div>
 
@@ -208,120 +219,127 @@
 					<!-- Modal Footer -->
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-						<button type="submit" class="btn btn-primary" id="sendapplications">Send</button>
-						<input type="hidden" name="schoolYear" th:value="${schoolYear}"/>
-						<input type="hidden" name="schoolSemester" th:value="${schoolSemester}"/>
-						<input type="hidden" name="program" th:value="${program}"/>
-						<input type="hidden" name="completedOnly" th:value="${completedOnly}"/>
-						<input type="hidden" name="schoolTarget" th:value="${schoolTarget}"/>
+						<button type="submit" class="btn btn-primary"
+							id="sendapplications">Send</button>
+						<input type="hidden" name="schoolYear" th:value="${schoolYear}" />
+						<input type="hidden" name="schoolSemester"
+							th:value="${schoolSemester}" /> <input type="hidden"
+							name="program" th:value="${program}" /> <input type="hidden"
+							name="completedOnly" th:value="${completedOnly}" /> <input
+							type="hidden" name="schoolTarget" th:value="${schoolTarget}" />
 					</div>
 				</form>
 			</div>
 		</div>
-	</div> 
+	</div>
 
-<!-- Email Decision Modal -->
-<div class="modal fade" id="emailDecisionModal" tabindex="-1" role="dialog" 
-     aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" style="width: 75%">
-        <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <button type="button" class="close" 
-                   data-dismiss="modal">
-                       <span aria-hidden="true">&times;</span>
-                       <span class="sr-only">Close</span>
-                </button>
-                <h4 class="modal-title" id="myModalLabel">Email Decision To Student</h4>
-            </div>
-            
-            <!-- Modal Body -->
-            <form class="form-horizontal" role="form" id="emailDecisionForm" 
-            enctype="multipart/form-data" method = "post"
-				th:action="@{/admin/manage-application-result/email-decision-do}">
-            <div class="modal-body">
-                  <div class="form-group">
-                    <label class="col-sm-1 control-label"></label>
-                    <div class="col-sm-10" id = "decisiontable">
-                    </div>
-                  </div>  
-                  
-                  <div class="form-group">
+	<!-- Email Decision Modal -->
+	<div class="modal fade" id="emailDecisionModal" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="width: 75%">
+			<div class="modal-content">
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span> <span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">Email Decision To
+						Student</h4>
+				</div>
+
+				<!-- Modal Body -->
+				<form class="form-horizontal" role="form" id="emailDecisionForm"
+					enctype="multipart/form-data" method="post"
+					th:action="@{/admin/manage-application-result/email-decision-do}">
+					<div class="modal-body">
+						<div class="form-group">
+							<label class="col-sm-1 control-label"></label>
+							<div class="col-sm-10" id="decisiontable"></div>
+						</div>
+
+						<div class="form-group">
 							<label class="col-sm-2 control-label">Attachment:</label>
 							<div class="col-sm-8">
 								<input name="decisionfile" id="decisionfile" type="file"
-								accept=".doc,.docx,.xlsx,.xls,.pdf,.txt">
-								<span class="optional">Allowed file types: doc, docx, xls, xlsx, pdf, txt; </span>
+									accept=".doc,.docx,.xlsx,.xls,.pdf,.txt"> <span
+									class="optional">Allowed file types: doc, docx, xls,
+									xlsx, pdf, txt; </span>
 							</div>
 						</div>
-						
-				<div class="form-group">
-				<label class="col-sm-2 control-label"></label>
-                    <div class="col-sm-10">
-                    <p>Note: </p>
-                    <p>* The decision letter from Templates will be automatically included in the Email.</p>
-                    <p>* The attachment will be sent to all the email addresses in the Recipient List.</p>
-                    <p>* Only addresses with decision Admit or Deny will be emailed.</p>
-                    </div>
-                  </div>
-            </div>
-            
-            <!-- Modal Footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" id="emailDecision">Send Email</button>
-                <input type="hidden" name="schoolYear" th:value="${schoolYear}"/>
-				<input type="hidden" name="schoolSemester" th:value="${schoolSemester}"/>
-				<input type="hidden" name="program" th:value="${program}"/>
-				<input type="hidden" name="schoolTarget" th:value="${schoolTarget}"/>
-				<input type="hidden" name="completedOnly" th:value="${completedOnly}"/>
-				<input type="hidden" name="decisionIDList" id="decisionIDList"/>
-            </div>
-            </form>
-        </div>
-    </div>
-</div>
 
-<!-- Progress modal -->
-<div class="modal fade" id="progressModal" tabindex="-1" role="dialog" 
-     aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <button type="button" class="close" 
-                   data-dismiss="modal">
-                       <span aria-hidden="true">&times;</span>
-                       <span class="sr-only">Close</span>
-                </button>
-                <h4 class="modal-title" id="progressModalName">Name</h4>
-            </div>
-            
-            <!-- Modal Body -->
-            <form class="form-horizontal" role="form">
-            <div class="modal-body">
-                  <div class="form-group">
-                    <label class="col-sm-1 control-label"></label>
-                    <div class="col-sm-10" id="progresstable">
-                    </div>
-                  </div>  
-            </div>
-            
-            <!-- Modal Footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-            </form>
-        </div>
-    </div>
-</div>
- 
+						<div class="form-group">
+							<label class="col-sm-2 control-label"></label>
+							<div class="col-sm-10">
+								<p>Note:</p>
+								<p>* The decision letter from Templates will be
+									automatically included in the Email.</p>
+								<p>* The attachment will be sent to all the email addresses
+									in the Recipient List.</p>
+								<p>* Only addresses with decision Admit or Deny will be
+									emailed.</p>
+							</div>
+						</div>
+					</div>
+
+					<!-- Modal Footer -->
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary" id="emailDecision">Send
+							Email</button>
+						<input type="hidden" name="schoolYear" th:value="${schoolYear}" />
+						<input type="hidden" name="schoolSemester"
+							th:value="${schoolSemester}" /> <input type="hidden"
+							name="program" th:value="${program}" /> <input type="hidden"
+							name="schoolTarget" th:value="${schoolTarget}" /> <input
+							type="hidden" name="completedOnly" th:value="${completedOnly}" />
+						<input type="hidden" name="decisionIDList" id="decisionIDList" />
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- Progress modal -->
+	<div class="modal fade" id="progressModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span> <span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" id="progressModalName">Name</h4>
+				</div>
+
+				<!-- Modal Body -->
+				<form class="form-horizontal" role="form">
+					<div class="modal-body">
+						<div class="form-group">
+							<label class="col-sm-1 control-label"></label>
+							<div class="col-sm-10" id="progresstable"></div>
+						</div>
+					</div>
+
+					<!-- Modal Footer -->
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
 	<th:block th:include="admin/layout :: scriptFragment"></th:block>
-	<script src="../../js/jquery.dataTables.js" th:src="@{/js/jquery.dataTables.js}"></script>
+	<script src="../../js/jquery.dataTables.js"
+		th:src="@{/js/jquery.dataTables.js}"></script>
 	<script src="../../js/moment.min.js" th:src="@{/js/moment.min.js}"></script>
-	<script src="../../js/moment-with-locales.min.js" th:src="@{/js/moment-with-locales.min.js}"></script>
-	<script src="../../js/moment-timezone.min.js" th:src="@{/js/moment-timezone.min.js}"></script>
-	<script src="../../js/util.adm.applications.search.js" th:src="@{/js/util.adm.applications.search.js}"></script>
+	<script src="../../js/moment-with-locales.min.js"
+		th:src="@{/js/moment-with-locales.min.js}"></script>
+	<script src="../../js/moment-timezone.min.js"
+		th:src="@{/js/moment-timezone.min.js}"></script>
+	<script src="../../js/util.adm.applications.search.js"
+		th:src="@{/js/util.adm.applications.search.js}"></script>
 	<script th:inline="javascript">
 /*<![CDATA[*/ 
 var applicationList = eval(/*[[${applicationList}]]*/);

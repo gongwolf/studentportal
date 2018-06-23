@@ -3530,7 +3530,6 @@ public class AdminDAOImpl implements Schemacode {
 			}
 		});
 
-<<<<<<< HEAD
 	}
 
 	/*
@@ -3703,7 +3702,5 @@ public class AdminDAOImpl implements Schemacode {
 				return bean;
 			}
 		});
-=======
->>>>>>> 716dd0faf933b8fc765305882f52821889f14293
 	}
 }

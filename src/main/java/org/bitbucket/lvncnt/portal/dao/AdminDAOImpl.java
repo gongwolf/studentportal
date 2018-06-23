@@ -2212,6 +2212,9 @@ public class AdminDAOImpl implements Schemacode {
 					if (decision.equalsIgnoreCase("admit")) {
 						ps.setString(2, schoolTarget);
 						ps.setInt(3, 1);
+					} else if (decision.equalsIgnoreCase("withdrew")) {
+						ps.setNull(2, java.sql.Types.VARCHAR);
+						ps.setInt(3, 2);
 					} else {
 						ps.setNull(2, java.sql.Types.VARCHAR);
 						ps.setInt(3, 0);
@@ -3527,6 +3530,7 @@ public class AdminDAOImpl implements Schemacode {
 			}
 		});
 
+<<<<<<< HEAD
 	}
 
 	/*
@@ -3699,5 +3703,7 @@ public class AdminDAOImpl implements Schemacode {
 				return bean;
 			}
 		});
+=======
+>>>>>>> 716dd0faf933b8fc765305882f52821889f14293
 	}
 }

@@ -425,13 +425,14 @@ function emailDecision(){
 	      dataType: 'json',
 	       success : function(response) {
 	    	   if(response.status=='ok'){
-	    		   $("#emailDecisionModal #decisionIDList").val(response.ids); 
+	    		   $("#emailDecisionModal #decisionIDList").val(response.ids);
 	    		   var htmlData = ''; 
 	    		   htmlData += '<table class="table table-condensed table-hover">'; 
 	    		   htmlData += '<thead><tr><th>Decision</th><th>Recipient List</th></tr></thead>';
 	    		   htmlData += '<tbody>'; 
 	    		   htmlData += '<tr><td>Admit</td><td>'+escapeHTML(response.admits)+'</td></tr>'; 
 	    		   htmlData += '<tr><td>Deny</td><td>'+escapeHTML(response.denys)+'</td></tr>';
+	    		   htmlData += '<tr><td>Withdrew</td><td>'+escapeHTML(response.withdrews)+'</td></tr>';
 	    		   htmlData += '<tr><td>N/A</td><td>'+escapeHTML(response.nas)+'</td></tr>';
 					htmlData += '</tbody></table>';
 	    		   $("#decisiontable").html(htmlData);

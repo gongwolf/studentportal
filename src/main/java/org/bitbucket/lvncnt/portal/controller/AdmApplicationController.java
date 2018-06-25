@@ -337,9 +337,10 @@ public class AdmApplicationController {
 		} catch (Exception e) { 
 			logger.error(e.getMessage());
 		}
-		List<String> list = new ArrayList<>(); 
+		List<String> list = new ArrayList<>(); //List store the application IDs which would sent the Email 
 		List<String> admits = new ArrayList<>(); 
 		List<String> denys = new ArrayList<>(); 
+		List<String> withdrews = new ArrayList<>(); //application whose decisions are withdrew  
 		List<String> nas = new ArrayList<>(); 
 		List<ApplicationBean> appList = 
 				adminDAO.getSelectedApplicationDecision(year, semester, program, appIDs); 
@@ -353,6 +354,9 @@ public class AdmApplicationController {
 			}else if(bean.getDecision().equalsIgnoreCase("Deny")){
 				list.add(String.valueOf(bean.getApplicationID()));
 				denys.add(recipient); 
+			}else if(bean.getDecision().equalsIgnoreCase("Withdrew")){
+				//list.add(String.valueOf(bean.getApplicationID()));
+				withdrews.add(recipient); 
 			}else{
 				nas.add(recipient); 
 			}
@@ -363,7 +367,9 @@ public class AdmApplicationController {
 		json.set("ids", objectMapper.convertValue(list, JsonNode.class));
 		json.set("admits", objectMapper.convertValue(admits.stream().collect(Collectors.joining(", ")), JsonNode.class));
 		json.set("denys", objectMapper.convertValue(denys.stream().collect(Collectors.joining(", ")), JsonNode.class));
+		json.set("withdrews", objectMapper.convertValue(withdrews.stream().collect(Collectors.joining(", ")), JsonNode.class));
 		json.set("nas", objectMapper.convertValue(nas.stream().collect(Collectors.joining(", ")), JsonNode.class));
+		System.out.println(json.toString());
 		return json.toString(); 
 	}
 	

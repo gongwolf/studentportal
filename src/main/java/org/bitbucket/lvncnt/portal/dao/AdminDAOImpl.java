@@ -2245,6 +2245,8 @@ public class AdminDAOImpl implements Schemacode {
 		sql.append("WHERE a.school_year = ? AND a.school_semester = ? AND a.program = ? AND a.application_id IN (");
 		sql.append(ids.stream().collect(Collectors.joining(",")));
 		sql.append(")\n");
+		
+		//System.out.println(sql);
 
 		Object[] params = new Object[] { year, semester, program };
 		return jdbcTemplate.query(sql.toString(), params, new ResultSetExtractor<List<ApplicationBean>>() {

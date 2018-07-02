@@ -1195,6 +1195,26 @@ public class StuApplicationController {
 		model.addAttribute("term", model.get("term")); 
 		return VIEW_APPLICATION_COMPLETE;  
 	}
+	
+	
+	/**
+	 * Add by qixu
+	 */
+	@PostMapping("/student/application/update-decision-do")
+	public View DecisionUpdateApplication(ModelMap model,
+			@RequestParam(value = "program") String program,
+			@RequestParam(value = "applicationID") String appID,
+			@RequestParam(value = "decision") String decision,
+			@RequestParam(value = "targetSchool", required = false) String schoolTarget){
+//		RedirectView redirectView = new RedirectView(); 
+//		redirectView.setContextRelative(true);
+//		redirectView.setUrl("/application/edit/"+Security.encode(String.format("%s$$%s", program, applicationID)));
+//		System.out.println(" I am Here : "+program+" "+appID+" "+decision+" "+schoolTarget);
+		RedirectView view = new RedirectView();
+		studentDAO.UpdateSingleApplicationDecision(program, appID, decision, schoolTarget);
+		view.setUrl("/portal/application");
+		return 	view; 
+	}
 
 	
 }

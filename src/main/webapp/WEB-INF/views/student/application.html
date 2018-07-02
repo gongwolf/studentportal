@@ -55,13 +55,14 @@
 					<div class="panel panel-info animated fadeInLeft">
 						<div class="panel-heading">
 							<b>Start a new application</b>
-							<div class="pull-right"><a href="application/select">
-							<i class="fa fa-plus-square fa-lg" aria-hidden="true"></i></a>
+							<div class="pull-right">
+								<a href="application/select"> <i
+									class="fa fa-plus-square fa-lg" aria-hidden="true"></i></a>
 							</div>
 						</div>
 					</div>
 				</div>
-				 
+
 				<div class="col-lg-12 col-md-12">
 					<div class="panel">
 						<div class="panel-body">
@@ -72,7 +73,8 @@
 										<td><strong>Program</strong></td>
 										<td><strong>Semester</strong></td>
 										<td><strong>State Date</strong></td>
-										<th></th>
+										<td><strong>Decision</strong></td>
+										<td></td>
 									</tr>
 								</thead>
 							</table>
@@ -84,6 +86,45 @@
 			</div>
 		</div>
 	</div>
+
+
+	<div class="modal fade" id="withdrewDecisionModal" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="width: 75%">
+			<div class="modal-content">
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span> <span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">WithDrew The
+						Application</h4>
+				</div>
+				<form class="form-horizontal" role="form" id="UpdateDecisionForm"
+					method="post"
+					th:action="@{/student/application/update-decision-do}">
+					<!-- Modal Body -->
+					<div id="withdrewDecisionApplication"></div>
+
+
+					<!-- Modal Footer -->
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-primary"
+							id="StuDecisionButton"></button>
+						<input type="hidden" id="schoolYear" name="schoolYear" />
+						<input type="hidden" id="schoolSemester" name="schoolSemester" /> 
+						<input type="hidden" id="program" name="program" /> 
+						<input type="hidden" id="applicationID" name="applicationID" /> 
+						<input type="hidden" id="decision" name="decision" /> 
+						<input type="hidden" id="targetSchool" name="targetSchool" /> 
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+
 	<th:block th:include="student/layout :: scriptFragment"></th:block>
 	<script src="../../js/jquery.dataTables.js"
 		th:src="@{/js/jquery.dataTables.js}"></script>
@@ -96,9 +137,9 @@
 		th:src="@{/js/util.stu.applications.js}"></script>
 
 	<script th:inline="javascript">
-/*<![CDATA[*/
-var data = eval(/*[[${applicationList}]]*/) ;
- /*]]>*/
- </script>
+		/*<![CDATA[*/
+		var data = eval(/*[[${applicationList}]]*/);
+		/*]]>*/
+	</script>
 </body>
 </html>

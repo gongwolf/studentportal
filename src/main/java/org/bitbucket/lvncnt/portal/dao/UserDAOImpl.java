@@ -63,6 +63,7 @@ public class UserDAOImpl implements UserDAO, Schemacode{
 
 	@Override
 	public User get(String email) {
+		//System.out.println("email "+email);
 		StringBuilder sql = new StringBuilder(); 
 		sql.append("SELECT user_id, email, first_name, last_name, birth_date, password, role FROM "); 
 		sql.append(TABLE_USER).append(" WHERE email = ? LIMIT 1");

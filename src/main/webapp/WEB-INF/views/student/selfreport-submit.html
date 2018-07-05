@@ -177,6 +177,13 @@
                     <!-- Internship/Co-ops -->
 					<div class="frame " th:attrappend="class=${section=='internship.do' ? 'active' : ''}">
                     	<div class="heading">Internship/Co-ops</div>
+                    	<div class="text-primary content">
+                    	Example:
+                    	</br>
+                    	David: Google Inc.,Mountain View, California, 06/13/2016-08/10/2016, 
+                    	Performed data analysis using TCL and bash scripts for molecular dynamics(MD) simulations on protein aggregation, 
+                    	Implemented MD simulations for modeling protein aggregation behavior of amyloid.
+                    	</div>
                         <div class="content">
                         <table class="table table-hover small-text" id="tableIntern">
 						<tr class="tr-header">
@@ -308,6 +315,13 @@
                     <!-- Travel Research -->
 					<div class="frame " th:attrappend="class=${section=='travel.do' ? 'active' : ''}">
                     	<div class="heading">International Travel/Research</div>
+                    	<div class="text-primary content">
+						Example:
+                    	</br>
+                    	Halen: Quito, Ecuador, New Mexico, 02/12/2016-05/22/2016,
+                    	Anaerobic Digestion: Analyzing microbial temperature dependency in batch reactors at the thermophilic and mesophilic regime. 
+                    	Analyze microbial community shifts.  
+                    	</div>
                         <div class="content">
 						<table class="table table-hover small-text" id="tableTravel">
 							<tr class="tr-header">
@@ -386,6 +400,11 @@
                     <!-- Conferences -->
                     <div class="frame " th:attrappend="class=${section=='conference.do' ? 'active' : ''}">
                     	<div class="heading">Conferences</div>
+                    	<div class="text-primary content">
+						Example:
+                    	</br>
+                    	Tom: Tamarisk Coalition Conference, 06/26/2018, Sequestration of Arsenic in Drainage Canals, Poster.
+                    	</div>
                        <div class="content">
 						<table class="table table-hover small-text" id="tableConference">
 						<tr class="tr-header">
@@ -458,12 +477,21 @@
                     <!-- Publications -->
 					<div class="frame " th:attrappend="class=${section=='publication.do' ? 'active' : ''}">
                     	<div class="heading">Publications</div>
-                        <div class="content">
+                    	<div class="content">
                         <table class="table table-hover small-text" id="tablePublication">
 						<tr class="tr-header">
 						<th><a href="javascript:void(0);" id="addMorePublication" title="Add Entry"><span><i class="fa fa-plus" aria-hidden="true"></i></span></a>
 						</th>
-						<th colspan="4">Publications</th>  
+						<th colspan="4">Publications
+						<div class="text-primary content">
+						Example:
+                    	</br>
+                    	Mohammadlou, Hassan Beik, and Hamid Ekhteraei Toussi. 
+                    	“Parametric Studies on Elastoplastic Buckling of Rectangular FGM Thin Plates.” 
+                    	Aerospace Science and Technology, vol. 69, 2017.</br>
+                    	https://www.sciencedirect.com/science/article/pii/S127096381730651X
+                    	</div>
+						</th>  
 						</tr>
 						<tbody>
 						<tr style="display: none;">
@@ -489,12 +517,19 @@
                     <!-- Awards and Accomplishments -->
 					<div class="frame " th:attrappend="class=${section=='awards.do' ? 'active' : ''}">
                     	<div class="heading">Awards and Accomplishments</div>
+                    	<div class="text-primary content">
+						Example:
+                    	</br>
+                    	1st Place Poster at Southwest National conference, Fall, 2015. </br>
+                    	1888 Leadership Transfer Scholarship, Summur, 2016.</br>
+                    	Crimson Scholar, Spring, 2016. </br> etc.
+                    	</div>
                         <div class="content">
                         <table class="table table-hover small-text" id="tableAwards">
 						<tr class="tr-header">
 						<th><a href="javascript:void(0);" id="addMoreAwards" title="Add Entry"><span><i class="fa fa-plus" aria-hidden="true"></i></span></a>
 						</th>
-						<th>Awards Name</th>
+						<th>Name of Award or Accomplishment</th>
 						<th>Semester</th>
 						<th>Year</th> 
 						</tr>
@@ -545,10 +580,14 @@
                         <form name="awards_info" id="awards_info" th:object="${reportOthersBean}" method="post"
 							th:action="@{/selfreport/edit/others.do}">
 							<fieldset>
+							<div class="text-primary">
+						Example:
+                    	</br>
+                    	Name of the Student Organization, Leadership, Activities, Community service, etc. </div>
 							<p>For this section please:</p>
 							<ul>
-							  <li>List the student organizations that you were a member</li>
-							  <li>Tell us of  your plans for the summer (i.e., internship, Co-op, attending summer school, etc.)</li>
+							  <li>List the name of the student organizations that you were a member. Specify if held an official position (i.e. president, VP, Secretary, etc.)</li>
+							  <li>Show your plans for the summer (i.e., internship, Co-op, REU, research, attending summer school, etc.)</li>
 							  <li>Tell us if you are graduating this semester and what is your plan (i.e., attending graduate school (where), seeking employment, or working at ______).</li>
 							</ul> 
 							<legend></legend>

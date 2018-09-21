@@ -108,6 +108,7 @@ public class ProgramCode {
 	public static final TreeMap<String, String> ACADEMIC_SCHOOL = new TreeMap<String, String>() {
 		private static final long serialVersionUID = 1L;
 		{
+			//overall two years schools
 			put("CNMCC", "Central New Mexico Community College");
 			put("ENMUR", "Eastern New Mexico University - Roswell");
 			put("LUNACC", "Luna Community College");
@@ -118,7 +119,32 @@ public class ProgramCode {
 			put("SFCC", "Santa Fe Community College");
 			put("SIPI", "Southwestern Indian Polytechnic Institute");
             put("UNMTAOS", "University of New Mexico - Taos");
+			put("SJCC","San Juan Community College ");
 
+			//overall four years schools
+			put("ENMU", "Eastern New Mexico University");
+			put("NMHU", "New Mexico Highlands University");
+			put("NMTECH", "New Mexico Inst of Mining and Technology");
+			put("NMSU", "New Mexico State University");
+			put("NNMC", "Northern New Mexico College");
+			put("UNM", "University of New Mexico");
+			put("WNMU", "Western New Mexico University");
+		}
+	};
+	
+	public static final TreeMap<String, String> CURRENT_ACADEMIC_SCHOOL = new TreeMap<String, String>() {
+		private static final long serialVersionUID = 1L;
+		{
+			//current two years schools
+			put("CNMCC", "Central New Mexico Community College");
+			put("LUNACC", "Luna Community College");
+			put("NMSUA", "New Mexico State University - Alamogordo"); 
+			put("NMSUC", "New Mexico State University - Carlsbad Branch"); 
+			put("NMSUD", "New Mexico State University - Dona Ana Branch"); 
+			put("SFCC", "Santa Fe Community College");
+			put("SJCC","San Juan Community College ");
+
+			//current four years schools
 			put("ENMU", "Eastern New Mexico University");
 			put("NMHU", "New Mexico Highlands University");
 			put("NMTECH", "New Mexico Inst of Mining and Technology");
@@ -133,15 +159,16 @@ public class ProgramCode {
 			private static final long serialVersionUID = 1L;
 			{
 				put("CNMCC", "Central New Mexico Community College");
-				put("ENMUR", "Eastern New Mexico University - Roswell");
+				//put("ENMUR", "Eastern New Mexico University - Roswell");
 				put("LUNACC", "Luna Community College");
 				put("NMSUA", "New Mexico State University - Alamogordo"); 
 				put("NMSUC", "New Mexico State University - Carlsbad Branch"); 
 				put("NMSUD", "New Mexico State University - Dona Ana Branch"); 
-				put("NMSUG", "New Mexico State University - Grants Campus"); 
+				//put("NMSUG", "New Mexico State University - Grants Campus"); 
 				put("SFCC", "Santa Fe Community College");
-				put("SIPI", "Southwestern Indian Polytechnic Institute");
-				put("UNMTAOS", "University of New Mexico - Taos");
+				//put("SIPI", "Southwestern Indian Polytechnic Institute");
+				//put("UNMTAOS", "University of New Mexico - Taos");
+				put("SJCC","San Juan Community College ");
 			}
 		};
 	  

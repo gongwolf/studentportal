@@ -140,7 +140,7 @@ public class StuApplicationController {
 		model.addAttribute("jSchoolsFourYr", objectMapper.writeValueAsString(ProgramCode.ACADEMIC_SCHOOL_FOUR));
 		model.addAttribute("jProgramsTwoYr", objectMapper.writeValueAsString(ProgramCode.PROGRAMS_TWO_YR));
 		model.addAttribute("jProgramsFourYr", objectMapper.writeValueAsString(ProgramCode.PROGRAMS_FOUR_YR));
-		model.addAttribute("schools", ProgramCode.ACADEMIC_SCHOOL);
+		model.addAttribute("schools", ProgramCode.CURRENT_ACADEMIC_SCHOOL);
 		return VIEW_SELECT_PROGRAM; 
 	}
 	 

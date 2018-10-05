@@ -500,7 +500,7 @@ public class AdmApplicationController {
 					ContactBean contactBean = new ContactBean();
 					profileBean.setContactBean(contactBean);
 				}
-				
+
 				// build application form 
 			    byte[] pdfBytes = null; 
 				if(forReview) {
@@ -514,7 +514,8 @@ public class AdmApplicationController {
 					
 					pdfBytes = iTextPdf.buildPdfDocument(appBean, profileBean);
 				}
-				 
+				
+
 				// merge with transcript 
 				List<byte[]> list = new ArrayList<>(); 
 				list.add(pdfBytes); 
@@ -531,7 +532,7 @@ public class AdmApplicationController {
 				if(program.equals(ProgramCode.SCCORE) && appBean.getReferenceBucket() != null){
 					list.add(appBean.getReferenceBucket().getFileContent()); //medical form 
 				}
-			  
+
 				// school-current-in, school-apply-to
 				String pdfFileName = String.format("%s_%s_%s_%s_%s_%d.pdf", 
 						profileBean.getBiographyBean().getLastName(), 

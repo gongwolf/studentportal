@@ -80,6 +80,7 @@ public class ITextPdf {
 		// common profile: contact info = address+phone+email
 		document.add(createProfileContact(profileBean.getContactBean())); 
 		
+		
 		// program-specific: academic info
 		AcademicBean academicBean = appBean.getAcademicBean(); 
 		switch (program) {
@@ -100,7 +101,7 @@ public class ITextPdf {
 			document.add(createTableAcademicURS(academicBean));
 			break;
 		}
-        
+
         document.add(createProfileResidentStatus(profileBean.getBiographyBean().getCitizenship(),
         		profileBean.getBiographyBean().getIsNMResident()));
         document.add(createProfileParentDegree(profileBean.getBiographyBean().getParentHasDegree()));
@@ -109,7 +110,7 @@ public class ITextPdf {
 	    document.add(new Paragraph("Disability Status: ", regularFontBold));
         document.add(createProfileDisability(profileBean.getEthnicityBean().getDisability()));
         document.add(createProfileEmergencyContact(profileBean.getContactBean()));
-     		
+
         document.newPage(); 
         
         InvolvementBean involvementBean = null;
@@ -117,8 +118,10 @@ public class ITextPdf {
         switch (program) {
         case ProgramCode.CCCONF:
         	// program-specific: involvement info
+
         	involvementBean = appBean.getInvolvementBean(); 
         	document.add(createTableInvolvementCCCONF(involvementBean));
+
         	// program-specific: short essay
 	        document.add(createCategory("Part II: Short Essay"));
 	        String essayCriticalEvent = "", essayEducationalGoal = "" ; 
@@ -143,7 +146,9 @@ public class ITextPdf {
 			}else{
 				dateReceived = ""; 
 			}
+
 	        document.add(createTableOfficialUseCCCONF(dateReceived)); 
+
         	break ;
         	
         case ProgramCode.MESA:
@@ -1200,21 +1205,29 @@ public class ITextPdf {
 			ampScholarshipType = bean.getAmpScholarshipType();
 			ampScholarshipAmount = String.valueOf(bean.getAmpScholarshipAmount()); 
 		}
-	 
+
 		Integer otherScholarship = (bean == null) ? null : bean.getOtherScholarship();
 		String listOtherScholarship = (bean == null) ? null : bean.getListOtherScholarship();
-		
+
 		Integer isCurrentEmploy = (bean == null) ? null : bean.getIsCurrentEmploy();
     	String listEmployCampus = "", listEmployDept = "", listEmploySupervisor = ""; 
     	String listEmployStart = "", listEmployEnd = ""; 
+
     	if(bean != null && isCurrentEmploy == 1){
+    		
+
+    		
+    		
     		listEmployCampus = ProgramCode.NMSU_CAMPUS.get(bean.getListEmployCampus());
     		listEmployDept = bean.getListEmployDept();
     		listEmploySupervisor = bean.getListEmploySupervisor(); 
-    		listEmployStart = Parse.FORMAT_DATE_MDY.format(bean.getListEmployStart());
-    		listEmployEnd = Parse.FORMAT_DATE_MDY.format(bean.getListEmployEnd());
+    		listEmployStart = bean.getListEmployStart()==null?"":Parse.FORMAT_DATE_MDY.format(bean.getListEmployStart());
+    		listEmployEnd = bean.getListEmployEnd()==null?"":Parse.FORMAT_DATE_MDY.format(bean.getListEmployEnd());
+
     	}
-    	 
+    	
+
+
     	Integer everInResearch = (bean == null) ? null : bean.getEverInResearch();
     	String describeResearch = (bean == null) ? null : bean.getDescribeResearch();
     	
@@ -1223,7 +1236,7 @@ public class ITextPdf {
     	Integer programEverIn = (bean == null) ? null : bean.getProgramEverIn(); 
     	String programEverInYear = bean == null || programEverIn == 0 ? "" :
     		String.valueOf(bean.getProgramEverInYear());  
-    	 
+ 
 		PdfPTable table; 
 		PdfPCell cell;
         Paragraph paragraph; 
